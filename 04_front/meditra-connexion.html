@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MÉDITRA — Connexion et inscription.">
+  <meta name="theme-color" content="#123f34">
+  <title>MÉDITRA — Connexion & Inscription</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --green:#0f4c3a;
+      --green-2:#1a6b52;
+      --green-dark:#0a3327;
+      --green-soft:#e8f3ee;
+      --success:#10b981;
+      --danger:#ef4444;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --bg:#f8f9fa;
+      --paper:#ffffff;
+      --line:#e5e7eb;
+      --gold:#c99b45;
+      --serif:"DM Serif Display",Georgia,serif;
+      --sans:"Manrope",Arial,sans-serif;
+      --ease:cubic-bezier(.2,.8,.2,1);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;overflow:hidden;font-family:var(--sans);background:var(--bg);color:var(--ink)}
+    body{display:flex;-webkit-font-smoothing:antialiased}
+    button,input,select{font:inherit}
+    button{cursor:pointer;border:none;background:none;color:inherit;padding:0}
+    a{color:inherit;text-decoration:none}
+    h1,h2,h3,h4,p{margin-top:0}
+    h1{font-family:var(--serif);font-weight:400;line-height:1.12;font-size:30px;color:var(--green);margin-bottom:8px}
+    h2{font-family:var(--serif);font-weight:400;line-height:1.12;font-size:26px;color:var(--green)}
+    p{color:var(--muted);margin-bottom:16px;font-size:13px;line-height:1.55}
+    [hidden]{display:none!important}
+    .lucide{width:18px;height:18px;stroke-width:2;flex:none}
+    :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .form-control:focus-visible,.otp-input:focus-visible{outline:none}
+
+    /* ===== Layout ===== */
+    .auth-page{display:flex;width:100%;height:100vh;height:100dvh;overflow:hidden}
+
+    /* ===== Visual side ===== */
+    .auth-visual-side{flex:1;min-width:0;background:linear-gradient(135deg,var(--green-dark) 0%,var(--green) 100%);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:clamp(24px,5vh,48px) 40px;overflow:hidden}
+    .auth-bg-effect{position:absolute;inset:0;overflow:hidden;z-index:0;pointer-events:none}
+    .auth-bg-effect::before{content:"";position:absolute;top:50%;left:50%;width:600px;height:600px;background:radial-gradient(circle,rgba(201,155,69,.15) 0%,transparent 70%);transform:translate(-50%,-50%);border-radius:50%;animation:pulseGlow 6s ease-in-out infinite alternate}
+    .auth-bg-effect::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.06) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse at center,#000 25%,transparent 72%);mask-image:radial-gradient(ellipse at center,#000 25%,transparent 72%)}
+    .floating-particle{position:absolute;background:var(--gold);border-radius:50%;opacity:0;animation:floatUp var(--d,10s) linear infinite;animation-delay:var(--delay,0s)}
+    @keyframes pulseGlow{0%{transform:translate(-50%,-50%) scale(1);opacity:.5}100%{transform:translate(-50%,-50%) scale(1.2);opacity:1}}
+    @keyframes floatUp{0%{transform:translateY(0) scale(1);opacity:0}20%{opacity:.6}80%{opacity:.5}100%{transform:translateY(-140px) scale(0);opacity:0}}
+
+    .hero-visual-a{position:relative;width:100%;max-width:480px;height:min(480px,58vh);z-index:1;flex:none}
+    .medal-orbit{position:absolute;width:min(420px,52vh);aspect-ratio:1;border:1px solid rgba(201,155,69,.3);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%) translate(calc(var(--mx,0) * -12px),calc(var(--my,0) * -10px));transition:transform .7s var(--ease);animation:orbitIn 1.2s var(--ease) both}
+    .medal-orbit.inner{width:min(300px,37vh);border-color:rgba(255,255,255,.07);animation-delay:.15s}
+    .medal-orbit::before,.medal-orbit::after{content:"";position:absolute;border:1px solid rgba(255,255,255,.1);border-radius:50%;inset:25px}
+    .medal-orbit::after{inset:-32px;border-style:dashed;animation:spin 40s linear infinite}
+    .medal-orbit.inner::after{animation-direction:reverse;animation-duration:55s}
+    @keyframes orbitIn{from{opacity:0;scale:.85}to{opacity:1;scale:1}}
+    .orbit-cross{position:absolute;left:9%;top:50%;color:#fff;opacity:.2;font-size:14px;font-weight:200;animation:twinkle 3.5s ease-in-out infinite}
+    .orbit-cross.right{left:auto;right:4%;top:19%;animation-delay:1.7s}
+    @keyframes twinkle{0%,100%{opacity:.12;transform:scale(1)}50%{opacity:.4;transform:scale(1.25)}}
+
+    .medal-object{--metal-bright:#f1cf91;--metal-mid:#bb8849;--metal-deep:#73451e;--metal-shadow:#3c2817;--metal-face:#b98243;position:relative;transform-style:preserve-3d}
+    .hero-visual-a > .medal-object{width:min(280px,35vh);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) translate(calc(var(--mx,0) * 18px),calc(var(--my,0) * 14px)) rotate(calc(-5deg + var(--mx,0) * 6deg));filter:drop-shadow(15px 27px 19px rgba(0,0,0,.4));transition:transform .7s var(--ease);will-change:transform}
+    .medal-float{animation:medalFloat 8s ease-in-out infinite}
+    .medal-svg{display:block;width:100%;height:auto;overflow:visible;animation:medalIn 1.1s var(--ease) .1s both}
+    @keyframes medalFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-7px) rotate(1.2deg)}}
+    @keyframes medalIn{from{opacity:0;transform:translateY(24px) scale(.92)}to{opacity:1;transform:none}}
+    .sheen{animation:sheen 9s ease-in-out infinite;opacity:0}
+    @keyframes sheen{0%,30%,70%,100%{opacity:0;transform:translateX(-120px)}48%{opacity:.25}65%{opacity:0;transform:translateX(210px)}}
+    @keyframes spin{100%{transform:rotate(360deg)}}
+
+    .visual-caption{text-align:center;margin-top:clamp(8px,2vh,20px);z-index:2;position:relative}
+    .caption-rule{display:block;width:40px;height:1px;background:var(--gold);margin:0 auto 16px;transform-origin:center;animation:ruleIn .8s var(--ease) .3s both}
+    .visual-caption h2{font-size:34px;color:#fff;margin-bottom:10px;animation:fadeUp .8s var(--ease) .4s both}
+    .visual-caption p{color:rgba(255,255,255,.72);font-size:14px;max-width:320px;margin:0 auto;animation:fadeUp .8s var(--ease) .55s both}
+    @keyframes ruleIn{from{transform:scaleX(0);opacity:0}to{transform:scaleX(1);opacity:1}}
+
+    /* ===== Form side ===== */
+    .auth-form-side{width:100%;max-width:580px;flex:none;background:var(--paper);display:flex;flex-direction:column;position:relative;z-index:2;box-shadow:-10px 0 30px rgba(0,0,0,.05);height:100vh;height:100dvh}
+    .auth-header{padding:18px 40px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;animation:fadeDown .6s var(--ease) both}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand-mark{width:30px;height:auto;color:var(--green);transition:transform .4s var(--ease)}
+    .brand:hover .brand-mark{transform:rotate(-8deg) scale(1.06)}
+    .brand-name{display:block;font-size:18px;line-height:1;font-weight:800;letter-spacing:.1em;color:var(--ink)}
+    .brand-sub{display:block;margin-top:5px;font-size:9px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+
+    .auth-form-container{flex:1;display:flex;flex-direction:column;padding:32px 40px;overflow-y:auto;scrollbar-width:none}
+    .auth-form-container::-webkit-scrollbar{display:none}
+    .auth-card{width:100%;max-width:460px;margin:auto}
+
+    .view-title{font-size:30px;margin-bottom:8px}
+    .step-title{font-size:26px;margin-bottom:6px}
+    .view-lead{font-size:13px;margin-bottom:26px}
+
+    /* ===== Stepper ===== */
+    .stepper-header{margin-bottom:28px}
+    .stepper-header.fade-in{animation:fadeIn .4s var(--ease) both}
+    .stepper-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;color:var(--green)}
+    .stepper-top span:last-child{color:var(--muted)}
+    .stepper-bar{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+    .step-segment{height:4px;background:var(--line);border-radius:2px;position:relative;overflow:hidden}
+    .step-segment::after{content:"";position:absolute;inset:0;background:var(--gold);border-radius:inherit;transform:scaleX(0);transform-origin:left;transition:transform .55s var(--ease),background-color .3s}
+    .step-segment.active::after{transform:scaleX(1)}
+    .step-segment.complete::after{transform:scaleX(1);background:var(--green)}
+    .stepper-labels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:9.5px;line-height:1.35;color:var(--muted);font-weight:600}
+    .stepper-labels span{transition:color .3s}
+    .stepper-labels span:nth-child(2){text-align:center}
+    .stepper-labels span:nth-child(3){text-align:right}
+    .stepper-labels span.done{color:var(--green)}
+    .stepper-labels span.active{color:var(--ink);font-weight:800}
+
+    /* ===== Forms ===== */
+    .form-group{margin-bottom:16px;position:relative;min-width:0}
+    .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:7px;color:var(--ink)}
+    .form-group label span{color:var(--muted);font-weight:500}
+    .input-wrap{position:relative;display:flex;align-items:center}
+    .input-wrap > i,.input-wrap > .lucide{position:absolute;left:13px;top:50%;transform:translateY(-50%);pointer-events:none;width:16px;height:16px;color:#9ca3af;transition:color .2s}
+    .input-wrap:focus-within > .lucide{color:var(--green)}
+    .form-group.has-error .input-wrap > .lucide{color:var(--danger)}
+    .form-control{width:100%;height:44px;border:1px solid var(--line);border-radius:8px;padding:0 14px 0 40px;font-size:13px;color:var(--ink);background:#fff;transition:border-color .2s,box-shadow .2s,background-color .2s}
+    .form-control:hover{border-color:#d1d5db}
+    .form-control:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(15,76,58,.1);outline:none}
+    .form-control.has-toggle{padding-right:44px}
+    .form-control::placeholder{color:#9ca3af}
+    .form-group.has-error .form-control{border-color:var(--danger);box-shadow:0 0 0 3px rgba(239,68,68,.1);background:#fffafa}
+    .form-help{font-size:10.5px;color:var(--muted);margin-top:6px;display:block;line-height:1.45}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+
+    .password-toggle{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:32px;height:32px;display:grid;place-items:center;border-radius:6px;color:#9ca3af;transition:color .2s,background-color .2s}
+    .password-toggle:hover{color:var(--ink);background:var(--green-soft)}
+    .password-toggle .lucide{width:16px;height:16px}
+
+    .forgot-row{text-align:right;margin-top:8px}
+
+    /* Validation live */
+    .validation-list{display:flex;flex-wrap:wrap;gap:8px 18px;margin:-4px 0 4px}
+    .val-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted);transition:color .3s}
+    .val-item .lucide{width:14px;height:14px;color:#d1d5db;transition:color .3s}
+    .val-item.valid{color:var(--success)}
+    .val-item.valid .lucide{color:var(--success);animation:popIn .35s var(--ease)}
+
+    /* ===== Buttons ===== */
+    .btn-row{display:flex;gap:12px;margin-top:24px}
+    .btn{height:46px;padding:0 20px;border-radius:8px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden;white-space:nowrap;transition:background-color .2s,border-color .2s,transform .2s var(--ease),box-shadow .2s}
+    .btn .lucide{width:16px;height:16px;transition:transform .25s var(--ease)}
+    .btn:hover .lucide-arrow-right{transform:translateX(3px)}
+    .btn:hover .lucide-arrow-left{transform:translateX(-3px)}
+    .btn-primary{background:var(--green);color:#fff;flex:1.6}
+    .btn-primary::before{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.18),transparent);transform:skewX(-20deg);transition:left .7s var(--ease)}
+    .btn-primary:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 6px 16px rgba(15,76,58,.22)}
+    .btn-primary:hover::before{left:120%}
+    .btn-primary:active{transform:translateY(0);box-shadow:0 2px 6px rgba(15,76,58,.18)}
+    .btn-outline{background:#fff;border:1px solid var(--line);color:var(--ink);flex:1}
+    .btn-outline:hover{background:#f9fafb;border-color:#d1d5db}
+    .btn:disabled{opacity:.8;cursor:progress;transform:none;box-shadow:none}
+    .btn-block{width:100%;flex:none}
+    .spin{animation:spin .8s linear infinite}
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:ripple .6s ease-out forwards;pointer-events:none}
+    .btn-outline .ripple{background:rgba(15,76,58,.1)}
+    @keyframes ripple{to{transform:scale(1);opacity:0}}
+
+    .link-inline{font-size:11px;font-weight:700;color:var(--green);background-image:linear-gradient(currentColor,currentColor);background-size:0 1px;background-repeat:no-repeat;background-position:0 100%;transition:background-size .3s var(--ease);padding-bottom:1px}
+    .link-inline:hover{background-size:100% 1px}
+
+    /* ===== Auth switch ===== */
+    .auth-switch{text-align:center;margin-top:28px;font-size:12px;color:var(--muted);padding-top:20px;border-top:1px solid var(--line);line-height:1.7}
+    .auth-switch button{color:var(--green);font-weight:800;font-size:12.5px}
+    .auth-switch .note{margin:6px 0 0;font-size:10.5px}
+
+    /* ===== OTP ===== */
+    .otp-view{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 0}
+    .otp-icon{width:68px;height:68px;border-radius:50%;background:var(--green-soft);color:var(--green);display:grid;place-items:center;margin-bottom:22px;position:relative}
+    .otp-icon::before,.otp-icon::after{content:"";position:absolute;inset:0;border-radius:50%;border:1px solid var(--green);opacity:0;animation:ring 2.4s ease-out infinite}
+    .otp-icon::after{animation-delay:1.2s}
+    .otp-icon .lucide{width:30px;height:30px}
+    @keyframes ring{0%{transform:scale(1);opacity:.35}100%{transform:scale(1.7);opacity:0}}
+    .otp-lead{font-size:13px;max-width:340px;margin-bottom:26px}
+    .otp-lead strong{color:var(--ink);word-break:break-all}
+    .otp-input{width:100%;max-width:300px;height:66px;font-size:30px;text-align:center;letter-spacing:.4em;padding:0 0 0 .4em;font-weight:700;color:var(--green);border:2px solid var(--line);border-radius:12px;margin-bottom:16px;outline:none;font-variant-numeric:tabular-nums;transition:border-color .3s,box-shadow .3s}
+    .otp-input::placeholder{color:#d1d5db}
+    .otp-input:focus{border-color:var(--green);box-shadow:0 0 0 4px rgba(15,76,58,.08)}
+    .otp-input.has-error{border-color:var(--danger);box-shadow:0 0 0 4px rgba(239,68,68,.08)}
+    .otp-actions{width:100%;max-width:300px;display:flex}
+    .resend-text{font-size:12px;color:var(--muted);margin:18px 0 0}
+    .resend-text button{color:var(--green);font-weight:700;margin-left:4px;text-decoration:underline;text-underline-offset:2px}
+    .resend-text button:disabled{color:var(--muted);text-decoration:none;cursor:not-allowed;font-variant-numeric:tabular-nums}
+    .link-muted{margin-top:22px;font-size:12px;color:var(--muted);display:inline-flex;align-items:center;gap:6px;transition:color .2s}
+    .link-muted .lucide{width:14px;height:14px;transition:transform .25s var(--ease)}
+    .link-muted:hover{color:var(--ink)}
+    .link-muted:hover .lucide{transform:translateX(-3px)}
+
+    /* ===== Success ===== */
+    .success-view{display:flex;flex-direction:column;align-items:center;text-align:center;padding:8px 0}
+    .success-icon-big{position:relative;width:84px;height:84px;border-radius:50%;border:2px solid var(--success);background:#ecfdf5;display:grid;place-items:center;margin-bottom:22px;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275) both}
+    .success-icon-big .lucide{width:40px;height:40px;color:var(--success)}
+    .success-icon-big .lucide path{stroke-dasharray:30;stroke-dashoffset:30;animation:draw .45s var(--ease) .35s forwards}
+    .burst{position:absolute;left:50%;top:50%;width:6px;height:6px;border-radius:50%;background:var(--gold);opacity:0;animation:burst .9s var(--ease) .25s forwards;pointer-events:none}
+    @keyframes burst{0%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(calc(-50% + var(--tx)),calc(-50% + var(--ty))) scale(.4)}}
+    @keyframes draw{to{stroke-dashoffset:0}}
+    @keyframes popIn{0%{transform:scale(0);opacity:0}100%{transform:scale(1);opacity:1}}
+    .success-kicker{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--green);margin-bottom:8px}
+    .success-title{font-family:var(--serif);font-size:28px;color:var(--green);margin-bottom:12px}
+    .success-text{font-size:13px;color:var(--muted);max-width:380px;margin:0 auto 22px;line-height:1.6}
+    .warning-box{display:flex;gap:10px;align-items:flex-start;background:#fffbeb;border-left:4px solid var(--gold);padding:14px 16px;text-align:left;border-radius:4px;font-size:12px;line-height:1.55;color:#92400e;width:100%;max-width:400px;margin-bottom:24px}
+    .warning-box .lucide{width:16px;height:16px;color:var(--gold);margin-top:1px}
+    .success-view .btn{max-width:320px}
+
+    /* ===== Entrance animations ===== */
+    .is-entering{animation:stepIn .45s var(--ease) both}
+    .is-entering.dir-back{animation-name:stepInBack}
+    .is-entering .stagger{animation:fieldIn .5s var(--ease) both;animation-delay:calc(var(--i,0) * 45ms)}
+    .success-view.is-entering .success-icon-big{animation:popIn .5s cubic-bezier(.175,.885,.32,1.275) both}
+    @keyframes stepIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+    @keyframes stepInBack{from{opacity:0;transform:translateX(-18px)}to{opacity:1;transform:none}}
+    @keyframes fieldIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    @keyframes fadeDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:none}}
+    .shake{animation:shake .42s ease both}
+    @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+
+    /* ===== Toasts ===== */
+    .toast-container{position:fixed;top:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:9999;pointer-events:none}
+    .toast{pointer-events:auto;position:relative;overflow:hidden;background:#fff;border:1px solid var(--line);border-left:3px solid var(--success);border-radius:8px;padding:12px 16px 14px;box-shadow:0 10px 30px rgba(0,0,0,.08);display:flex;align-items:flex-start;gap:10px;font-size:12px;line-height:1.45;font-weight:600;color:var(--ink);animation:slideInRight .35s var(--ease) forwards;max-width:340px}
+    .toast .lucide{width:16px;height:16px;color:var(--success);margin-top:1px}
+    .toast::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--success);opacity:.35;transform-origin:left;animation:toastBar 3.5s linear forwards}
+    .toast.error{border-left-color:var(--danger)}
+    .toast.error .lucide{color:var(--danger)}
+    .toast.error::after{background:var(--danger)}
+    .toast.info{border-left-color:var(--gold)}
+    .toast.info .lucide{color:var(--gold)}
+    .toast.info::after{background:var(--gold)}
+    .toast.hiding{animation:slideOutRight .3s ease-in forwards}
+    @keyframes toastBar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+    @keyframes slideInRight{from{transform:translateX(110%);opacity:0}to{transform:translateX(0);opacity:1}}
+    @keyframes slideOutRight{from{transform:translateX(0);opacity:1}to{transform:translateX(110%);opacity:0}}
+
+    /* ===== Responsive ===== */
+    @media (max-height:700px) and (min-width:851px){
+      .visual-caption h2{font-size:28px}
+      .visual-caption p{font-size:13px}
+      .auth-form-container{padding-top:24px;padding-bottom:24px}
+    }
+    @media (max-width:850px){
+      html,body{height:auto;overflow:auto}
+      body{display:block}
+      .auth-page{flex-direction:column;overflow:visible;height:auto;min-height:100vh;min-height:100dvh}
+      .auth-visual-side{display:none}
+      .auth-form-side{max-width:none;box-shadow:none;height:auto;min-height:100vh;min-height:100dvh}
+      .auth-header{padding:16px 20px}
+      .auth-form-container{padding:28px 20px 36px;overflow:visible}
+    }
+    @media (max-width:560px){
+      .form-row{grid-template-columns:1fr}
+      .btn-row{flex-direction:column-reverse}
+      .btn-row .btn{flex:none;width:100%}
+      .view-title{font-size:26px}
+      .step-title{font-size:24px}
+      .stepper-labels span:not(.active){visibility:hidden}
+      .toast-container{left:16px;right:16px;top:16px}
+      .toast{max-width:none}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="auth-page">
+    <!-- VISUAL SIDE -->
+    <div class="auth-visual-side">
+      <div class="auth-bg-effect" aria-hidden="true"></div>
+      <div class="hero-visual-a">
+        <div class="medal-orbit" aria-hidden="true"></div>
+        <div class="medal-orbit inner" aria-hidden="true"></div>
+        <span class="orbit-cross" aria-hidden="true">+</span>
+        <span class="orbit-cross right" aria-hidden="true">+</span>
+        <div class="medal-object" data-medal aria-hidden="true"></div>
+      </div>
+      <div class="visual-caption">
+        <span class="caption-rule" aria-hidden="true"></span>
+        <h2>Honorer le mérite.</h2>
+        <p>Chaque parcours mérite d'être reconnu. Accédez à votre espace sécurisé.</p>
+      </div>
+    </div>
+
+    <!-- FORM SIDE -->
+    <div class="auth-form-side">
+      <header class="auth-header">
+        <a href="#" class="brand" aria-label="MÉDITRA — Ministère du Travail">
+          <svg class="brand-mark" viewBox="0 0 42 52" fill="none" aria-hidden="true">
+            <path d="M13 2H29L27 16L21 22L15 16Z" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M21 20L24 24L29 23L30 28L35 30L32 35L33 40L28 41L25 46L21 43L17 46L14 41L9 40L10 35L7 30L12 28L13 23L18 24Z" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="21" cy="33" r="8" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M21 27L22.5 31L27 31L23.5 34L25 38L21 35.5L17 38L18.5 34L15 31L19.5 31Z" fill="var(--gold)"/>
+          </svg>
+          <span>
+            <span class="brand-name">MÉDITRA</span>
+            <span class="brand-sub">Ministère du Travail</span>
+          </span>
+        </a>
+      </header>
+
+      <main class="auth-form-container">
+
+        <!-- ================= LOGIN VIEW ================= -->
+        <div class="auth-card" id="view-login">
+          <h1 class="view-title stagger">Heureux de vous retrouver</h1>
+          <p class="view-lead stagger">Accédez à l'espace sécurisé de votre structure.</p>
+
+          <form id="form-login" novalidate>
+            <div class="form-group stagger">
+              <label for="login-email">Adresse e-mail</label>
+              <div class="input-wrap">
+                <i data-lucide="mail"></i>
+                <input type="email" class="form-control" id="login-email" placeholder="nom@structure.ga" autocomplete="email" required>
+              </div>
+            </div>
+            <div class="form-group stagger">
+              <label for="login-pwd">Mot de passe</label>
+              <div class="input-wrap">
+                <i data-lucide="lock"></i>
+                <input type="password" class="form-control has-toggle" id="login-pwd" placeholder="Votre mot de passe" autocomplete="current-password" required>
+                <button type="button" class="password-toggle" data-toggle-pwd="login-pwd" aria-label="Afficher le mot de passe"><i data-lucide="eye"></i></button>
+              </div>
+              <div class="forgot-row">
+                <button type="button" class="link-inline" id="btn-forgot">Mot de passe oublié ?</button>
+              </div>
+            </div>
+
+            <div class="btn-row stagger">
+              <button type="submit" class="btn btn-primary">Se connecter <i data-lucide="arrow-right"></i></button>
+            </div>
+          </form>
+
+          <div class="auth-switch stagger">
+            Vous êtes un demandeur et n'avez pas de compte ?<br>
+            <button type="button" onclick="switchView('view-register')">Créer un compte</button>
+            <p class="note">Les comptes du Ministère sont créés par l'administrateur.</p>
+          </div>
+        </div>
+
+        <!-- ================= REGISTER VIEW ================= -->
+        <div class="auth-card" id="view-register" hidden>
+
+          <div class="stepper-header" id="main-stepper">
+            <div class="stepper-top">
+              <span>Inscription Entreprise</span>
+              <span id="stepper-text">Étape 1 sur 3</span>
+            </div>
+            <div class="stepper-bar" aria-hidden="true">
+              <div class="step-segment active" id="seg-1"></div>
+              <div class="step-segment" id="seg-2"></div>
+              <div class="step-segment" id="seg-3"></div>
+            </div>
+            <div class="stepper-labels">
+              <span class="active" id="lbl-1">Présentons votre organisation</span>
+              <span id="lbl-2">Informations administratives</span>
+              <span id="lbl-3">Finalisons votre inscription</span>
+            </div>
+          </div>
+
+          <!-- STEP 1 -->
+          <form id="reg-step-1" class="reg-step" data-step="1" novalidate>
+            <h1 class="step-title stagger">Présentons votre organisation</h1>
+            <p class="view-lead stagger">Commencez par renseigner les informations essentielles de votre entreprise.</p>
+
+            <div class="form-row">
+              <div class="form-group stagger">
+                <label for="r-nom">Nom / raison sociale *</label>
+                <div class="input-wrap"><i data-lucide="building-2"></i><input type="text" id="r-nom" class="form-control" placeholder="Ex: Société Générale" autocomplete="organization" required></div>
+              </div>
+              <div class="form-group stagger">
+                <label for="r-sigle">Sigle <span>(facultatif)</span></label>
+                <div class="input-wrap"><i data-lucide="type"></i><input type="text" id="r-sigle" class="form-control" placeholder="Ex: SG"></div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group stagger">
+                <label for="r-secteur">Secteur d'activité *</label>
+                <div class="input-wrap"><i data-lucide="briefcase"></i><input type="text" id="r-secteur" class="form-control" placeholder="Ex: Banque" required></div>
+              </div>
+              <div class="form-group stagger">
+                <label for="r-forme">Forme juridique *</label>
+                <div class="input-wrap"><i data-lucide="file-text"></i><input type="text" id="r-forme" class="form-control" placeholder="Ex: SA, SARL..." required></div>
+                <span class="form-help">Indiquez la forme de votre organisation.</span>
+              </div>
+            </div>
+
+            <div class="form-group stagger">
+              <label for="r-type">Type de structure *</label>
+              <div class="input-wrap"><i data-lucide="layers"></i><input type="text" id="r-type" class="form-control" placeholder="Ex: Privée, Publique..." required></div>
+              <span class="form-help">Indiquez votre type de structure ; aucune nomenclature officielle n'est préchargée.</span>
+            </div>
+
+            <div class="btn-row stagger">
+              <button type="button" class="btn btn-outline" onclick="switchView('view-login')"><i data-lucide="arrow-left"></i> Précédent</button>
+              <button type="submit" class="btn btn-primary">Continuer <i data-lucide="arrow-right"></i></button>
+            </div>
+          </form>
+
+          <!-- STEP 2 -->
+          <form id="reg-step-2" class="reg-step" data-step="2" novalidate hidden>
+            <h1 class="step-title stagger">Informations administratives</h1>
+            <p class="view-lead stagger">Renseignez les références administratives et la localisation de votre organisation.</p>
+
+            <div class="form-row">
+              <div class="form-group stagger">
+                <label for="r-nif">NIF *</label>
+                <div class="input-wrap"><i data-lucide="file-badge"></i><input type="text" id="r-nif" class="form-control" placeholder="Numéro d'identification fiscale" required></div>
+              </div>
+              <div class="form-group stagger">
+                <label for="r-rccm">RCCM <span>(facultatif)</span></label>
+                <div class="input-wrap"><i data-lucide="file-text"></i><input type="text" id="r-rccm" class="form-control" placeholder="Registre du commerce"></div>
+                <span class="form-help">À renseigner si applicable.</span>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group stagger">
+                <label for="r-cnss">Numéro CNSS <span>(facultatif)</span></label>
+                <div class="input-wrap"><i data-lucide="shield"></i><input type="text" id="r-cnss" class="form-control" placeholder="Sécurité sociale"></div>
+              </div>
+              <div class="form-group stagger">
+                <label for="r-province">Province *</label>
+                <div class="input-wrap"><i data-lucide="map"></i><input type="text" id="r-province" class="form-control" placeholder="Ex: Estuaire" required></div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group stagger">
+                <label for="r-dept">Département *</label>
+                <div class="input-wrap"><i data-lucide="map-pin"></i><input type="text" id="r-dept" class="form-control" placeholder="Ex: Libreville" required></div>
+              </div>
+              <div class="form-group stagger">
+                <label for="r-ville">Ville d'implantation *</label>
+                <div class="input-wrap"><i data-lucide="navigation"></i><input type="text" id="r-ville" class="form-control" placeholder="Ex: Akanda" required></div>
+              </div>
+            </div>
+
+            <div class="btn-row stagger">
+              <button type="button" class="btn btn-outline" onclick="nextStep(1)"><i data-lucide="arrow-left"></i> Précédent</button>
+              <button type="submit" class="btn btn-primary">Continuer <i data-lucide="arrow-right"></i></button>
+            </div>
+          </form>
+
+          <!-- STEP 3 -->
+          <form id="reg-step-3" class="reg-step" data-step="3" novalidate hidden>
+            <h1 class="step-title stagger">Finalisons votre inscription</h1>
+            <p class="view-lead stagger">Ajoutez vos coordonnées et sécurisez l'accès à votre espace entreprise.</p>
+
+            <div class="form-row">
+              <div class="form-group stagger">
+                <label for="r-adresse">Adresse *</label>
+                <div class="input-wrap"><i data-lucide="map-pin"></i><input type="text" id="r-adresse" class="form-control" placeholder="Quartier, rue..." autocomplete="street-address" required></div>
+              </div>
+              <div class="form-group stagger">
+                <label for="r-tel">Téléphone *</label>
+                <div class="input-wrap"><i data-lucide="phone"></i><input type="tel" id="r-tel" class="form-control" placeholder="+241 ..." autocomplete="tel" required></div>
+              </div>
+            </div>
+
+            <div class="form-group stagger">
+              <label for="r-email">Adresse e-mail *</label>
+              <div class="input-wrap"><i data-lucide="mail"></i><input type="email" id="r-email" class="form-control" placeholder="contact@entreprise.ga" autocomplete="email" required></div>
+              <span class="form-help">Utilisée pour la connexion et la vérification de votre adresse.</span>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group stagger">
+                <label for="reg-pwd">Mot de passe *</label>
+                <div class="input-wrap">
+                  <i data-lucide="lock"></i>
+                  <input type="password" class="form-control has-toggle" id="reg-pwd" placeholder="Au moins 6 caractères" minlength="6" autocomplete="new-password" required oninput="checkPwd()">
+                  <button type="button" class="password-toggle" data-toggle-pwd="reg-pwd" aria-label="Afficher le mot de passe"><i data-lucide="eye"></i></button>
+                </div>
+              </div>
+              <div class="form-group stagger">
+                <label for="reg-pwd-confirm">Confirmation *</label>
+                <div class="input-wrap">
+                  <i data-lucide="lock"></i>
+                  <input type="password" class="form-control has-toggle" id="reg-pwd-confirm" placeholder="Répétez" autocomplete="new-password" required oninput="checkPwd()">
+                  <button type="button" class="password-toggle" data-toggle-pwd="reg-pwd-confirm" aria-label="Afficher le mot de passe"><i data-lucide="eye"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="validation-list stagger" id="pwd-validation">
+              <div class="val-item" id="val-length"><i data-lucide="check-circle-2"></i> Six caractères minimum</div>
+              <div class="val-item" id="val-match"><i data-lucide="check-circle-2"></i> Mots de passe identiques</div>
+            </div>
+
+            <div class="btn-row stagger">
+              <button type="button" class="btn btn-outline" onclick="nextStep(2)"><i data-lucide="arrow-left"></i> Précédent</button>
+              <button type="submit" class="btn btn-primary" id="btn-submit-reg">Demander la vérification <i data-lucide="arrow-right"></i></button>
+            </div>
+          </form>
+
+          <!-- OTP VIEW -->
+          <div id="reg-otp" class="reg-step otp-view" hidden>
+            <div class="otp-icon stagger">
+              <i data-lucide="mail-check"></i>
+            </div>
+            <h1 class="step-title stagger">Vérification de l'e-mail</h1>
+            <p class="otp-lead stagger">Un code à 6 chiffres a été envoyé à <strong id="otp-email-display">contact@entreprise.ga</strong>.</p>
+
+            <input type="text" class="otp-input stagger" id="otp-code" maxlength="6" inputmode="numeric" pattern="[0-9]*" placeholder="••••••" autocomplete="one-time-code" aria-label="Code de vérification">
+
+            <div class="otp-actions stagger">
+              <button type="button" class="btn btn-primary btn-block" id="btn-verify-otp" onclick="verifyOTP()">Vérifier le code</button>
+            </div>
+
+            <p class="resend-text stagger">
+              Vous n'avez pas reçu le code ?
+              <button type="button" id="btn-resend-otp" onclick="resendOTP()" disabled>Renvoyer (60s)</button>
+            </p>
+
+            <button type="button" class="link-muted stagger" onclick="nextStep(3)"><i data-lucide="arrow-left"></i> Modifier l'adresse e-mail</button>
+          </div>
+
+          <!-- SUCCESS VIEW -->
+          <div id="reg-success" class="reg-step success-view" hidden>
+            <div class="success-icon-big">
+              <i data-lucide="check"></i>
+            </div>
+            <div class="success-kicker stagger">Vérification simulée · Présentation</div>
+            <h2 class="success-title stagger">Adresse e-mail vérifiée</h2>
+            <p class="success-text stagger">Votre inscription a franchi l'étape de vérification. Vous pouvez poursuivre vers votre espace.</p>
+
+            <div class="warning-box stagger">
+              <i data-lucide="info"></i>
+              <span><strong>Note :</strong> Cette vérification est locale et fictive. Aucun compte n'a été créé ou activé sur le serveur.</span>
+            </div>
+
+            <button type="button" class="btn btn-primary btn-block stagger" onclick="switchView('view-login')">
+              Explorer l'espace de démonstration <i data-lucide="arrow-right"></i>
+            </button>
+          </div>
+
+          <div class="auth-switch" id="reg-switch-link">
+            Déjà un compte ? <button type="button" onclick="switchView('view-login')">Se connecter</button>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script>
+    (() => {
+      const $ = (s, r = document) => r.querySelector(s);
+      const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const refreshIcons = () => { if (window.lucide) window.lucide.createIcons({ attrs: { "aria-hidden": "true" } }); };
+
+      refreshIcons();
+
+      // --- Toasts ---
+      window.showToast = function (message, type = "success") {
+        const container = $("#toast-container");
+        const toast = document.createElement("div");
+        toast.className = `toast ${type}`;
+        toast.setAttribute("role", type === "error" ? "alert" : "status");
+        const icon = type === "error" ? "alert-circle" : type === "info" ? "info" : "check-circle-2";
+        toast.innerHTML = `<i data-lucide="${icon}"></i><span>${message}</span>`;
+        container.appendChild(toast);
+        refreshIcons();
+        setTimeout(() => {
+          toast.classList.add("hiding");
+          setTimeout(() => toast.remove(), 300);
+        }, 3500);
+      };
+
+      // --- Animations helpers ---
+      function animateIn(el, dir) {
+        if (!el) return;
+        el.classList.remove("is-entering", "dir-back");
+        void el.offsetWidth;
+        $$(".stagger", el).forEach((c, i) => c.style.setProperty("--i", i));
+        if (dir === "back") el.classList.add("dir-back");
+        el.classList.add("is-entering");
+      }
+
+      function shake(el) {
+        const host = el.closest(".is-entering");
+        if (host) host.classList.remove("is-entering");
+        el.classList.remove("shake");
+        void el.offsetWidth;
+        el.classList.add("shake");
+        el.addEventListener("animationend", () => el.classList.remove("shake"), { once: true });
+      }
+
+      function setLoading(btn, loading, label) {
+        $$(".ripple", btn).forEach(r => r.remove());
+        if (loading) {
+          btn.dataset.html = btn.innerHTML;
+          btn.disabled = true;
+          btn.innerHTML = `<i data-lucide="loader-circle" class="spin"></i> ${label}`;
+        } else {
+          btn.disabled = false;
+          if (btn.dataset.html) btn.innerHTML = btn.dataset.html;
+        }
+        refreshIcons();
+      }
+
+      // --- Validation ---
+      function validateForm(form) {
+        let first = null;
+        $$("input[required]", form).forEach(input => {
+          const ok = input.value.trim() !== "" && input.checkValidity();
+          const group = input.closest(".form-group");
+          group.classList.toggle("has-error", !ok);
+          if (!ok) {
+            shake(group);
+            if (!first) first = input;
+          }
+        });
+        if (first) {
+          first.focus();
+          let msg = "Veuillez renseigner les champs obligatoires.";
+          if (first.value.trim()) {
+            if (first.type === "email") msg = "Adresse e-mail invalide.";
+            else if (first.minLength > 0 && first.value.length < first.minLength) msg = `Le mot de passe doit contenir au moins ${first.minLength} caractères.`;
+          }
+          showToast(msg, "error");
+          return false;
+        }
+        return true;
+      }
+
+      document.addEventListener("input", e => {
+        const group = e.target.closest && e.target.closest(".form-group.has-error");
+        if (group && e.target.value.trim()) group.classList.remove("has-error");
+      });
+
+      // --- Navigation ---
+      let currentStep = 1;
+      let otpTimer;
+
+      window.switchView = function (viewId) {
+        clearInterval(otpTimer);
+        ["view-login", "view-register"].forEach(id => { $("#" + id).hidden = id !== viewId; });
+        const target = $("#" + viewId);
+        if (viewId === "view-register") {
+          currentStep = 1;
+          window.nextStep(1, true);
+        }
+        animateIn(target);
+        $(".auth-form-container").scrollTo({ top: 0 });
+      };
+
+      // --- Stepper ---
+      window.nextStep = function (step, silent) {
+        const dir = step < currentStep ? "back" : "forward";
+        currentStep = step;
+        clearInterval(otpTimer);
+
+        $$(".reg-step").forEach(el => { el.hidden = true; });
+        $("#reg-switch-link").hidden = false;
+
+        const target = $(`#reg-step-${step}`);
+        if (target) target.hidden = false;
+
+        const stepper = $("#main-stepper");
+        if (stepper.hidden) {
+          stepper.hidden = false;
+          stepper.classList.remove("fade-in");
+          void stepper.offsetWidth;
+          stepper.classList.add("fade-in");
+        }
+        $("#stepper-text").textContent = `Étape ${step} sur 3`;
+
+        for (let i = 1; i <= 3; i++) {
+          const seg = $(`#seg-${i}`);
+          const lbl = $(`#lbl-${i}`);
+          seg.className = "step-segment";
+          lbl.className = "";
+          if (i < step) { seg.classList.add("complete"); lbl.classList.add("done"); }
+          else if (i === step) { seg.classList.add("active"); lbl.classList.add("active"); }
+        }
+
+        if (!silent) animateIn(target, dir);
+        $(".auth-form-container").scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
+      };
+
+      $$("form.reg-step").forEach(form => {
+        form.addEventListener("submit", e => {
+          e.preventDefault();
+          if (!validateForm(form)) return;
+          const step = Number(form.dataset.step);
+          if (step < 3) window.nextStep(step + 1);
+          else window.requestOTP();
+        });
+      });
+
+      // --- Password validation ---
+      window.checkPwd = function () {
+        const pwd = $("#reg-pwd").value;
+        const confirm = $("#reg-pwd-confirm").value;
+        $("#val-length").classList.toggle("valid", pwd.length >= 6);
+        $("#val-match").classList.toggle("valid", pwd === confirm && pwd.length > 0);
+      };
+
+      // --- Request OTP ---
+      window.requestOTP = function () {
+        const pwd = $("#reg-pwd").value;
+        const confirmInput = $("#reg-pwd-confirm");
+
+        if (pwd !== confirmInput.value) {
+          const g = confirmInput.closest(".form-group");
+          g.classList.add("has-error");
+          shake(g);
+          confirmInput.focus();
+          showToast("Les mots de passe ne correspondent pas.", "error");
+          return;
+        }
+
+        const btn = $("#btn-submit-reg");
+        setLoading(btn, true, "Envoi...");
+
+        setTimeout(() => {
+          setLoading(btn, false);
+          currentStep = 4;
+
+          $$(".reg-step").forEach(el => { el.hidden = true; });
+          $("#reg-switch-link").hidden = true;
+          $("#main-stepper").hidden = true;
+
+          const otpView = $("#reg-otp");
+          otpView.hidden = false;
+          animateIn(otpView);
+
+          const email = $("#r-email").value.trim();
+          if (email) $("#otp-email-display").textContent = email;
+
+          const otpInput = $("#otp-code");
+          otpInput.value = "";
+          otpInput.classList.remove("has-error");
+
+          startOtpTimer();
+          setTimeout(() => otpInput.focus(), 250);
+          showToast("Code à 6 chiffres envoyé (Simulation : 123456)");
+        }, 1000);
+      };
+
+      // --- OTP timer ---
+      function startOtpTimer() {
+        clearInterval(otpTimer);
+        let timeLeft = 60;
+        const btn = $("#btn-resend-otp");
+        btn.disabled = true;
+        btn.textContent = `Renvoyer (${timeLeft}s)`;
+        otpTimer = setInterval(() => {
+          timeLeft--;
+          btn.textContent = `Renvoyer (${timeLeft}s)`;
+          if (timeLeft <= 0) {
+            clearInterval(otpTimer);
+            btn.disabled = false;
+            btn.textContent = "Renvoyer le code";
+          }
+        }, 1000);
+      }
+
+      window.resendOTP = function () {
+        startOtpTimer();
+        showToast("Nouveau code envoyé (Simulation : 123456)");
+      };
+
+      // --- Verify OTP ---
+      const otpInput = $("#otp-code");
+      let verifying = false;
+
+      function otpError(msg) {
+        otpInput.classList.add("has-error");
+        shake(otpInput);
+        showToast(msg, "error");
+      }
+
+      otpInput.addEventListener("input", () => {
+        otpInput.value = otpInput.value.replace(/\D/g, "").slice(0, 6);
+        otpInput.classList.remove("has-error");
+        if (otpInput.value.length === 6) window.verifyOTP();
+      });
+      otpInput.addEventListener("keydown", e => { if (e.key === "Enter") window.verifyOTP(); });
+
+      function burst() {
+        const wrap = $(".success-icon-big");
+        $$(".burst", wrap).forEach(b => b.remove());
+        if (reduceMotion) return;
+        for (let i = 0; i < 14; i++) {
+          const a = (i / 14) * Math.PI * 2;
+          const d = 58 + Math.random() * 26;
+          const s = document.createElement("span");
+          s.className = "burst";
+          s.style.setProperty("--tx", (Math.cos(a) * d).toFixed(1) + "px");
+          s.style.setProperty("--ty", (Math.sin(a) * d).toFixed(1) + "px");
+          if (i % 3 === 0) s.style.background = "var(--green-2)";
+          wrap.appendChild(s);
+        }
+      }
+
+      window.verifyOTP = function () {
+        if (verifying) return;
+        const code = otpInput.value;
+        if (code.length !== 6) {
+          otpError("Veuillez entrer un code à 6 chiffres.");
+          return;
+        }
+
+        verifying = true;
+        const btn = $("#btn-verify-otp");
+        setLoading(btn, true, "Vérification...");
+
+        setTimeout(() => {
+          setLoading(btn, false);
+          verifying = false;
+
+          if (code !== "123456") {
+            otpError("Code incorrect. Pour la démo, tapez 123456.");
+            otpInput.select();
+            return;
+          }
+
+          clearInterval(otpTimer);
+          $$(".reg-step").forEach(el => { el.hidden = true; });
+          $("#main-stepper").hidden = true;
+          const success = $("#reg-success");
+          success.hidden = false;
+          animateIn(success);
+          burst();
+          showToast("Adresse e-mail vérifiée avec succès !");
+        }, 700);
+      };
+
+      // --- Toggle password visibility ---
+      document.addEventListener("click", e => {
+        const toggle = e.target.closest("[data-toggle-pwd]");
+        if (!toggle) return;
+        const input = document.getElementById(toggle.dataset.togglePwd);
+        const visible = input.type === "text";
+        input.type = visible ? "password" : "text";
+        toggle.setAttribute("aria-label", visible ? "Afficher le mot de passe" : "Masquer le mot de passe");
+        toggle.innerHTML = `<i data-lucide="${visible ? "eye" : "eye-off"}"></i>`;
+        refreshIcons();
+      });
+
+      // --- Ripple on buttons ---
+      document.addEventListener("pointerdown", e => {
+        const btn = e.target.closest(".btn");
+        if (!btn || btn.disabled || reduceMotion) return;
+        const r = btn.getBoundingClientRect();
+        const size = Math.max(r.width, r.height) * 2;
+        const s = document.createElement("span");
+        s.className = "ripple";
+        s.style.width = s.style.height = size + "px";
+        s.style.left = (e.clientX - r.left - size / 2) + "px";
+        s.style.top = (e.clientY - r.top - size / 2) + "px";
+        btn.appendChild(s);
+        setTimeout(() => s.remove(), 650);
+      });
+
+      // --- Login ---
+      $("#form-login").addEventListener("submit", e => {
+        e.preventDefault();
+        if (!validateForm(e.target)) return;
+        const btn = e.target.querySelector('button[type="submit"]');
+        setLoading(btn, true, "Connexion...");
+        setTimeout(() => {
+          setLoading(btn, false);
+          showToast("Connexion réussie ! (Simulation)");
+        }, 1000);
+      });
+
+      $("#btn-forgot").addEventListener("click", () => {
+        showToast("Réinitialisation du mot de passe : fonctionnalité simulée.", "info");
+      });
+
+      // --- Background particles ---
+      const fx = $(".auth-bg-effect");
+      if (fx && !reduceMotion) {
+        for (let i = 0; i < 14; i++) {
+          const p = document.createElement("span");
+          p.className = "floating-particle";
+          const size = 2 + Math.random() * 5;
+          p.style.cssText =
+            `left:${(Math.random() * 100).toFixed(1)}%;top:${(20 + Math.random() * 75).toFixed(1)}%;` +
+            `width:${size.toFixed(1)}px;height:${size.toFixed(1)}px;` +
+            `--d:${(8 + Math.random() * 8).toFixed(1)}s;--delay:${(-Math.random() * 10).toFixed(1)}s`;
+          fx.appendChild(p);
+        }
+      }
+
+      // --- Medal parallax ---
+      const visual = $(".auth-visual-side");
+      if (visual && !reduceMotion && window.matchMedia("(pointer: fine)").matches) {
+        let raf = null;
+        visual.addEventListener("mousemove", e => {
+          if (raf) return;
+          raf = requestAnimationFrame(() => {
+            const r = visual.getBoundingClientRect();
+            visual.style.setProperty("--mx", ((e.clientX - r.left) / r.width - 0.5).toFixed(3));
+            visual.style.setProperty("--my", ((e.clientY - r.top) / r.height - 0.5).toFixed(3));
+            raf = null;
+          });
+        });
+        visual.addEventListener("mouseleave", () => {
+          visual.style.setProperty("--mx", 0);
+          visual.style.setProperty("--my", 0);
+        });
+      }
+
+      // --- 3D Medal ---
+      let serial = 0;
+      function star(cx, cy, outer, inner, points, rotation) {
+        rotation = rotation === undefined ? -90 : rotation;
+        const a = [];
+        for (let i = 0; i < points * 2; i++) {
+          const angle = (rotation + i * 180 / points) * Math.PI / 180, r = i % 2 ? inner : outer;
+          a.push((cx + Math.cos(angle) * r).toFixed(2) + ',' + (cy + Math.sin(angle) * r).toFixed(2));
+        }
+        return a.join(' ');
+      }
+
+      function medalSVG() {
+        const id = 'hero-medal-' + (++serial);
+        const rays = star(210, 414, 143, 133, 40);
+        let beads = '', ribbonLines = '', leaves = '';
+        for (let i = 0; i < 66; i++) {
+          const a = i * Math.PI / 33;
+          beads += '<circle cx="' + (210 + 121 * Math.cos(a)).toFixed(2) + '" cy="' + (414 + 121 * Math.sin(a)).toFixed(2) + '" r="1.35" fill="var(--metal-bright)" opacity=".66"/>';
+        }
+        for (let i = 0; i < 38; i++) {
+          ribbonLines += '<path d="M' + (140 + i * 3.7) + ' 33 L' + (158 + i * 2.7) + ' 247" stroke="' + (i % 2 ? '#fff' : '#071d15') + '" stroke-width="1" opacity="' + (i % 2 ? '.075' : '.12') + '"/>';
+        }
+        [-1, 1].forEach(side => {
+          for (let j = 0; j < 9; j++) {
+            const a = (35 + j * 11) * Math.PI / 180;
+            const x = 210 + side * Math.sin(a) * 98, y = 414 + Math.cos(a) * 98;
+            leaves += '<ellipse cx="' + x.toFixed(1) + '" cy="' + y.toFixed(1) + '" rx="4" ry="10" transform="rotate(' + (side * (j * 11 - 23)) + ' ' + x.toFixed(1) + ' ' + y.toFixed(1) + ')" fill="var(--metal-bright)" opacity=".65"/>';
+          }
+        });
+
+        return '<div class="medal-float"><svg class="medal-svg" viewBox="0 0 420 590" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>' +
+          '<linearGradient id="' + id + '-metal" x1="0" y1="0" x2=".88" y2="1"><stop offset="0" stop-color="var(--metal-bright,#f1cf91)"/><stop offset=".23" stop-color="var(--metal-mid,#bb8849)"/><stop offset=".48" stop-color="var(--metal-bright,#f1cf91)"/><stop offset=".65" stop-color="var(--metal-mid,#bb8849)"/><stop offset="1" stop-color="var(--metal-deep,#73451e)"/></linearGradient>' +
+          '<radialGradient id="' + id + '-face" cx="32%" cy="25%" r="82%"><stop stop-color="var(--metal-bright,#f1cf91)"/><stop offset=".48" stop-color="var(--metal-face,#b98243)"/><stop offset="1" stop-color="var(--metal-deep,#73451e)"/></radialGradient>' +
+          '<linearGradient id="' + id + '-ribbon"><stop stop-color="#005d3e"/><stop offset=".16" stop-color="#189b68"/><stop offset=".45" stop-color="#168656"/><stop offset=".73" stop-color="#087146"/><stop offset="1" stop-color="#044b33"/></linearGradient>' +
+          '<linearGradient id="' + id + '-yellow"><stop stop-color="#b8a534"/><stop offset=".24" stop-color="#edcf60"/><stop offset=".56" stop-color="#ddbf4c"/><stop offset="1" stop-color="#b09b2e"/></linearGradient>' +
+          '<linearGradient id="' + id + '-blue"><stop stop-color="#346e91"/><stop offset=".4" stop-color="#6b9db8"/><stop offset="1" stop-color="#255878"/></linearGradient>' +
+          '<linearGradient id="' + id + '-shine"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff3c9" stop-opacity=".85"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>' +
+          '<clipPath id="' + id + '-ribbonclip"><path d="M135 33H285L264 238L210 283L156 238Z"/></clipPath>' +
+          '<clipPath id="' + id + '-circleclip"><circle cx="210" cy="414" r="127"/></clipPath>' +
+          '<path id="' + id + '-toptext" d="M112 414A98 98 0 0 1 308 414"/>' +
+          '<path id="' + id + '-bottomtext" d="M111 444A104 104 0 0 0 309 444"/>' +
+          '<pattern id="' + id + '-grain" width="5" height="5" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r=".55" fill="#fff5cf" opacity=".1"/><circle cx="4" cy="3" r=".5" fill="#302714" opacity=".11"/></pattern>' +
+          '</defs><g clip-path="url(#' + id + '-ribbonclip)"><path d="M135 33H285L264 238L210 283L156 238Z" fill="url(#' + id + '-ribbon)"/><path d="M130 158H290V241H130Z" fill="url(#' + id + '-yellow)"/><path d="M130 242H290V292H130Z" fill="url(#' + id + '-blue)"/>' + ribbonLines + '<path d="M138 35H282" stroke="#b6d5ab" stroke-width="4" opacity=".35"/><path d="M138 33L160 238M282 33L260 238" stroke="#e5dd9b" opacity=".17" stroke-width="2"/></g>' +
+          '<path d="M178 267L197 289L210 273L223 289L243 267" fill="none" stroke="url(#' + id + '-metal)" stroke-width="9" stroke-linejoin="round"/>' +
+          '<circle cx="210" cy="286" r="22" fill="none" stroke="var(--metal-shadow)" stroke-width="9"/><circle cx="210" cy="283" r="22" fill="none" stroke="url(#' + id + '-metal)" stroke-width="7"/>' +
+          '<polygon points="' + rays + '" fill="url(#' + id + '-metal)" stroke="var(--metal-shadow)" stroke-width="2"/>' +
+          '<circle cx="210" cy="414" r="130" fill="var(--metal-deep)" stroke="var(--metal-bright)" stroke-width="2"/>' +
+          '<circle cx="210" cy="414" r="126" fill="url(#' + id + '-face)" stroke="var(--metal-shadow)" stroke-width="1.3"/>' +
+          '<circle cx="210" cy="414" r="116" fill="none" stroke="var(--metal-bright)" stroke-width="1.4" opacity=".7"/>' + beads +
+          '<circle cx="210" cy="414" r="109" fill="none" stroke="var(--metal-shadow)" opacity=".35"/>' +
+          '<g>' + leaves + '<path d="M139 345Q83 441 210 519Q337 441 281 345" fill="none" stroke="var(--metal-bright)" stroke-width="1.5" opacity=".75"/></g>' +
+          '<text fill="var(--metal-bright)" font-family="Georgia,serif" font-size="9.3" font-weight="bold" letter-spacing="1.55"><textPath href="#' + id + '-toptext" startOffset="50%" text-anchor="middle">RÉPUBLIQUE GABONAISE</textPath></text>' +
+          '<text fill="var(--metal-bright)" font-family="Arial,sans-serif" font-size="7.1" letter-spacing="1.7"><textPath href="#' + id + '-bottomtext" startOffset="50%" text-anchor="middle">HONNEUR · TRAVAIL · MÉRITE</textPath></text>' +
+          '<circle cx="210" cy="414" r="78" fill="url(#' + id + '-metal)" stroke="var(--metal-deep)" stroke-width="3"/>' +
+          '<circle cx="210" cy="414" r="73" fill="#e5dab6" stroke="var(--metal-bright)" stroke-width="2"/>' +
+          '<circle cx="210" cy="414" r="68" fill="#ece2c6" opacity=".45"/>' +
+          '<polygon points="' + star(210, 414, 58, 29, 12) + '" fill="var(--metal-deep)" stroke="var(--metal-bright)" stroke-width="1.5"/>' +
+          '<polygon points="' + star(210, 414, 48, 26, 12) + '" fill="url(#' + id + '-metal)"/>' +
+          '<circle cx="210" cy="414" r="25" fill="#296c44" stroke="#debb62" stroke-width="2"/>' +
+          '<path d="M185 414H235" stroke="#d5b84d" stroke-width="12" opacity=".85"/><path d="M192 431Q210 443 228 431" stroke="#4d8ba2" stroke-width="13" fill="none"/>' +
+          '<polygon points="' + star(210, 414, 20, 9, 5) + '" fill="#16804e" stroke="#1c5d3b" stroke-width=".7"/>' +
+          '<path d="M206 398L212 409L221 410L214 416L216 428L207 421L199 426L202 415L195 409L205 408Z" fill="#7c9f46" opacity=".5"/>' +
+          '<circle cx="210" cy="414" r="126" fill="url(#' + id + '-grain)"/>' +
+          '<g clip-path="url(#' + id + '-circleclip)"><path class="sheen" d="M90 260H133L270 570H227Z" fill="url(#' + id + '-shine)"/></g>' +
+          '</svg></div>';
+      }
+
+      $$('.hero-visual-a [data-medal]').forEach(el => { el.innerHTML = medalSVG(); });
+
+      // Initial entrance
+      animateIn($("#view-login"));
+    })();
+  </script>
+</body>
+</html>

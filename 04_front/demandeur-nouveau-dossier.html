@@ -1,0 +1,927 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0a3327"><meta name="description" content="Préparez votre demande en quatre étapes : demandeur, récipiendaires, pièces justificatives et récapitulatif."><title>Nouveau dossier — MÉDITRA</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"><style>
+/* =====================================================================
+   MÉDITRA — CHARTE GRAPHIQUE (thème « profil test »)
+   ---------------------------------------------------------------------
+   Couleurs   : vert institutionnel (--green*), or (--gold*), neutres.
+   Typo       : DM Serif Display (titres, chiffres), Manrope (interface).
+   Rayons     : 8px (champs, boutons), 12px (cartes), 16px (bandeaux),
+                999px (pastilles).
+   Espacement : multiples de 4px.
+   Structure  : menu latéral vert (.sidebar) + barre du haut (.topbar)
+                + contenu (.container).
+   ===================================================================== */
+:root{
+  --green:#0f4c3a;--green-2:#1a6b52;--green-dark:#0a3327;--green-soft:#e8f3ee;
+  --gold:#c99b45;--gold-soft:#f1cf91;--gold-bg:#fbf5e9;
+  --success:#10b981;--success-bg:#ecfdf5;--warning:#d97706;--warning-bg:#fffbeb;
+  --danger:#ef4444;--danger-bg:#fef2f2;--info:#2563eb;--info-bg:#eff6ff;
+  --ink:#1f2937;--muted:#6b7280;--faint:#9ca3af;--bg:#f8f9fa;--paper:#fff;
+  --line:#e5e7eb;--line-soft:#f1f2f4;
+  --serif:"DM Serif Display",Georgia,"Times New Roman",serif;
+  --sans:Manrope,"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+  --ease:cubic-bezier(.2,.8,.2,1);
+  --radius:12px;
+  --shadow-sm:0 1px 2px rgba(16,24,40,.04);
+  --shadow:0 1px 2px rgba(16,24,40,.04),0 4px 16px rgba(16,24,40,.04);
+  --shadow-lg:0 20px 50px rgba(10,51,39,.18);
+  --sidebar:264px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);font:13px/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,p{margin:0}
+img,svg{display:block}
+svg.icon{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+[hidden]{display:none!important}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+/* ===== Structure ===== */
+.app{display:flex;min-height:100vh}
+.main{flex:1;min-width:0;margin-left:var(--sidebar);display:flex;flex-direction:column;min-height:100vh}
+
+/* ===== Menu latéral ===== */
+.sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);z-index:40;display:flex;flex-direction:column;color:#fff;background:linear-gradient(160deg,var(--green-dark) 0%,var(--green) 100%);overflow:hidden;transition:transform .4s var(--ease)}
+.sidebar:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 70%);mask-image:linear-gradient(180deg,#000,transparent 70%)}
+.sidebar:after{content:"";position:absolute;width:420px;height:420px;left:-140px;bottom:-200px;border-radius:50%;background:radial-gradient(circle,rgba(201,155,69,.16),transparent 70%);pointer-events:none}
+.sb-brand{position:relative;z-index:1;display:flex;align-items:center;gap:12px;padding:22px 22px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sb-brand .brand-mark{width:30px;height:36px;color:#fff;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.brand-name{display:block;font-size:17px;line-height:1;font-weight:800;letter-spacing:.1em;color:#fff}
+.brand-sub{display:block;margin-top:5px;font-size:9px;color:rgba(255,255,255,.55);letter-spacing:.06em;text-transform:uppercase}
+.sb-close{display:none;margin-left:auto;width:32px;height:32px;border:0;border-radius:8px;place-items:center;background:none;color:rgba(255,255,255,.7)}
+.sb-close:hover{background:rgba(255,255,255,.08);color:#fff}
+.sb-nav{position:relative;z-index:1;flex:1;overflow-y:auto;padding:18px 14px;scrollbar-width:none}
+.sb-nav::-webkit-scrollbar{display:none}
+.sb-section{font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);padding:14px 10px 8px}
+.sb-section:first-child{padding-top:0}
+.sb-link{position:relative;display:flex;align-items:center;gap:12px;min-height:40px;padding:8px 12px;margin-bottom:2px;border-radius:8px;font-size:13px;font-weight:600;line-height:1.3;color:rgba(255,255,255,.72);transition:background-color .2s,color .2s}
+.sb-link .icon{width:17px;height:17px;transition:transform .25s var(--ease)}
+.sb-link:hover{background:rgba(255,255,255,.06);color:#fff}
+.sb-link:hover .icon{transform:translateX(2px)}
+.sb-link.active{background:rgba(255,255,255,.1);color:#fff}
+.sb-link.active:before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.sb-link.active .icon{color:var(--gold-soft)}
+.sb-count{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:var(--green-dark);font-size:10px;font-weight:800;display:grid;place-items:center}
+.sb-user{position:relative;z-index:1;margin:12px 14px 16px;padding:12px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+.sb-user .avatar{width:36px;height:36px;font-size:12px}
+.sb-user > a:first-child{display:flex;align-items:center;gap:10px;min-width:0;flex:1}
+.sb-user-copy{min-width:0;flex:1}
+.sb-user-name{display:block;font-size:12px;font-weight:700;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-user-role{display:block;font-size:10.5px;color:rgba(255,255,255,.55);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sb-logout{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;color:rgba(255,255,255,.6);transition:background-color .2s,color .2s;flex:none}
+.sb-logout:hover{background:rgba(255,255,255,.1);color:#fff}
+.sb-logout .icon{width:16px;height:16px}
+.nav-overlay{position:fixed;inset:0;background:rgba(10,51,39,.45);backdrop-filter:blur(2px);z-index:35;opacity:0;pointer-events:none;transition:opacity .3s}
+
+/* ===== Barre du haut ===== */
+.topbar{position:sticky;top:0;z-index:20;height:68px;display:flex;align-items:center;gap:16px;padding:0 32px;background:rgba(248,249,250,.85);backdrop-filter:saturate(1.4) blur(10px);-webkit-backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s,background-color .2s}
+.topbar.scrolled{border-bottom-color:var(--line);background:rgba(255,255,255,.9)}
+.menu-btn,.top-icon.menu-btn{display:none}
+.crumbs{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);min-width:0}
+.crumbs .icon{width:14px;height:14px;color:var(--faint)}
+.crumbs span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.crumbs strong{color:var(--ink);font-weight:700;white-space:nowrap}
+.top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+.icon-link,.top-icon{position:relative;width:38px;height:38px;border-radius:8px;display:grid;place-items:center;color:var(--muted);border:0;background:none;transition:background-color .2s,color .2s,box-shadow .2s}
+.icon-link:hover,.top-icon:hover{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm)}
+.icon-link.active{background:#fff;color:var(--green);box-shadow:var(--shadow-sm)}
+.notify-count{position:absolute;top:4px;right:3px;min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:var(--gold);color:var(--green-dark);font-size:9.5px;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 2px var(--bg);isolation:isolate}
+.notify-count:after{content:"";position:absolute;inset:0;border-radius:inherit;background:var(--gold);z-index:-1;animation:ping 2s ease-out infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.2);opacity:0}}
+.user-chip{display:flex;align-items:center;gap:10px;padding:4px 8px 4px 4px;border-radius:10px;margin-left:4px;transition:background-color .2s,box-shadow .2s}
+.user-chip:hover,.user-chip.active{background:#fff;box-shadow:var(--shadow-sm)}
+.user-chip .avatar{width:32px;height:32px;font-size:11px}
+.user-copy{min-width:0;display:block}
+.user-copy strong{display:block;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;font-weight:700}
+.user-copy small{display:block;color:var(--muted);font-size:10px}
+.avatar{flex:none;width:33px;height:33px;border-radius:50%;display:grid;place-items:center;font-weight:800;letter-spacing:.02em;font-size:11px;color:var(--green-dark);background:linear-gradient(135deg,var(--gold-soft),var(--gold))}
+
+/* ===== Contenu ===== */
+.container{flex:1;width:100%;max-width:1240px;margin:0 auto;padding:8px 32px 40px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:16px 0 20px}
+.page-head h1{font:400 30px/1.1 var(--serif);color:var(--green);letter-spacing:-.005em}
+.page-head p{max-width:760px;margin-top:6px;color:var(--muted);font-size:13px}
+.eyebrow{margin-bottom:6px;color:#8a6420;font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:800}
+.head-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* Bandeau */
+.hero{position:relative;overflow:hidden;margin:0 0 24px;padding:32px 36px;border-radius:16px;color:#fff;background:linear-gradient(135deg,var(--green-dark) 0%,var(--green) 60%,var(--green-2) 100%);box-shadow:var(--shadow-lg)}
+.hero:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(90deg,transparent 30%,#000);mask-image:linear-gradient(90deg,transparent 30%,#000)}
+.hero:after{content:"";position:absolute;right:-80px;top:50%;width:460px;height:460px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle,rgba(201,155,69,.22),transparent 68%);pointer-events:none;animation:heroGlow 6s ease-in-out infinite alternate}
+@keyframes heroGlow{to{transform:translateY(-50%) scale(1.15);opacity:.75}}
+.hero-orbit{position:absolute;right:56px;top:50%;width:200px;height:200px;transform:translateY(-50%);border-radius:50%;border:1px solid rgba(201,155,69,.32);pointer-events:none}
+.hero-orbit:after{content:"";position:absolute;inset:-24px;border-radius:50%;border:1px dashed rgba(255,255,255,.12);animation:spin 40s linear infinite}
+.hero-mark{position:absolute;right:112px;top:50%;width:88px;height:108px;transform:translateY(-50%) rotate(-6deg);color:rgba(255,255,255,.22);fill:none;stroke:currentColor;stroke-width:1;pointer-events:none;animation:heroFloat 7s ease-in-out infinite}
+@keyframes heroFloat{50%{transform:translateY(calc(-50% - 7px)) rotate(-4deg)}}
+.hero-inner{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:24px;padding-right:220px}
+.hero h2{font:400 30px/1.12 var(--serif);margin-bottom:8px}
+.hero p{max-width:640px;color:rgba(255,255,255,.75);font-size:13px}
+.hero-kicker{color:var(--gold-soft);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.hero-actions{display:flex;gap:8px;flex-wrap:wrap;align-self:center}
+.hero .badge{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:11px;font-weight:800}
+.hero .badge .icon{width:13px;height:13px}
+.hero .btn-outline{background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.2)}
+.hero .btn-outline:hover{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.3)}
+.hero .btn-soft{background:rgba(255,255,255,.12);color:#fff}
+/* Bandeau de profil (avatar) */
+.hero-profile .hero-inner{justify-content:flex-start}
+.hero-profile .hero-actions{margin-left:auto}
+.hero-avatar{position:relative;flex:none}
+.hero-avatar .avatar{width:84px;height:84px;font-size:26px;box-shadow:0 0 0 4px rgba(255,255,255,.12),0 12px 28px rgba(0,0,0,.25)}
+.hero-avatar .ring{position:absolute;inset:-8px;border-radius:50%;border:1.5px solid var(--gold);border-right-color:transparent;border-bottom-color:transparent;animation:spin 6s linear infinite}
+
+/* Cartes */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);min-width:0}
+.card-head{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line-soft)}
+.card-head h2,.card-head h3{font-size:14px;font-weight:800;letter-spacing:-.005em;color:var(--ink)}
+.card-head p{margin-top:2px;color:var(--muted);font-size:11.5px}
+.card-head .btn,.card-head .head-actions,.card-head .link-btn{margin-left:auto}
+.card-icon{width:34px;height:34px;display:grid;place-items:center;border-radius:9px;background:var(--green-soft);color:var(--green);flex:none}
+.card-icon .icon{width:16px;height:16px}
+.card-icon.gold{background:var(--gold-bg);color:#8a6420}
+.card-body{padding:20px 22px}
+.card-footer{padding:14px 22px;border-top:1px solid var(--line-soft);display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--muted);font-size:11.5px}
+
+/* Indicateurs */
+.stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin:0 0 24px}
+.stat-card{position:relative;overflow:hidden;padding:18px 20px;transition:transform .25s var(--ease),box-shadow .25s}
+.stat-card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(16,24,40,.07)}
+.stat-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.stat-label{color:var(--muted);font-size:11px;font-weight:700}
+.stat-icon{width:32px;height:32px;display:grid;place-items:center;border-radius:9px;background:var(--green-soft);color:var(--green);flex:none}
+.stat-icon .icon{width:16px;height:16px}
+.stat-icon.gold{background:var(--gold-bg);color:#8a6420}
+.stat-icon.blue{background:var(--info-bg);color:var(--info)}
+.stat-icon.amber{background:var(--warning-bg);color:var(--warning)}
+.stat-value{margin-top:12px;font:400 32px/1 var(--serif);font-variant-numeric:tabular-nums;color:var(--ink)}
+.stat-foot{margin-top:10px;color:var(--muted);font-size:11px}
+.stat-foot strong{color:#047857;font-weight:800}
+
+/* Grilles */
+.grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;align-items:start}
+.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;align-items:start}
+.grid-wide{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+.stack{display:flex;flex-direction:column;gap:20px;min-width:0}
+.section-title{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:28px 0 14px}
+.section-title h2{font:400 22px/1.2 var(--serif);color:var(--green)}
+.section-title p{color:var(--muted);font-size:12px;margin-top:2px}
+.section-title a{color:var(--green);font-size:12px;font-weight:700}
+.section-title a:hover{text-decoration:underline}
+
+.card-body .section-title{margin:20px 0 10px}
+.card-body .section-title h2{font:800 12.5px/1.3 var(--sans);color:var(--ink)}
+
+/* Boutons */
+.btn{position:relative;overflow:hidden;min-height:40px;padding:0 16px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;border-radius:8px;background:transparent;font-size:12.5px;font-weight:700;text-align:center;white-space:nowrap;transition:background-color .2s,border-color .2s,color .2s,transform .2s var(--ease),box-shadow .2s}
+.btn .icon{width:15px;height:15px;transition:transform .25s var(--ease)}
+.btn:hover .icon{transform:translateX(2px)}
+.btn-primary{background:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 6px 16px rgba(15,76,58,.22)}
+.btn-gold{background:var(--gold);color:var(--green-dark)}
+.btn-gold:hover{background:var(--gold-soft);transform:translateY(-1px);box-shadow:0 6px 16px rgba(201,155,69,.3)}
+.btn-outline{background:#fff;border-color:var(--line);color:var(--ink)}
+.btn-outline:hover{background:#f9fafb;border-color:#d1d5db}
+.btn-soft{background:var(--green-soft);color:var(--green)}
+.btn-soft:hover{background:#dcece4}
+.btn-danger{background:#fff;border-color:#fecaca;color:#b91c1c}
+.btn-danger:hover{background:var(--danger-bg)}
+.btn-sm{min-height:32px;padding:0 12px;font-size:11.5px}
+.btn:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:ripple .6s ease-out forwards;pointer-events:none}
+.btn-outline .ripple,.btn-soft .ripple,.btn-danger .ripple{background:rgba(15,76,58,.1)}
+@keyframes ripple{to{transform:scale(1);opacity:0}}
+.link-btn{display:inline-flex;align-items:center;gap:5px;color:var(--green);font-size:12px;font-weight:700;background:none;border:0;padding:0}
+.link-btn .icon{width:14px;height:14px;transition:transform .25s var(--ease)}
+.link-btn:hover .icon{transform:translateX(3px)}
+.link-btn:hover{text-decoration:underline}
+
+/* Statuts */
+.status{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:10.5px;line-height:1.2;font-weight:800;letter-spacing:.02em;white-space:nowrap}
+.status:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.status.success{background:var(--success-bg);color:#047857}
+.status.warning{background:var(--warning-bg);color:#b45309}
+.status.danger{background:var(--danger-bg);color:#b91c1c}
+.status.info{background:var(--info-bg);color:#1d4ed8}
+.status.neutral{background:var(--line-soft);color:var(--muted)}
+.status.gold{background:var(--gold-bg);color:#8a6420}
+.status.pending{background:#f5f3ff;color:#6d28d9}
+
+/* Formulaires et filtres */
+.toolbar{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;padding:16px 22px;border-bottom:1px solid var(--line-soft)}
+.control{display:flex;flex-direction:column;gap:6px;min-width:130px}
+.control.grow{flex:1;min-width:200px}
+.control label,.field label{color:var(--ink);font-size:11.5px;font-weight:700}
+.control input,.control select,.field input,.field select,.field textarea,.search-control{width:100%;min-height:44px;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:#fff;font-size:13px;color:var(--ink);transition:border-color .2s,box-shadow .2s}
+.control input:hover,.control select:hover,.field input:hover,.field select:hover,.field textarea:hover{border-color:#d1d5db}
+.control input:focus,.control select:focus,.field input:focus,.field select:focus,.field textarea:focus,.search-control:focus{outline:0;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,76,58,.1)}
+.control input::placeholder,.field input::placeholder,.field textarea::placeholder{color:var(--faint)}
+.field input[readonly]{background:var(--bg);color:var(--muted)}
+.field input[type=file]{min-height:auto;padding:8px}
+.field{display:flex;flex-direction:column;gap:7px;min-width:0;margin-bottom:16px}
+.field small,.help{color:var(--muted);font-size:10.5px}
+.field textarea{min-height:100px;resize:vertical}
+.field.required label:after{content:" *";color:var(--danger)}
+.field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--danger);box-shadow:0 0 0 3px rgba(239,68,68,.1)}
+.field.invalid{animation:shake .42s ease both}
+@keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+.field-error{display:none;color:var(--danger);font-size:10.5px}
+.field.invalid .field-error{display:block}
+.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+.form-grid .full{grid-column:1/-1}
+.form-actions{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:4px}
+.filter-pills{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:14px 22px}
+.filter-pill{min-height:32px;padding:0 14px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted);font-size:11.5px;font-weight:700;transition:background-color .2s,border-color .2s,color .2s}
+.filter-pill:hover{border-color:var(--green);color:var(--green)}
+.filter-pill.active{border-color:var(--green);background:var(--green);color:#fff}
+.filter-pill .count{margin-left:6px;opacity:.7}
+
+/* Tableaux */
+.table-wrap{width:100%;overflow:auto}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;padding:12px;background:transparent;color:var(--faint);font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;border-bottom:1px solid var(--line)}
+td{padding:13px 12px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+tbody tr{transition:background-color .2s}
+tbody tr:hover{background:#fafbfb}
+tbody tr:last-child td{border-bottom:0}
+th:first-child,td:first-child{padding-left:22px}
+th:last-child,td:last-child{padding-right:22px}
+.ref{white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--green);font-weight:800;letter-spacing:.01em}
+.table-primary{font-size:12.5px;font-weight:700;color:var(--ink)}
+.table-sub{margin-top:2px;color:var(--muted);font-size:11px}
+.table-actions{display:flex;justify-content:flex-end;gap:6px}
+.nowrap{white-space:nowrap}
+.num{font-variant-numeric:tabular-nums;font-weight:700}
+.progress-wrap{display:flex;align-items:center;gap:8px;min-width:110px}
+.progress{height:6px;overflow:hidden;border-radius:99px;background:var(--line-soft);flex:1}
+.progress span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--gold),var(--gold-soft));transition:width .6s var(--ease)}
+.progress-label{font-size:10.5px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:700}
+.pagination{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 22px;border-top:1px solid var(--line-soft);font-size:11.5px;color:var(--muted)}
+.page-controls{display:flex;gap:6px}
+.page-controls button{width:32px;height:32px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--green);font-weight:800;transition:border-color .2s,background-color .2s}
+.page-controls button:hover:not(:disabled){border-color:var(--green);background:var(--green-soft)}
+.page-controls button:disabled{opacity:.45;cursor:not-allowed}
+.empty-state{padding:40px 20px;text-align:center;color:var(--muted)}
+.empty-state .empty-mark{width:44px;height:44px;margin:0 auto 12px;display:grid;place-items:center;border-radius:12px;background:var(--green-soft);color:var(--green)}
+.empty-state h3{margin-bottom:4px;color:var(--ink);font-size:14px}
+.empty-state p{font-size:12px}
+
+/* Listes */
+.split-list{display:flex;flex-direction:column}
+.list-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.list-row:first-child{padding-top:0}
+.list-row:last-child{border-bottom:0;padding-bottom:0}
+.list-main{min-width:0;flex:1}
+.list-title{font-size:12.5px;font-weight:700}
+.list-sub{margin-top:2px;color:var(--muted);font-size:11px}
+.list-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:9px;background:var(--green-soft);color:var(--green);flex:none}
+.list-icon .icon{width:16px;height:16px}
+.list-icon.gold{background:var(--gold-bg);color:#8a6420}
+
+/* Chronologie */
+.timeline{list-style:none;margin:0;padding:0}
+.timeline li{position:relative;display:flex;gap:14px;padding:0 0 20px}
+.timeline li:last-child{padding-bottom:0}
+.timeline-dot{position:relative;z-index:1;width:31px;height:31px;border:1px solid var(--line);background:#fff;color:var(--green);border-radius:50%;display:grid;place-items:center;flex:none}
+.timeline-dot .icon{width:14px;height:14px}
+.timeline li:not(:last-child):before{content:"";position:absolute;left:15px;top:31px;bottom:0;width:1px;background:var(--line)}
+.timeline-text{padding-top:5px;min-width:0}
+.timeline-title{font-size:12.5px;font-weight:700}
+.timeline-meta{font-size:10.5px;color:var(--faint);margin-top:3px;font-weight:600}
+
+/* Encadrés */
+.callout{display:flex;gap:12px;padding:14px 16px;border:1px solid #f1e3c4;border-radius:10px;background:var(--gold-bg);color:#7a5a1d;font-size:12px;line-height:1.55}
+.callout .icon{color:var(--gold);width:17px;height:17px;margin-top:1px}
+.callout strong{color:#5f4513}
+.callout.info{background:var(--info-bg);border-color:#dbeafe;color:#1e40af}
+.callout.info .icon{color:var(--info)}
+
+/* Graphiques */
+.bar-chart{display:flex;flex-direction:column;gap:14px}
+.bar-row{display:grid;grid-template-columns:minmax(80px,1fr) minmax(100px,2.5fr) auto;align-items:center;gap:12px}
+.bar-label{font-size:12px;font-weight:700}
+.bar-track{height:8px;background:var(--line-soft);border-radius:99px;overflow:hidden}
+.bar-track span{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--green),var(--green-2));transition:width .8s var(--ease);animation:growX 1.1s var(--ease) both;transform-origin:left}
+.bar-track.gold span{background:linear-gradient(90deg,var(--gold),var(--gold-soft))}
+.bar-track.blue span{background:linear-gradient(90deg,#2563eb,#93c5fd)}
+@keyframes growX{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.bar-value{font-size:11px;color:var(--muted);font-variant-numeric:tabular-nums;font-weight:800}
+.chart-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px;color:var(--muted);font-size:11px}
+.legend-item{display:flex;align-items:center;gap:6px}
+.legend-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
+.legend-dot.gold{background:var(--gold)}
+.legend-dot.blue{background:#2563eb}
+.mini-chart{display:flex;align-items:end;gap:10px;height:160px;padding:14px 8px 0;border-bottom:1px solid var(--line)}
+.mini-chart .bar-col{height:100%;display:flex;flex:1;align-items:end;justify-content:center;position:relative}
+.mini-chart .bar-col span{width:min(28px,65%);min-height:4px;border-radius:6px 6px 0 0;background:linear-gradient(180deg,var(--green-2),var(--green));transition:height .5s var(--ease);animation:growY 1s var(--ease) both;transform-origin:bottom}
+.mini-chart .bar-col:nth-child(3n) span{background:linear-gradient(180deg,var(--gold-soft),var(--gold))}
+.mini-chart .bar-col:nth-child(2) span{animation-delay:.05s}.mini-chart .bar-col:nth-child(3) span{animation-delay:.1s}.mini-chart .bar-col:nth-child(4) span{animation-delay:.15s}.mini-chart .bar-col:nth-child(5) span{animation-delay:.2s}.mini-chart .bar-col:nth-child(6) span{animation-delay:.25s}.mini-chart .bar-col:nth-child(n+7) span{animation-delay:.3s}
+@keyframes growY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.mini-chart .bar-col small{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);white-space:nowrap}
+.mini-chart .bar-col em{white-space:nowrap;position:absolute;top:0;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);font-style:normal;font-weight:700}
+.chart-wrap{padding-bottom:24px}
+
+/* Calendrier */
+.calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px 22px;border-bottom:1px solid var(--line-soft)}
+.calendar-month{font:400 22px var(--serif);color:var(--green);text-transform:capitalize}
+.calendar-nav{display:flex;gap:6px}
+.calendar-nav button{min-width:34px;height:34px;padding:0 10px;font-size:12px;font-weight:700;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--green);display:grid;place-items:center;transition:border-color .2s,background-color .2s}
+.calendar-nav button:hover{border-color:var(--green);background:var(--green-soft)}
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));padding:12px 14px 16px;gap:6px}
+.calendar-dow{text-align:center;padding:8px 2px;color:var(--faint);font-size:10px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.calendar-day{position:relative;min-height:80px;padding:8px 7px;border:1px solid var(--line-soft);border-radius:10px;background:#fff;text-align:left;color:var(--ink);font-size:11px;transition:border-color .2s,background-color .2s,transform .2s var(--ease)}
+.calendar-day:hover{border-color:var(--green);background:#f6faf8}
+.calendar-day.muted{opacity:.45}
+.calendar-day.today{border-color:var(--gold);background:var(--gold-bg)}
+.calendar-day .day-num{font-size:11px;font-weight:800}
+.calendar-event{display:block;margin-top:5px;padding:3px 6px;border-radius:6px;background:var(--green-soft);color:var(--green);font-size:9.5px;font-weight:700;line-height:1.3;overflow:hidden;text-overflow:ellipsis}
+.calendar-event.pending{background:var(--warning-bg);color:#b45309}
+.calendar-event.planned{background:var(--info-bg);color:#1d4ed8}
+
+/* Assistant par étapes */
+.stepper{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;margin:0 0 20px}
+.step{position:relative;min-width:0;display:flex;align-items:center;gap:8px;padding:10px;border-radius:10px;background:#fff;border:1px solid var(--line);color:var(--muted);font-size:10.5px;font-weight:700;transition:background-color .3s,border-color .3s,color .3s}
+.step .step-num{width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:var(--line-soft);font-size:10.5px;font-weight:800;flex:none;transition:background-color .3s,color .3s}
+.step.active{border-color:var(--gold);color:var(--ink);box-shadow:0 0 0 3px rgba(201,155,69,.12)}
+.step.active .step-num{background:var(--gold);color:var(--green-dark)}
+.step.done{color:var(--green)}
+.step.done .step-num{background:var(--green);color:#fff}
+.wizard-panel{animation:fadeUp .4s var(--ease) both}
+.wizard-actions{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.recipient-card{padding:16px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.recipient-list{display:flex;flex-direction:column;gap:8px}
+.recipient-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line-soft);border-radius:10px;background:#fff;transition:border-color .2s}
+.recipient-row:hover{border-color:var(--line)}
+.recipient-row .list-main{flex:1}
+.file-tile{padding:14px;border:1.5px dashed #d1d5db;border-radius:10px;background:#fcfcfd;transition:border-color .2s,background-color .2s}
+.file-tile:hover{border-color:var(--green);background:#f6faf8}
+.file-tile input{font-size:11px;max-width:100%}
+.file-name{margin-top:6px;color:var(--green);font-size:11px;font-weight:700;overflow-wrap:anywhere}
+.file-generated{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:1px solid var(--line-soft);border-radius:10px;background:var(--bg)}
+
+/* Documents */
+.document-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.document-row:last-child{border-bottom:0}
+.document-main{flex:1;min-width:0}
+.document-name{font-size:12.5px;font-weight:700}
+.document-meta{margin-top:2px;color:var(--muted);font-size:11px}
+.document-actions{display:flex;gap:6px;align-items:center}
+
+/* Notifications */
+.notification-item{position:relative;display:flex;align-items:flex-start;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line-soft);transition:background-color .2s}
+.notification-item:last-child{border-bottom:0}
+.notification-item.unread{background:#fdfbf6}
+.notification-item.unread:before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+.notification-item:hover{background:#fafbfb}
+.notification-bullet{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;flex:none;background:var(--green-soft);color:var(--green)}
+.notification-bullet .icon{width:16px;height:16px}
+.notification-item.unread .notification-bullet{background:var(--gold-bg);color:#8a6420}
+.notification-copy{flex:1;min-width:0}
+.notification-copy strong{font-size:12.5px}
+.notification-copy p{margin-top:3px;color:var(--muted);font-size:12px}
+.notification-meta{margin-top:6px;color:var(--faint);font-size:10.5px;font-weight:600}
+.notification-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+/* Informations */
+.info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 28px}
+.info-label{color:var(--faint);font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase}
+.info-value{margin-top:5px;font-size:13.5px;font-weight:600;color:var(--ink);overflow-wrap:anywhere}
+.info-value.muted{color:var(--faint);font-weight:500;font-style:italic}
+
+/* Dialogues */
+dialog{width:min(680px,calc(100% - 24px));max-height:min(88vh,880px);padding:0;border:0;border-radius:16px;background:#fff;color:var(--ink);box-shadow:0 30px 80px rgba(10,51,39,.3);overflow:hidden}
+dialog[open]{animation:dialogIn .4s var(--ease) both}
+dialog::backdrop{background:rgba(10,51,39,.4);backdrop-filter:blur(2px)}
+dialog.wide-dialog{width:min(920px,calc(100% - 24px))}
+@keyframes dialogIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
+.dialog-shell{display:flex;flex-direction:column;max-height:min(88vh,880px)}
+.dialog-head{display:flex;align-items:flex-start;gap:12px;padding:22px 24px;border-bottom:1px solid var(--line);background:#fff}
+.dialog-head h2{font:400 24px/1.15 var(--serif);color:var(--green)}
+.dialog-head p{margin-top:4px;color:var(--muted);font-size:12px}
+.dialog-head .icon-btn{margin-left:auto}
+.icon-btn{width:36px;height:36px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:var(--muted);flex:none;transition:background-color .2s,color .2s}
+.icon-btn:hover{background:var(--bg);color:var(--ink)}
+.dialog-body{padding:22px 24px;overflow:auto}
+.dialog-foot{display:flex;justify-content:flex-end;gap:10px;padding:16px 24px;border-top:1px solid var(--line);background:var(--bg)}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* Notifications éphémères */
+.toast-stack{position:fixed;z-index:100;right:20px;top:20px;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.toast{position:relative;overflow:hidden;max-width:min(360px,calc(100vw - 40px));padding:12px 16px 14px 40px;border-radius:8px;border:1px solid var(--line);border-left:3px solid var(--success);background:#fff;box-shadow:0 10px 30px rgba(0,0,0,.08);font-size:12px;font-weight:600;line-height:1.45;animation:toastIn .35s var(--ease) both;pointer-events:auto}
+.toast:before{content:"";position:absolute;left:14px;top:13px;width:16px;height:16px;border-radius:50%;background:var(--success) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12 4 4 8-8'/%3E%3C/svg%3E") center/11px no-repeat}
+.toast:after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--success);opacity:.35;transform-origin:left;animation:toastBar 3.5s linear forwards}
+.toast.success{border-left-color:var(--success)}
+.toast.info{border-left-color:var(--gold)}
+.toast.info:before{background:var(--gold) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round'%3E%3Cpath d='M12 11v6M12 7h.01'/%3E%3C/svg%3E") center/11px no-repeat}
+.toast.info:after{background:var(--gold)}
+.toast.error{border-left-color:var(--danger)}
+.toast.error:before{background:var(--danger) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linecap='round'%3E%3Cpath d='M12 7v6M12 17h.01'/%3E%3C/svg%3E") center/11px no-repeat}
+.toast.error:after{background:var(--danger)}
+.toast.leaving{animation:toastOut .3s ease-in forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(110%)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateX(110%)}}
+@keyframes toastBar{to{transform:scaleX(0)}}
+
+.site-footer{display:flex;justify-content:space-between;gap:12px;margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--faint);font-size:11px;font-weight:600}
+
+/* Interrupteur */
+.switch{position:relative;width:40px;height:22px;flex:none}
+.switch input{position:absolute;inset:0;opacity:0;z-index:2;cursor:pointer;margin:0}
+.switch span{position:absolute;inset:0;border-radius:999px;background:#d1d5db;transition:background-color .25s}
+.switch span:after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .3s var(--ease)}
+.switch input:checked+span{background:var(--green)}
+.switch input:checked+span:after{transform:translateX(18px)}
+.switch input:focus-visible+span{outline:2px solid var(--gold);outline-offset:2px}
+.visually-muted{color:var(--muted);font-size:11px}
+
+/* Catalogue (index) */
+.catalog-shell{min-height:100vh}
+.catalog{width:min(1240px,calc(100% - 48px));margin:32px auto 56px}
+.catalog-top{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.catalog-top .brand-mark{width:30px;height:36px;color:var(--green);fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.catalog-top .brand-name{color:var(--ink)}
+.catalog-top .brand-sub{color:var(--muted)}
+.catalog-hero{position:relative;overflow:hidden;padding:36px 40px;border-radius:16px;color:#fff;background:linear-gradient(135deg,var(--green-dark) 0%,var(--green) 60%,var(--green-2) 100%);box-shadow:var(--shadow-lg)}
+.catalog-hero:before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(90deg,transparent 30%,#000);mask-image:linear-gradient(90deg,transparent 30%,#000)}
+.catalog-hero:after{content:"";position:absolute;right:-80px;top:50%;width:460px;height:460px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle,rgba(201,155,69,.22),transparent 68%);pointer-events:none;animation:heroGlow 6s ease-in-out infinite alternate}
+.catalog-hero > *{position:relative;z-index:1}
+.catalog-hero h1{font:400 clamp(30px,4vw,40px)/1.1 var(--serif);margin-bottom:10px}
+.catalog-hero p{max-width:720px;font-size:13.5px;color:rgba(255,255,255,.78)}
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;margin-top:24px}
+.catalog .card{overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s}
+.catalog .card:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(16,24,40,.08)}
+.catalog .card header{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--line-soft)}
+.catalog .mark{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;background:var(--green-soft);color:var(--green);flex:none}
+.catalog h2{font:400 21px/1.15 var(--serif);color:var(--green)}
+.catalog header p{font-size:11.5px;color:var(--muted);margin-top:2px}
+.catalog nav{display:flex;flex-direction:column;gap:2px;padding:10px}
+.catalog nav a{display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:38px;padding:8px 12px;border-radius:8px;color:var(--ink);font-size:12.5px;font-weight:600;transition:background-color .2s,color .2s,padding-left .25s var(--ease)}
+.catalog nav a:hover{background:var(--green-soft);color:var(--green);padding-left:16px}
+.catalog nav a span{color:var(--gold);font-weight:800}
+.catalog-note{margin-top:24px}
+
+/* ===== Animations d'entrée ===== */
+.reveal{animation:reveal .6s var(--ease) both;animation-delay:calc(var(--i,0) * 60ms)}
+@keyframes reveal{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== Adaptatif ===== */
+@media(max-width:1180px){
+  .grid-wide{grid-template-columns:1fr}
+  .hero-inner{padding-right:0}
+  .hero-orbit,.hero-mark{display:none}
+}
+@media(max-width:1024px){
+  .sidebar{transform:translateX(-100%)}
+  body.nav-open .sidebar{transform:none;box-shadow:20px 0 60px rgba(0,0,0,.25)}
+  body.nav-open .nav-overlay{opacity:1;pointer-events:auto}
+  .sb-close{display:grid}
+  .main{margin-left:0}
+  .menu-btn,.top-icon.menu-btn{display:grid}
+  .stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid-3{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:720px){
+  .topbar{padding:0 16px;gap:8px;height:62px}
+  .container{padding:4px 16px 32px}
+  .user-copy{display:none}
+  .crumbs > span,.crumbs > .icon{display:none}
+  .page-head{flex-direction:column;align-items:flex-start;margin-bottom:18px}
+  .page-head h1{font-size:27px}
+  .head-actions{width:100%}
+  .head-actions .btn{flex:1}
+  .hero{padding:24px 22px}
+  .hero h2{font-size:25px}
+  .hero-inner{flex-direction:column;align-items:flex-start;gap:16px}
+  .hero-profile .hero-actions{margin-left:0}
+  .hero-actions{width:100%}
+  .hero-actions .btn{flex:1}
+  .stat-grid{gap:12px}
+  .stat-card{padding:16px}
+  .stat-value{font-size:26px}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .form-grid,.info-grid,.modal-grid{grid-template-columns:1fr}
+  .form-grid .full{grid-column:auto}
+  .stepper{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .step{font-size:9.5px;padding:8px 6px}
+  .toolbar{align-items:stretch;padding:14px 16px}
+  .control,.control.grow{min-width:calc(50% - 6px);flex:1}
+  .control.grow{min-width:100%}
+  .filter-pills{padding:12px 16px}
+  .calendar-day{min-height:60px;padding:4px}
+  .calendar-event{font-size:7.5px;padding:2px 3px}
+  .calendar-grid{padding:8px;gap:3px}
+  .calendar-dow{font-size:8px}
+  .card-head{padding:16px 18px}
+  .card-body{padding:18px}
+  th:first-child,td:first-child{padding-left:18px}
+  th:last-child,td:last-child{padding-right:18px}
+  .table-wrap table{min-width:720px}
+  .notification-item{padding:14px 16px}
+  .notification-actions{flex-direction:column;align-items:flex-end}
+  .site-footer{flex-direction:column}
+  .dialog-head,.dialog-body{padding:18px}
+  .dialog-foot{padding:12px 18px}
+  .toast-stack{left:16px;right:16px;top:16px}
+  .toast{max-width:none}
+  .catalog{width:calc(100% - 32px);margin-top:20px}
+  .catalog-hero{padding:26px 22px}
+}
+@media(max-width:420px){
+  .stat-grid{grid-template-columns:1fr 1fr}
+  .stat-label{font-size:10.5px}
+  .stat-value{font-size:24px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+
+/* Navigation globale horizontale — correction commune aux profils */
+.app{display:flex;flex-direction:column;min-height:100vh}
+.main{width:100%;min-width:0;margin-left:0;min-height:calc(100vh - 72px);display:flex;flex-direction:column}
+.sidebar,.nav-overlay{display:none!important}
+.global-header{position:sticky;top:0;z-index:60;min-height:72px;display:flex;align-items:center;gap:clamp(12px,2vw,28px);padding:0 clamp(16px,3.2vw,42px);background:linear-gradient(110deg,var(--green-dark),var(--green));border-bottom:3px solid var(--gold);box-shadow:0 7px 20px rgba(6,42,32,.16)}
+.global-brand{display:flex;align-items:center;gap:10px;flex:none;min-width:190px;color:#fff!important}
+.global-brand .brand-mark{width:31px;height:36px;color:var(--gold-soft);stroke-width:1.8;flex:none}
+.global-brand .brand-name{display:block;color:#fff;font-size:16px;font-weight:850;letter-spacing:.11em;line-height:1}
+.global-brand .brand-sub{display:block;margin-top:5px;color:rgba(255,255,255,.72);font-size:8.5px;letter-spacing:.075em;text-transform:uppercase;white-space:nowrap}
+.primary-nav{display:flex;align-items:center;gap:4px;flex:1;min-width:0}
+.nav-link{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:42px;padding:0 11px;border:0;border-radius:7px;background:transparent;color:rgba(255,255,255,.82);font-size:12px;font-weight:750;white-space:nowrap;transition:background .18s,color .18s}
+.nav-link .icon{width:16px;height:16px}
+.nav-link:hover{background:rgba(255,255,255,.11);color:#fff}
+.nav-link.active{background:var(--gold);color:var(--green-dark);box-shadow:inset 0 -2px 0 rgba(67,46,12,.18)}
+.nav-link.active:after{content:"";position:absolute;left:11px;right:11px;bottom:-8px;height:2px;border-radius:2px;background:var(--gold-soft)}
+.nav-dropdown{position:relative;flex:none}
+.nav-dropdown-trigger{font:inherit;cursor:pointer}
+.nav-dropdown-trigger .nav-chevron{width:13px;height:13px;transition:transform .18s}
+.nav-dropdown.open .nav-dropdown-trigger .nav-chevron{transform:rotate(90deg)}
+.nav-dropdown-panel{position:absolute;top:calc(100% + 10px);left:0;z-index:70;width:228px;padding:7px;border:1px solid #c8d4ca;border-radius:10px;background:#fff;box-shadow:0 16px 40px rgba(6,42,32,.2)}
+.nav-dropdown-panel[hidden]{display:none!important}
+.nav-sub-link{display:flex;align-items:center;gap:9px;min-height:39px;padding:8px 10px;border-radius:6px;color:#20352a;font-size:12px;font-weight:750}
+.nav-sub-link .icon{width:15px;height:15px;color:var(--green)}
+.nav-sub-link:hover,.nav-sub-link.active{background:var(--green-soft);color:var(--green-dark)}
+.nav-mobile-toggle{display:none;width:40px;height:40px;place-items:center;flex:none;border:1px solid rgba(255,255,255,.35);border-radius:8px;background:rgba(255,255,255,.08);color:#fff}
+.nav-mobile-toggle:hover{background:rgba(255,255,255,.16)}
+.global-header .top-actions{display:flex;align-items:center;gap:5px;flex:none;margin-left:auto}
+.global-header .icon-link,.global-header .sb-logout{position:relative;width:38px;height:38px;display:grid;place-items:center;border:0;border-radius:8px;background:transparent;color:#fff}
+.global-header .icon-link:hover,.global-header .sb-logout:hover{background:rgba(255,255,255,.12);color:#fff;box-shadow:none}
+.global-header .notify-count{background:var(--gold);color:var(--green-dark);box-shadow:0 0 0 2px var(--green-dark)}
+.global-header .user-chip{display:flex;align-items:center;gap:8px;margin-left:3px;padding:4px 8px 4px 4px;border-radius:8px;color:#fff}
+.global-header .user-chip:hover{background:rgba(255,255,255,.12);box-shadow:none}
+.global-header .user-chip .avatar{width:34px;height:34px}
+.global-header .user-copy strong{max-width:125px;color:#fff;font-size:11px;font-weight:800}
+.global-header .user-copy small{color:rgba(255,255,255,.7);font-size:9px}
+.breadcrumbbar{width:100%;padding:10px clamp(16px,3.2vw,42px);border-bottom:1px solid var(--line);background:rgba(255,255,255,.82)}
+.breadcrumbbar .crumbs{max-width:1320px;margin:auto;font-size:11.5px;color:var(--muted)}
+.breadcrumbbar .crumbs strong{color:var(--green-dark);font-weight:800}
+@media(max-width:1120px){.global-header{gap:10px}.global-brand{min-width:170px}.nav-link{padding:0 8px;font-size:11px}.global-header .user-copy{display:none}.global-header .user-chip{padding-right:4px}}
+@media(max-width:960px){.global-header{min-height:66px}.nav-mobile-toggle{display:grid}.primary-nav{display:none;position:absolute;top:calc(100% + 3px);left:12px;right:12px;z-index:70;padding:10px;border:1px solid #416250;border-radius:12px;background:var(--green-dark);box-shadow:0 18px 42px rgba(4,30,22,.34);flex-direction:column;align-items:stretch}.primary-nav.open{display:flex}.primary-nav>.nav-link,.primary-nav>.nav-dropdown{width:100%}.primary-nav>.nav-link,.primary-nav .nav-dropdown-trigger{justify-content:flex-start;min-height:44px;padding:0 12px;font-size:12.5px}.primary-nav .nav-link.active:after{display:none}.primary-nav .nav-link.active{background:var(--gold);color:var(--green-dark)}.nav-dropdown-panel{position:static;width:auto;margin:2px 6px 8px;padding:6px;background:#fff;box-shadow:none}.global-header .user-copy{display:block}.global-header .user-copy strong{max-width:105px}}
+@media(max-width:640px){.global-header{min-height:62px;padding:0 12px;gap:8px}.global-brand{min-width:0;gap:7px}.global-brand .brand-mark{width:26px;height:31px}.global-brand .brand-name{font-size:14px}.global-brand .brand-sub{display:none}.global-header .top-actions{gap:1px}.global-header .user-copy,.global-header .sb-logout{display:none}.global-header .icon-link{width:34px;height:34px}.nav-mobile-toggle{width:36px;height:36px}.breadcrumbbar{padding:8px 15px}.main{min-height:calc(100vh - 62px)}.container{padding-top:18px}}
+
+
+/* Assistant de demande — parcours en quatre étapes aligné sur la référence */
+.stepper{grid-template-columns:repeat(4,minmax(0,1fr));gap:0;margin:0 0 18px;overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#f7f9fb}
+.step{min-height:68px;padding:10px 12px;border:0;border-right:1px solid var(--line-soft);border-radius:0;background:transparent;font-size:11px}
+.step:last-child{border-right:0}
+.step.active{color:var(--green-dark);background:#fff;box-shadow:inset 0 -3px 0 var(--green)}
+.step.done{color:var(--green-dark);background:#f2faf6}
+.step-num{width:28px;height:28px;display:grid;place-items:center;flex:none;border:1px solid #cbd5e1;border-radius:50%;background:#fff;color:var(--muted);font-size:11px;font-weight:800}
+.step.active .step-num{border:2px solid var(--green);color:var(--green-dark)}
+.step.done .step-num{border-color:var(--green);background:var(--green);color:#fff}
+.step-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.step-copy strong{color:inherit;font-size:11px;line-height:1.25}
+.step-copy small{color:var(--muted);font-size:9.5px;font-weight:500;line-height:1.3}
+.wizard-section{margin:0 0 17px;padding:14px;border:1px solid var(--line);border-radius:11px;background:#fff}
+.wizard-section h3{margin:0 0 12px;color:var(--green-dark);font-size:12px;font-weight:850}
+.wizard-section .form-grid{gap:13px 15px}
+.optional-group{margin:12px 0;padding:12px 14px;border:1px solid var(--line-soft);border-radius:10px;background:#f8fafc}
+.optional-group>summary{color:var(--green-dark);font-size:11px;font-weight:800;cursor:pointer}
+.optional-group[open]>summary{margin-bottom:12px}
+.optional-group .form-grid{margin-top:12px}
+.recipient-tools{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.recipient-tools p{margin:0;color:var(--muted);font-size:10.5px}
+.recipient-card{padding:16px;border-color:#d9e1e8;background:#f7f9fb}
+.recipient-card-title{display:flex;align-items:center;gap:8px;margin-bottom:13px;color:var(--green-dark);font-size:11px}
+.recipient-index{width:22px;height:22px;display:grid;place-items:center;border-radius:6px;background:var(--green-dark);color:#fff;font-size:10px;font-weight:800}
+.recipient-card .callout{margin:12px 0}
+.recipient-card #add-recipient{margin-top:12px}
+.recipient-pagination{display:flex;align-items:center;justify-content:space-between;margin:12px 4px;color:var(--muted);font-size:10.5px}
+.recipient-list{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.recipient-row{align-items:flex-start;flex-wrap:wrap;padding:11px 12px}
+.recipient-row .list-main{min-width:180px}
+.recipient-row .list-sub{line-height:1.6}
+.file-stack{display:flex;flex-direction:column;gap:9px;margin:14px 0}
+.file-upload-row{display:grid;grid-template-columns:42px minmax(0,1fr) minmax(130px,auto);align-items:center;gap:12px;padding:13px;border:1px dashed #cbd5e1;border-radius:10px;background:#fff}
+.file-upload-icon{width:36px;height:36px;display:grid;place-items:center;border-radius:8px;background:#f1f5f9;color:var(--green)}
+.file-upload-copy{display:flex;flex-direction:column;gap:4px;min-width:0}
+.file-upload-copy label{color:var(--green-dark);font-size:11px;font-weight:800;cursor:pointer}
+.file-upload-copy label em,.certify-field strong{color:#b42318;font-style:normal}
+.file-upload-copy small,.file-upload-copy .file-name{color:var(--muted);font-size:10px;line-height:1.4}
+.file-upload-row input[type=file]{max-width:220px;color:var(--text);font-size:10px}
+.generated-previews{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:15px;padding-top:13px;border-top:1px solid var(--line-soft)}
+.generated-previews>div{flex:1;min-width:180px}
+.generated-previews p{margin:3px 0 0}
+.summary-group{margin:0 0 13px;border:1px solid var(--line);border-radius:9px;overflow:hidden;background:#fff}
+.summary-group>header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;background:#f6f8fa;color:var(--green-dark);font-size:11px;font-weight:800}
+.summary-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 20px;padding:12px}
+.summary-item .info-label{margin-bottom:3px}
+.summary-item .info-value{font-size:11px;line-height:1.45}
+.summary-edit{border:0;background:none;color:var(--green);font:inherit;font-size:10px;font-weight:800;cursor:pointer}
+.summary-table{width:100%;border-collapse:collapse;font-size:10px}
+.summary-table th,.summary-table td{padding:8px 9px;text-align:left;border-top:1px solid var(--line-soft)}
+.summary-table th{background:#f8fafc;color:var(--muted);font-size:9px;text-transform:uppercase;letter-spacing:.04em}
+.summary-doc-row{display:flex;justify-content:space-between;gap:12px;padding:9px 12px;border-top:1px solid var(--line-soft);font-size:10.5px}
+.summary-doc-row small{color:var(--muted)}
+.certify-field{margin:15px 0 0;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.certify-field label{display:flex;align-items:flex-start;gap:8px;font-size:11px;line-height:1.45;cursor:pointer}
+.certify-field input{margin-top:2px;flex:none}
+@media(max-width:760px){.stepper{grid-template-columns:repeat(2,minmax(0,1fr))}.step{border-bottom:1px solid var(--line-soft)}.step:nth-child(2){border-right:0}.step:nth-child(3),.step:nth-child(4){border-bottom:0}.file-upload-row{grid-template-columns:38px minmax(0,1fr)}.file-upload-row input[type=file]{grid-column:2;max-width:100%}}
+@media(max-width:540px){.stepper{grid-template-columns:1fr}.step{min-height:54px;border-right:0;border-bottom:1px solid var(--line-soft)!important}.step:last-child{border-bottom:0!important}.recipient-tools{align-items:flex-start;flex-direction:column}.summary-grid{grid-template-columns:1fr}.summary-table{font-size:9px}.summary-table th,.summary-table td{padding:7px 5px}.summary-table-wrap{overflow-x:auto}}
+
+</style></head><body data-role="demandeur"><svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+<symbol id="i-medal" viewBox="0 0 42 52"><path d="M13 2h16l-2 14-6 6-6-6z"/><path d="m21 20 3 4 5-1 1 5 5 2-3 5 1 5-5 1-3 5-4-3-4 3-3-5-5-1 1-5-3-5 5-2 1-5 5 1z"/><circle cx="21" cy="33" r="8"/><path d="m21 27 1.5 4H27l-3.5 3 1.5 4-4-2.5-4 2.5 1.5-4-3.5-3h4.5z" fill="currentColor"/></symbol>
+<symbol id="i-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="5" rx="1.5"/><rect x="13" y="10" width="8" height="11" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/></symbol>
+<symbol id="i-folder" viewBox="0 0 24 24"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H10l2 2h6.5A2.5 2.5 0 0 1 21 9.5v8a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><path d="M3.5 10h17"/></symbol>
+<symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></symbol>
+<symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 5 5"/></symbol>
+<symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
+<symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h8"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+<symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></symbol>
+<symbol id="i-close" viewBox="0 0 24 24"><path d="m18 6-12 12M6 6l12 12"/></symbol>
+<symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></symbol>
+<symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4m-5 5 5-5 5 5M5 14v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4z"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></symbol>
+<symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v18h18M18 17V9M13 17V5M8 17v-3"/></symbol>
+<symbol id="i-wallet" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4H20v16H6a3 3 0 0 1-3-3V6.5"/><path d="M3 8h17M15 13h5"/><circle cx="15" cy="13" r=".7"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5zM3 8v9l9 5 9-5V8M12 13v9"/></symbol>
+<symbol id="i-archive" viewBox="0 0 24 24"><path d="M3 4h18v4H3zM5 8v12h14V8M9 12h6"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+<symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10m-7 6h4"/></symbol>
+<symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="m19.4 15 .1.1 1.3 1-.9 1.7-1.6-.4a8 8 0 0 1-1.5.9l-.3 1.7h-2l-.4-1.6a8 8 0 0 1-1.7 0l-.5 1.6h-2l-.3-1.7a8 8 0 0 1-1.4-.9l-1.7.4-.9-1.7 1.4-1.1a8 8 0 0 1-.2-1.7L4.3 12l.7-1.9 1.7.1a8 8 0 0 1 1-1.3L7.4 7l1.8-.9 1.1 1.4a8 8 0 0 1 1.7-.2l.5-1.6h2l.3 1.7a8 8 0 0 1 1.5.7l1.6-.6 1.1 1.6-1.1 1.3c.2.5.3 1.1.3 1.7l1.6.6-.5 1.9-1.8-.1z"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/><path d="m9 12 2 2 4-4"/></symbol>
+<symbol id="i-people" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+<symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M10 17l5-5-5-5M15 12H3M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></symbol>
+</svg>
+<div class="app"><header class="global-header"><a class="global-brand" href="demandeur-dashboard.html" aria-label="MÉDITRA, tableau de bord"><svg aria-hidden="true" class="brand-mark"><use href="#i-medal"></use></svg><span><b class="brand-name">MÉDITRA</b><small class="brand-sub">Ministère du Travail</small></span></a><button class="nav-mobile-toggle" id="primary-nav-toggle" type="button" aria-label="Ouvrir la navigation" aria-controls="primary-nav" aria-expanded="false"><svg class="icon" aria-hidden="true"><use href="#i-menu"></use></svg></button><nav class="primary-nav" id="primary-nav" aria-label="Navigation principale"><a class="nav-link" href="demandeur-dashboard.html"><svg aria-hidden="true" class="icon"><use href="#i-dashboard"></use></svg><span>Tableau de bord</span></a><div class="nav-dropdown" data-nav-dropdown><button class="nav-link nav-dropdown-trigger active" type="button" id="requester-dossiers-toggle" aria-expanded="false" aria-controls="requester-dossiers-menu" aria-haspopup="true"><svg aria-hidden="true" class="icon"><use href="#i-folder"></use></svg><span>Dossiers</span><svg class="icon nav-chevron" aria-hidden="true"><use href="#i-chevron"></use></svg></button><div class="nav-dropdown-panel" id="requester-dossiers-menu" hidden><a class="nav-sub-link" href="demandeur-dossiers.html"><svg aria-hidden="true" class="icon"><use href="#i-folder"></use></svg><span>Mes dossiers</span></a><a class="nav-sub-link active" href="demandeur-nouveau-dossier.html" aria-current="page"><svg aria-hidden="true" class="icon"><use href="#i-plus"></use></svg><span>Nouveau dossier</span></a></div></div><a class="nav-link" href="demandeur-ceremonies.html"><svg aria-hidden="true" class="icon"><use href="#i-calendar"></use></svg><span>Cérémonies</span></a></nav><div class="top-actions"><a aria-label="Notifications" class="icon-link" href="demandeur-notifications.html"><svg aria-hidden="true" class="icon"><use href="#i-bell"></use></svg><span class="notify-count" data-notify-count="" hidden="">0</span></a><a aria-label="Profil de Marie Nguema" class="user-chip" href="demandeur-profil.html"><span class="avatar">MN</span><span class="user-copy"><strong>Marie Nguema</strong><small>Demandeur · Entreprise</small></span></a><a aria-label="Se déconnecter" class="sb-logout" href="meditra-connexion.html" title="Se déconnecter"><svg aria-hidden="true" class="icon"><use href="#i-logout"></use></svg></a></div></header><div class="main"><div class="breadcrumbbar"><nav aria-label="Fil d’Ariane" class="crumbs"><span>Demandeur · Entreprise</span><svg aria-hidden="true" class="icon"><use href="#i-chevron"></use></svg><strong>Nouveau dossier</strong></nav></div><main class="container">
+ <section class="page-head"><div><div class="eyebrow">Espace demandeur</div><h1>Nouveau dossier</h1><p>Préparez votre demande en quatre étapes : demandeur, récipiendaires, pièces justificatives et récapitulatif.</p></div><div class="head-actions"><a class="btn btn-outline" href="demandeur-dossiers.html"><svg class="icon" aria-hidden="true"><use href="#i-folder"></use></svg> Mes dossiers</a></div></section>
+ <div class="stepper" id="stepper" aria-label="Étapes de création">
+ <div class="step active" data-step-indicator="1"><span class="step-num">1</span><span class="step-copy"><strong>Type et demandeur</strong><small>Nature de la demande, organisme et autorité</small></span></div>
+ <div class="step" data-step-indicator="2"><span class="step-num">2</span><span class="step-copy"><strong>Récipiendaires</strong><small>Personnes proposées</small></span></div>
+ <div class="step" data-step-indicator="3"><span class="step-num">3</span><span class="step-copy"><strong>Pièces et DTS</strong><small>Courrier, DTS et justificatifs</small></span></div>
+ <div class="step" data-step-indicator="4"><span class="step-num">4</span><span class="step-copy"><strong>Récapitulatif</strong><small>Vérification et envoi</small></span></div>
+</div>
+<form id="wizard-form" novalidate>
+<section class="wizard-panel" data-step="1">
+ <article class="card">
+  <header class="card-head"><span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-user"></use></svg></span><div><h2>Type de demande et informations du demandeur</h2><p>Les champs marqués <strong>*</strong> sont obligatoires. Les renseignements restent disponibles en passant d’une étape à l’autre.</p></div></header>
+  <div class="card-body">
+   <section class="wizard-section" aria-labelledby="request-kind-title"><h3 id="request-kind-title">Nature de la demande</h3><div class="form-grid">
+    <div class="field required full"><label for="request-type">Type de demande</label><select id="request-type" required><option value="Nouvelle demande" selected>Nouvelle demande</option><option value="Relance">Relance</option><option value="Recours">Recours</option></select><small>Une relance ou un recours se rattache à un dossier déjà déposé.</small></div>
+    <div class="field required full" id="linked-dossier-field" hidden><label for="linked-dossier">Dossier concerné</label><select id="linked-dossier"><option value="">Sélectionnez un dossier existant…</option></select><small id="linked-dossier-help">La liste des récipiendaires sera reprise du dossier sélectionné et pourra être vérifiée à l’étape suivante.</small></div>
+   </div></section>
+   <section class="wizard-section" aria-labelledby="applicant-title"><h3 id="applicant-title">Organisme demandeur</h3><div class="form-grid">
+    <div class="field required full"><label for="org-name">Raison sociale de l’organisme</label><input id="org-name" name="orgName" required value="Société Générale Gabon"><small>Organisme rattaché à votre compte.</small><span class="field-error">Renseignez le nom de l’organisme.</span></div>
+    <div class="field required"><label for="org-type">Type d’organisme</label><select id="org-type" name="orgType" required><option value="">Sélectionner…</option><option selected>Entreprise privée</option><option>Administration publique</option><option>Établissement public</option><option>Association / organisation</option></select><span class="field-error">Sélectionnez un type.</span></div>
+    <div class="field required"><label for="org-sector">Secteur d’activité</label><select id="org-sector" required><option value="">Sélectionner…</option><option selected>Services financiers</option><option>Administration publique</option><option>Énergie</option><option>Industrie</option><option>Commerce</option><option>Transport</option><option>Santé</option><option>Éducation</option><option>Autre</option></select><span class="field-error">Sélectionnez un secteur.</span></div>
+    <div class="field required"><label for="org-city">Ville</label><input id="org-city" name="city" required value="Libreville"><span class="field-error">Renseignez la ville.</span></div>
+    <div class="field required full"><label for="authority">Autorité destinataire</label><select id="authority" name="authority" required><option value="">Sélectionner…</option><option selected>Direction régionale du Travail — Estuaire</option><option>Direction régionale du Travail — Ogooué-Maritime</option><option>Direction générale du travail</option><option>Ministère du Travail</option></select><small>Le secrétariat enregistre le dossier, confirme sa conformité, puis le transmet au Directeur régional.</small><span class="field-error">Choisissez une autorité destinataire.</span></div>
+    <div class="field required"><label for="representative">Nom de l’interlocuteur</label><input id="representative" name="representative" required value="Marie Nguema"><span class="field-error">Renseignez le nom de l’interlocuteur.</span></div>
+    <div class="field"><label for="representative-function">Fonction de l’interlocuteur</label><input id="representative-function" value="Responsable des ressources humaines"></div>
+    <div class="field required"><label for="contact-email">Adresse électronique</label><input id="contact-email" name="email" type="email" required value="m.nguema@sgg.ga"><span class="field-error">Indiquez une adresse e-mail valide.</span></div>
+    <div class="field required"><label for="contact-phone">Téléphone</label><input id="contact-phone" name="phone" type="tel" required value="+241 07 12 34 56"><small>Indicatif international accepté.</small><span class="field-error">Renseignez un numéro de téléphone.</span></div>
+    <div class="field required"><label for="campaign">Campagne</label><select id="campaign" name="campaign" required><option value="2026" selected>Campagne 2026</option><option value="2027">Campagne 2027</option></select></div>
+   </div></section>
+   <details class="optional-group"><summary>Identifiants et précisions complémentaires (facultatif)</summary><div class="form-grid">
+    <div class="field"><label for="nif">NIF</label><input id="nif" name="nif" value="0123456 A"><span class="field-error">Renseignez l’identifiant administratif.</span></div>
+    <div class="field"><label for="rccm">RCCM / identifiant complémentaire</label><input id="rccm" name="rccm" value="GA-LBV-01-2024-B12-00345"></div>
+    <div class="field full"><label for="org-address">Adresse de l’organisme</label><input id="org-address" name="address" value="Boulevard de l’Indépendance, Centre-ville"></div>
+    <div class="field"><label for="subject">Objet / référence interne</label><input id="subject" name="subject" placeholder="Précisions ou référence de la demande"></div>
+    <div class="field"><label for="distinction">Distinction par défaut (facultatif)</label><select id="distinction" name="distinction"><option value="">Définie personne par personne</option><option>Bronze</option><option>Argent</option><option>Or</option></select><small>La médaille choisie pour chaque récipiendaire prévaut.</small></div>
+    <div class="field full"><label for="general-notes">Informations complémentaires</label><textarea id="general-notes" name="generalNotes" placeholder="Précisions utiles au traitement du dossier…"></textarea></div>
+   </div></details>
+   <input id="recipient-count" name="recipientCount" type="hidden" value="0">
+  </div>
+ </article>
+</section>
+
+<section class="wizard-panel" data-step="2" hidden>
+ <article class="card">
+  <header class="card-head"><span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-people"></use></svg></span><div><h2>Récipiendaires proposés</h2><p>Renseignez chaque personne. L’ancienneté est estimée à partir de la date d’entrée dans l’organisme.</p></div></header>
+  <div class="card-body">
+   <div class="recipient-tools"><div><button class="btn btn-outline btn-sm" id="download-template" type="button"><svg class="icon" aria-hidden="true"><use href="#i-download"></use></svg>Télécharger le modèle CSV</button> <button class="btn btn-outline btn-sm" id="import-csv" type="button"><svg class="icon" aria-hidden="true"><use href="#i-file"></use></svg>Importer CSV</button><input id="import-csv-file" type="file" accept=".csv,text/csv" hidden></div><p id="recipient-count-label" aria-live="polite">Aucune personne ajoutée</p></div>
+   <article class="recipient-card"><div class="recipient-card-title"><span class="recipient-index" id="recipient-edit-badge">1</span><strong id="recipient-editor-title">Nouveau récipiendaire</strong></div><div class="form-grid">
+    <div class="field required"><label for="person-last">Nom</label><input autocomplete="family-name" id="person-last" required><span class="field-error">Renseignez le nom.</span></div>
+    <div class="field required"><label for="person-first">Prénom(s)</label><input autocomplete="given-name" id="person-first" required><span class="field-error">Renseignez les prénoms.</span></div>
+    <div class="field required"><label for="person-gender">Sexe</label><select id="person-gender" required><option value="">Sélectionner…</option><option>Masculin</option><option>Féminin</option><option>Autre</option><option>Non renseigné</option></select><span class="field-error">Sélectionnez le sexe.</span></div>
+    <div class="field required"><label for="person-job">Fonction</label><input id="person-job" required><span class="field-error">Renseignez la fonction.</span></div>
+    <div class="field required"><label for="person-start">Date d’entrée dans l’organisme</label><input id="person-start" type="date" required><small id="person-seniority-hint">L’ancienneté sera calculée à partir de cette date.</small><span class="field-error">Renseignez une date valide.</span></div>
+    <div class="field required"><label for="person-medal">Médaille proposée</label><select id="person-medal" required><option value="">Sélectionner…</option><option>Bronze</option><option>Argent</option><option>Or</option></select><span class="field-error">Sélectionnez une médaille.</span></div>
+    <div class="field required"><label for="person-nationality">Pays / Nationalité</label><input id="person-nationality" required value="Gabonaise"><span class="field-error">Renseignez le pays ou la nationalité.</span></div>
+    <div class="field required"><label for="person-status">Situation</label><select id="person-status" required><option selected>Vivant</option><option>Décédé</option></select><span class="field-error">Sélectionnez une situation.</span></div>
+    <div class="field"><label for="person-seniority">Ancienneté estimée</label><input id="person-seniority" readonly placeholder="Calculée à partir de la date d’entrée"></div>
+   </div>
+   <details class="optional-group recipient-extra"><summary>Informations complémentaires (facultatif)</summary><div class="form-grid">
+    <div class="field"><label for="person-birth">Date de naissance</label><input id="person-birth" type="date"></div>
+    <div class="field"><label for="naturalisation">Situation de naturalisation</label><select id="naturalisation"><option>Sans objet</option><option>Naturalisation déclarée</option><option>Justificatif à joindre</option></select></div>
+    <div class="field full"><label for="person-justif">Justificatifs nécessaires</label><input id="person-justif" placeholder="DTS, attestations professionnelles…"></div>
+    <div class="field full"><label for="person-special">Situation particulière pertinente</label><textarea id="person-special" placeholder="Précision facultative…"></textarea></div>
+   </div></details>
+   <div class="callout info" id="coherence-hint"><svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg><span>Le contrôle de cohérence de l’ancienneté est une indication de lecture uniquement ; il ne constitue pas une décision d’éligibilité.</span></div>
+   <button class="btn btn-primary" id="add-recipient" type="button"><svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Ajouter un récipiendaire</button>
+   </article>
+   <div class="recipient-pagination" id="recipient-pages" hidden><button class="btn btn-outline btn-sm" id="recipient-prev" type="button">Précédent</button><span id="recipient-page-label">Page 1 / 1</span><button class="btn btn-outline btn-sm" id="recipient-next" type="button">Suivant</button></div>
+   <div class="recipient-list" id="recipient-list" aria-live="polite"><div class="empty-state"><h3>Aucun récipiendaire ajouté</h3><p>Complétez les champs ci-dessus puis ajoutez une personne.</p></div></div>
+  </div>
+ </article>
+</section>
+
+<section class="wizard-panel" data-step="3" hidden>
+ <article class="card">
+  <header class="card-head"><span class="card-icon gold"><svg class="icon" aria-hidden="true"><use href="#i-file"></use></svg></span><div><h2>Pièces justificatives et DTS</h2><p>Joignez les pièces numérisées. Les noms s’affichent après sélection ; les fichiers restent dans votre navigateur.</p></div></header>
+  <div class="card-body">
+   <div class="callout info"><svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg><span>Les fichiers restent dans le navigateur (aucun serveur). Pour les conserver et les consulter depuis les autres pages du prototype, la taille totale sélectionnée est limitée à 1,2 Mo. Le courrier et la liste nominative sont requis ; la DTS et les autres pièces sont facultatives.</span></div>
+   <div class="file-stack">
+    <div class="file-upload-row"><span class="file-upload-icon"><svg class="icon" aria-hidden="true"><use href="#i-upload"></use></svg></span><div class="file-upload-copy"><label for="file-courrier"><strong>Courrier de demande <em>*</em></strong></label><small>Signé par le responsable de l’organisme.</small><span class="file-name" data-file-name="file-courrier">Aucun fichier choisi</span></div><input id="file-courrier" type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" required></div>
+    <div class="file-upload-row"><span class="file-upload-icon"><svg class="icon" aria-hidden="true"><use href="#i-upload"></use></svg></span><div class="file-upload-copy"><label for="file-recipients"><strong>Liste nominative des récipiendaires <em>*</em></strong></label><small>Noms, fonctions, dates d’entrée et médailles proposées.</small><span class="file-name" data-file-name="file-recipients">Aucun fichier choisi</span></div><input id="file-recipients" type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx,.csv" required></div>
+    <div class="file-upload-row"><span class="file-upload-icon"><svg class="icon" aria-hidden="true"><use href="#i-upload"></use></svg></span><div class="file-upload-copy"><label for="file-dts"><strong>DTS (déclaration de travail et de salaire)</strong><small>Facultatif — la référence de la DTS peut être complétée après le dépôt.</small><span class="file-name" data-file-name="file-dts">Aucun fichier choisi</span></label></div><input id="file-dts" type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"></div>
+    <div class="file-upload-row"><span class="file-upload-icon"><svg class="icon" aria-hidden="true"><use href="#i-upload"></use></svg></span><div class="file-upload-copy"><label for="file-annexes"><strong>Autres pièces</strong><small>Facultatif — tout document utile à l’instruction.</small><span class="file-name" data-file-name="file-annexes">Aucun fichier choisi</span></label></div><input id="file-annexes" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xls,.xlsx"></div>
+   </div>
+   <details class="optional-group"><summary>Pièces complémentaires selon la situation</summary><div class="form-grid">
+    <div class="file-tile"><label for="file-work"><strong>Autorisation de travail</strong> <span class="visually-muted">(si nécessaire)</span></label><input id="file-work" type="file" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"><div class="file-name" data-file-name="file-work">Aucun fichier choisi</div></div>
+    <div class="file-tile"><label for="file-particular"><strong>Justificatifs particuliers</strong> <span class="visually-muted">(facultatif)</span></label><input id="file-particular" type="file" multiple accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"><div class="file-name" data-file-name="file-particular">Aucun fichier choisi</div></div>
+   </div></details>
+   <div class="field-error" id="file-error" hidden>Ajoutez le courrier de demande et la liste nominative avant de continuer.</div>
+   <div class="generated-previews"><div><strong>Aperçu généré</strong><p class="table-sub">Exemples de documents de démonstration, sans valeur administrative.</p></div><button class="btn btn-outline btn-sm" data-generated="courrier" type="button"><svg class="icon" aria-hidden="true"><use href="#i-eye"></use></svg>Ouvrir le courrier</button><button class="btn btn-outline btn-sm" data-generated-download="courrier" type="button">Télécharger HTML</button><button class="btn btn-outline btn-sm" data-generated="liste" type="button"><svg class="icon" aria-hidden="true"><use href="#i-eye"></use></svg>Ouvrir la liste</button><button class="btn btn-outline btn-sm" data-generated-download="liste" type="button">Télécharger HTML</button></div>
+  </div>
+ </article>
+</section>
+
+<section class="wizard-panel" data-step="4" hidden>
+ <article class="card">
+  <header class="card-head"><span class="card-icon"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></span><div><h2>Récapitulatif</h2><p>Vérifiez les informations avant l’envoi.</p></div></header>
+  <div class="card-body"><div id="summary-content"></div>
+   <div class="callout info"><svg class="icon" aria-hidden="true"><use href="#i-info"></use></svg><span>Après l’envoi, le dossier est enregistré dans les données locales du prototype et passe au secrétariat pour vérification. Le transfert au Directeur régional n’intervient qu’après confirmation de conformité par le secrétariat. Aucune transmission administrative réelle n’est effectuée.</span></div>
+   <div class="field certify-field"><label><input id="certify-data" type="checkbox" required> Je certifie l’exactitude des informations transmises et la conformité des pièces jointes. <strong>*</strong></label><span class="field-error">Cochez la case de certification avant de soumettre le dossier.</span></div>
+   <div class="form-actions"><button class="btn btn-primary" id="confirm-submit" type="button"><svg class="icon" aria-hidden="true"><use href="#i-send"></use></svg>Soumettre le dossier</button></div>
+  </div>
+ </article>
+</section>
+<section class="card card-body" id="wizard-success" hidden aria-live="polite"><div class="empty-mark" style="background:var(--success-bg);color:var(--success)"><svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg></div><h2 style="font:400 25px var(--serif);color:var(--green);margin:6px 0">Dossier ajouté à la liste locale</h2><p class="visually-muted" id="success-ref"></p><div class="form-actions" style="justify-content:flex-start;margin-top:14px"><a class="btn btn-primary" id="success-link" href="demandeur-dossiers.html">Ouvrir mes dossiers</a><a class="btn btn-outline" href="demandeur-dashboard.html">Retour au tableau de bord</a></div></section>
+<div class="wizard-actions"><button type="button" class="btn btn-outline" id="step-back" disabled><svg class="icon" aria-hidden="true"><use href="#i-chevron"></use></svg> Précédent</button><span class="visually-muted" id="step-label">Étape 1 sur 4</span><button type="button" class="btn btn-primary" id="step-next">Suivant <svg class="icon" aria-hidden="true"><use href="#i-arrow"></use></svg></button></div>
+</form>
+ <footer class="site-footer"><span>Espace de travail MÉDITRA</span><span>Gabon · 2026</span></footer>
+</main></div></div>
+<div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="false"></div>
+<script>// Toutes les données métier sont fictives. localStorage ne sert qu'à conserver localement l'état du prototype ; aucune API ou donnée serveur n'est appelée.
+const APP = {"roleKey":"demandeur","roleName":"Demandeur · Entreprise","fullName":"Marie Nguema","initials":"MN","notifications":[{"id":"N1","type":"dossier","title":"Complément attendu — MDT-2026-0138","message":"Un justificatif d’ancienneté est demandé pour poursuivre l’instruction.","date":"2026-10-23","time":"14:12","read":false,"ref":"MDT-2026-0138"},{"id":"N2","type":"dossier","title":"Dossier en instruction — MDT-2026-0142","message":"Votre dossier a été pris en charge par le service des distinctions.","date":"2026-10-24","time":"09:30","read":false,"ref":"MDT-2026-0142"},{"id":"N3","type":"agenda","title":"Cérémonie régionale — 12 novembre","message":"Les informations pratiques de la cérémonie sont disponibles.","date":"2026-10-20","time":"11:05","read":true,"ref":""},{"id":"N4","type":"dossier","title":"Dossier transmis — MDT-2026-0126","message":"Votre dossier a été transmis à l’autorité destinataire.","date":"2026-10-19","time":"16:10","read":true,"ref":"MDT-2026-0126"}],"operations":[{"date":"2026-10-24T09:30:00","ref":"MDT-2026-0142","actor":"Agent instructeur","operation":"Vérification documentaire","oldStatus":"Reçu","newStatus":"En instruction","recipient":"DGT","result":"En cours","comment":"Contrôle des pièces professionnelles"},{"date":"2026-10-23T14:12:00","ref":"MDT-2026-0138","actor":"Secrétariat","operation":"Demande de complément","oldStatus":"En instruction","newStatus":"Complément demandé","recipient":"Société Générale Gabon","result":"Transmis","comment":"Justificatif d'ancienneté à compléter"},{"date":"2026-10-19T16:10:00","ref":"MDT-2026-0126","actor":"Directeur régional","operation":"Visa et transmission","oldStatus":"En instruction","newStatus":"Transmis","recipient":"DGT","result":"Enregistré localement","comment":"Dossier complet"},{"date":"2026-10-16T10:00:00","ref":"MDT-2026-0119","actor":"Chef de service","operation":"Décision individuelle","oldStatus":"En instruction","newStatus":"Approuvé","recipient":"Ministère du Travail","result":"Décision saisie","comment":"Trois candidatures retenues"},{"date":"2026-10-12T11:20:00","ref":"MDT-2026-0111","actor":"Ministre","operation":"Décision dossier","oldStatus":"En attente de décision","newStatus":"Refusé","recipient":"Société des Eaux du Gabon","result":"Décision saisie","comment":"Motivation consignée au dossier"},{"date":"2026-10-08T09:35:00","ref":"MDT-2026-0088","actor":"Régisseur","operation":"Quittance enregistrée","oldStatus":"En attente de paiement","newStatus":"Paiement partiel","recipient":"Gabon Bois & Forêts","result":"Partiel","comment":"Montant enregistré : 350 000 FCFA"},{"date":"2026-09-27T13:10:00","ref":"MDT-2026-0073","actor":"Régisseur","operation":"Paiement confirmé","oldStatus":"En attente de paiement","newStatus":"Payé","recipient":"Air Gabon Services","result":"Complet","comment":"Quittance rapprochée"},{"date":"2026-09-10T08:00:00","ref":"MDT-2026-0061","actor":"Chef de service","operation":"Archivage","oldStatus":"Clôturé","newStatus":"Archivé","recipient":"Archives","result":"Versé aux archives","comment":"Campagne 2026"}]};
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const clone = x => JSON.parse(JSON.stringify(x));
+const roleKey = key => `meditra.frontend.${APP.roleKey}.${key}`;
+const sharedKey = key => `meditra.frontend.shared.${key}`;
+const memoryStore=Object.create(null);
+function safeRead(key, fallback){try{const raw=localStorage.getItem(key);if(raw!==null){memoryStore[key]=JSON.parse(raw);return clone(memoryStore[key])}}catch(_){}return Object.prototype.hasOwnProperty.call(memoryStore,key)?clone(memoryStore[key]):clone(fallback)}
+function safeWrite(key,value){memoryStore[key]=clone(value);try{localStorage.setItem(key,JSON.stringify(value))}catch(_){}return true}
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = value => new Intl.NumberFormat('fr-FR',{maximumFractionDigits:0}).format(Number(value)||0)+' FCFA';
+function dateFr(value,opts={day:'2-digit',month:'short',year:'numeric'}){if(!value)return '—';const d=new Date(String(value).length===10?value+'T12:00:00':value);return isNaN(d)?String(value):new Intl.DateTimeFormat('fr-FR',opts).format(d)}
+function statusTone(s){const v=String(s||'').toLowerCase();if(/approuv|validé|retenu|payé|complet|confirmé|réglé/.test(v))return 'success';if(/refus|rejet|bloqué|anomalie/.test(v))return 'danger';if(/complément|attente|traiter|instruction|préparation|à vérifier/.test(v))return 'warning';if(/transmis|visé|examiné|reçu/.test(v))return 'info';if(/en cours|prévu/.test(v))return 'pending';if(/archiv/.test(v))return 'neutral';return 'neutral'}
+function badge(status){return `<span class="status ${statusTone(status)}">${esc(status||'Non renseigné')}</span>`}
+function toast(message,tone='success'){const root=$('#toast-stack');if(!root)return;const el=document.createElement('div');el.className=`toast ${tone}`;el.setAttribute('role',tone==='error'?'alert':'status');el.textContent=message;root.appendChild(el);setTimeout(()=>{el.classList.add('leaving');setTimeout(()=>el.remove(),220)},3500)}
+function openDialog(dialog){if(typeof dialog==='string')dialog=$('#'+dialog);if(dialog&&typeof dialog.showModal==='function'){if(!dialog.open)dialog.showModal()}else if(dialog){dialog.setAttribute('open','')}}
+function closeDialog(dialog){if(typeof dialog==='string')dialog=$('#'+dialog);if(dialog&&typeof dialog.close==='function'&&dialog.open)dialog.close();else if(dialog)dialog.removeAttribute('open')}
+function globalDossiers(seed){return safeRead(sharedKey('dossiers'),seed||[])}
+function saveGlobalDossiers(items){safeWrite(sharedKey('dossiers'),items)}
+function addOperation(op){const list=safeRead(sharedKey('operations'),APP.operations||[]);list.unshift({id:'OP-'+Date.now(),date:new Date().toISOString(),ref:op.ref||'—',actor:op.actor||APP.fullName,operation:op.operation||'Mise à jour',oldStatus:op.oldStatus||'—',newStatus:op.newStatus||'—',recipient:op.recipient||'—',result:op.result||'Enregistré localement',comment:op.comment||''});safeWrite(sharedKey('operations'),list.slice(0,120))}
+function addHistory(d,title,actor=APP.fullName){d.history=d.history||[];d.history.unshift({date:new Date().toISOString(),title,actor})}
+function svg(name){return `<svg class="icon" aria-hidden="true"><use href="#i-${esc(name)}"></use></svg>`}
+function updateDossier(d){const seed=typeof DEMO_DOSSIERS!=='undefined'?DEMO_DOSSIERS:[];const items=globalDossiers(seed);const i=items.findIndex(x=>x.ref===d.ref);if(i>=0)items[i]=d;else items.unshift(d);saveGlobalDossiers(items)}
+const Meditra={APP,$,$$,esc,money,dateFr,badge,statusTone,toast,openDialog,closeDialog,readRole:(k,f)=>safeRead(roleKey(k),f),writeRole:(k,v)=>safeWrite(roleKey(k),v),readGlobal:(k,f)=>safeRead(sharedKey(k),f),writeGlobal:(k,v)=>safeWrite(sharedKey(k),v),globalDossiers,saveGlobalDossiers,addOperation,addHistory,updateDossier};
+window.Meditra=Meditra;
+const Med=Meditra;
+// Navigation horizontale : clavier, clic extérieur, menu Dossiers et mobile.
+const navToggle=$('#primary-nav-toggle'),nav=$('#primary-nav');const closePrimaryNav=()=>{if(nav&&navToggle){nav.classList.remove('open');navToggle.setAttribute('aria-expanded','false')}};if(navToggle&&nav){navToggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');navToggle.setAttribute('aria-expanded',String(open))});nav.addEventListener('click',e=>{const trigger=e.target.closest('.nav-dropdown-trigger');if(trigger){const wrap=trigger.closest('[data-nav-dropdown]');const panel=wrap?.querySelector('.nav-dropdown-panel');const open=trigger.getAttribute('aria-expanded')!=='true';$$('[data-nav-dropdown] .nav-dropdown-trigger').forEach(b=>{b.setAttribute('aria-expanded','false');const p=b.closest('[data-nav-dropdown]')?.querySelector('.nav-dropdown-panel');if(p)p.hidden=true});if(panel){panel.hidden=!open;trigger.setAttribute('aria-expanded',String(open))}e.preventDefault();return}if(e.target.closest('a'))closePrimaryNav()});document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePrimaryNav();$$('.nav-dropdown-trigger').forEach(b=>{if(b.getAttribute('aria-expanded')==='true'){b.setAttribute('aria-expanded','false');const p=b.closest('[data-nav-dropdown]')?.querySelector('.nav-dropdown-panel');if(p)p.hidden=true;b.focus()}})}});document.addEventListener('click',e=>{if(!nav.contains(e.target)&&!navToggle.contains(e.target))closePrimaryNav();$$('[data-nav-dropdown]').forEach(w=>{if(!w.contains(e.target)){const b=w.querySelector('.nav-dropdown-trigger'),p=w.querySelector('.nav-dropdown-panel');if(b){b.setAttribute('aria-expanded','false');if(p)p.hidden=true}}})})}
+// Le compteur de notifications est calculé depuis les données locales du rôle.
+const noteList=safeRead(roleKey('notifications'),APP.notifications||[]);const countEl=$('[data-notify-count]');if(countEl){const count=noteList.filter(n=>!n.read).length;countEl.textContent=count;countEl.hidden=!count}
+document.addEventListener('click',e=>{const t=e.target.closest('[data-toast]');if(!t)return;const parts=t.dataset.toast.split('|');toast(parts[0],parts[1]||'success')});
+document.addEventListener('click',e=>{const close=e.target.closest('[data-close-dialog]');if(close){const d=close.closest('dialog');if(d)closeDialog(d)}});
+const DEMO_DOSSIERS = [{"ref":"MDT-2026-0142","organism":"Société Générale Gabon","applicant":"Marie Nguema","authority":"Direction générale du travail","deposit":"2026-10-02","activity":"2026-10-24","recipients":3,"stage":"Instruction DGT","status":"En instruction","progress":68,"campaign":"2026","amountExpected":450000,"amountPaid":0,"medals":{"Bronze":1,"Argent":1,"Or":1},"people":[{"name":"Jean-Pierre Obame","birth":"1973-05-22","nationality":"Gabonaise","naturalisation":"—","job":"Chef d'agence","start":"1992-04-01","years":34,"medal":"Or","state":"À examiner"},{"name":"Aline Mba","birth":"1981-08-10","nationality":"Gabonaise","naturalisation":"—","job":"Responsable clientèle","start":"2004-09-01","years":22,"medal":"Argent","state":"À examiner"},{"name":"Patrick Nzambe","birth":"1983-11-13","nationality":"Gabonaise","naturalisation":"—","job":"Chargé de conformité","start":"2008-02-15","years":18,"medal":"Bronze","state":"À examiner"}],"documents":[{"name":"Courrier de demande","category":"Courrier","status":"Reçu","date":"2026-10-02"},{"name":"Liste nominative","category":"Liste","status":"Validé","date":"2026-10-02"},{"name":"DTS et pièces professionnelles","category":"DTS","status":"À vérifier","date":"2026-10-02"},{"name":"Attestations CNSS","category":"Annexe","status":"Reçu","date":"2026-10-03"}],"history":[{"date":"2026-10-24T09:30:00","title":"Le dossier est en cours d'instruction","actor":"Service des distinctions"},{"date":"2026-10-03T11:15:00","title":"Pièces enregistrées au secrétariat","actor":"Secrétariat"},{"date":"2026-10-02T15:10:00","title":"Dossier déposé par l'organisme","actor":"Marie Nguema"}]},{"ref":"MDT-2026-0138","organism":"Société Générale Gabon","applicant":"Marie Nguema","authority":"Direction régionale de l'Estuaire","deposit":"2026-09-28","activity":"2026-10-23","recipients":2,"stage":"Compléments","status":"Complément demandé","progress":42,"campaign":"2026","amountExpected":300000,"amountPaid":0,"medals":{"Bronze":1,"Argent":1,"Or":0},"people":[{"name":"Aline Mba","birth":"1981-08-10","nationality":"Gabonaise","naturalisation":"—","job":"Responsable clientèle","start":"2004-09-01","years":22,"medal":"Argent","state":"À examiner"},{"name":"Stéphane Nziengui","birth":"1978-02-04","nationality":"Gabonaise","naturalisation":"—","job":"Responsable logistique","start":"2002-06-01","years":24,"medal":"Bronze","state":"À examiner"}],"documents":[{"name":"Courrier de demande","category":"Courrier","status":"Validé","date":"2026-09-28"},{"name":"DTS et pièces professionnelles","category":"DTS","status":"Complément requis","date":"2026-09-28"},{"name":"Justificatif de situation particulière","category":"Annexe","status":"À fournir","date":"2026-09-28"}],"history":[{"date":"2026-10-23T14:12:00","title":"Un complément a été demandé","actor":"Secrétariat"},{"date":"2026-09-28T10:45:00","title":"Dossier déposé","actor":"Marie Nguema"}]},{"ref":"MDT-2026-0134","organism":"Ministère de la Santé","applicant":"Direction des ressources humaines","authority":"Direction générale du travail","deposit":"2026-09-21","activity":"2026-10-21","recipients":5,"stage":"Contrôle initial","status":"À traiter","progress":20,"campaign":"2026","amountExpected":725000,"amountPaid":0,"medals":{"Bronze":2,"Argent":2,"Or":1},"people":[{"name":"Clarisse Moussavou","birth":"1975-04-12","nationality":"Gabonaise","naturalisation":"—","job":"Infirmière principale","start":"1996-01-08","years":30,"medal":"Or","state":"À examiner"},{"name":"Émile Mba Obame","birth":"1980-07-19","nationality":"Gabonaise","naturalisation":"—","job":"Gestionnaire de santé","start":"2001-03-11","years":25,"medal":"Argent","state":"À examiner"},{"name":"Lucie Nziengui","birth":"1986-01-08","nationality":"Gabonaise","naturalisation":"—","job":"Sage-femme","start":"2009-04-02","years":17,"medal":"Bronze","state":"À examiner"},{"name":"André Moussavou","birth":"1982-06-25","nationality":"Gabonaise","naturalisation":"—","job":"Technicien de laboratoire","start":"2005-01-05","years":21,"medal":"Argent","state":"À examiner"},{"name":"Rose Kassa","birth":"1988-12-03","nationality":"Gabonaise","naturalisation":"—","job":"Aide-soignante","start":"2010-09-01","years":16,"medal":"Bronze","state":"À examiner"}],"documents":[{"name":"Courrier de demande","category":"Courrier","status":"À vérifier","date":"2026-09-21"},{"name":"Liste nominative","category":"Liste","status":"Reçu","date":"2026-09-21"},{"name":"DTS et pièces professionnelles","category":"DTS","status":"Reçu","date":"2026-09-21"}],"history":[{"date":"2026-10-21T08:40:00","title":"Dossier affecté au contrôle initial","actor":"Secrétariat"}]},{"ref":"MDT-2026-0126","organism":"Gabon Télécom SA","applicant":"Pauline Essono","authority":"Direction régionale de l'Estuaire","deposit":"2026-09-09","activity":"2026-10-19","recipients":4,"stage":"Transmission DGT","status":"Transmis","progress":78,"campaign":"2026","amountExpected":600000,"amountPaid":0,"medals":{"Bronze":1,"Argent":2,"Or":1},"people":[{"name":"Alain Ndong","birth":"1974-01-16","nationality":"Gabonaise","naturalisation":"—","job":"Technicien réseau","start":"1994-02-01","years":32,"medal":"Or","state":"Retenu"},{"name":"Odette Mba","birth":"1979-03-08","nationality":"Gabonaise","naturalisation":"—","job":"Gestionnaire","start":"2001-05-15","years":25,"medal":"Argent","state":"Retenu"},{"name":"Michel Minko","birth":"1984-11-20","nationality":"Gabonaise","naturalisation":"—","job":"Agent de maintenance","start":"2007-07-01","years":19,"medal":"Argent","state":"À examiner"},{"name":"Nadine Obiang","birth":"1987-02-14","nationality":"Gabonaise","naturalisation":"—","job":"Assistante support","start":"2011-02-01","years":15,"medal":"Bronze","state":"À examiner"}],"documents":[{"name":"Courrier de demande","category":"Courrier","status":"Validé","date":"2026-09-09"},{"name":"Liste nominative","category":"Liste","status":"Validé","date":"2026-09-09"},{"name":"DTS et pièces professionnelles","category":"DTS","status":"Validé","date":"2026-09-10"}],"history":[{"date":"2026-10-19T16:10:00","title":"Dossier transmis pour instruction","actor":"Direction régionale"}]},{"ref":"MDT-2026-0119","organism":"Port-Gentil Énergie","applicant":"Nadine Avaro","authority":"Ministère du Travail","deposit":"2026-08-30","activity":"2026-10-16","recipients":3,"stage":"Décision rendue","status":"Approuvé","progress":100,"campaign":"2026","amountExpected":450000,"amountPaid":450000,"medals":{"Bronze":1,"Argent":1,"Or":1},"people":[{"name":"Henri Bouanga","birth":"1968-02-11","nationality":"Gabonaise","naturalisation":"—","job":"Chef de chantier","start":"1988-03-01","years":38,"medal":"Or","state":"Retenu"},{"name":"Sophie Obame","birth":"1977-06-30","nationality":"Gabonaise","naturalisation":"—","job":"Comptable principale","start":"2000-09-01","years":26,"medal":"Argent","state":"Retenu"},{"name":"Félix Ndong","birth":"1983-04-03","nationality":"Gabonaise","naturalisation":"—","job":"Conducteur d'engins","start":"2008-02-01","years":18,"medal":"Bronze","state":"Retenu"}],"documents":[{"name":"Dossier complet","category":"Dossier","status":"Validé","date":"2026-08-30"},{"name":"Décision","category":"Décision","status":"Validé","date":"2026-10-16"}],"history":[{"date":"2026-10-16T10:00:00","title":"Dossier approuvé","actor":"Ministère du Travail"}]},{"ref":"MDT-2026-0111","organism":"Société des Eaux du Gabon","applicant":"Service RH","authority":"Ministère du Travail","deposit":"2026-08-18","activity":"2026-10-12","recipients":1,"stage":"Décision rendue","status":"Refusé","progress":100,"campaign":"2026","amountExpected":150000,"amountPaid":0,"medals":{"Bronze":0,"Argent":1,"Or":0},"people":[{"name":"Georges Pambou","birth":"1985-05-27","nationality":"Gabonaise","naturalisation":"—","job":"Agent technique","start":"2010-01-11","years":16,"medal":"Argent","state":"Refusé"}],"documents":[{"name":"Dossier complet","category":"Dossier","status":"Validé","date":"2026-08-18"},{"name":"Décision motivée","category":"Décision","status":"Validé","date":"2026-10-12"}],"history":[{"date":"2026-10-12T11:20:00","title":"Décision de refus enregistrée","actor":"Ministère du Travail"}]},{"ref":"MDT-2026-0097","organism":"Société Générale Gabon","applicant":"Marie Nguema","authority":"Direction générale du travail","deposit":"2026-07-14","activity":"2026-10-10","recipients":2,"stage":"Distinction attribuée","status":"Approuvé","progress":100,"campaign":"2026","amountExpected":300000,"amountPaid":300000,"medals":{"Bronze":1,"Argent":0,"Or":1},"people":[{"name":"Paul Ondo","birth":"1971-03-17","nationality":"Gabonaise","naturalisation":"—","job":"Directeur d'agence","start":"1990-06-01","years":36,"medal":"Or","state":"Retenu"},{"name":"Claire Moussavou","birth":"1986-02-19","nationality":"Gabonaise","naturalisation":"—","job":"Conseillère clientèle","start":"2010-04-05","years":16,"medal":"Bronze","state":"Retenu"}],"documents":[{"name":"Dossier complet","category":"Dossier","status":"Validé","date":"2026-07-14"},{"name":"Quittance de paiement","category":"Finances","status":"Validé","date":"2026-09-04"}],"history":[{"date":"2026-10-10T09:00:00","title":"Attribution confirmée","actor":"Service des distinctions"}]},{"ref":"MDT-2026-0088","organism":"Gabon Bois & Forêts","applicant":"Jean Tchoua","authority":"Régisseur","deposit":"2026-06-27","activity":"2026-10-08","recipients":6,"stage":"Paiement","status":"En attente de paiement","progress":88,"campaign":"2026","amountExpected":900000,"amountPaid":350000,"medals":{"Bronze":2,"Argent":3,"Or":1},"people":[{"name":"Cécile Ebang","birth":"1978-10-29","nationality":"Gabonaise","naturalisation":"—","job":"Responsable qualité","start":"2000-05-14","years":26,"medal":"Or","state":"Retenu"},{"name":"Blaise Mba","birth":"1981-03-09","nationality":"Gabonaise","naturalisation":"—","job":"Chef d'équipe","start":"2003-01-04","years":23,"medal":"Argent","state":"Retenu"},{"name":"Jeanne Ndong","birth":"1984-04-20","nationality":"Gabonaise","naturalisation":"—","job":"Assistante administrative","start":"2007-09-01","years":19,"medal":"Argent","state":"Retenu"},{"name":"Luc Moussavou","birth":"1980-12-18","nationality":"Gabonaise","naturalisation":"—","job":"Conducteur","start":"2002-08-01","years":24,"medal":"Argent","state":"Retenu"},{"name":"Mireille Nziengui","birth":"1988-05-25","nationality":"Gabonaise","naturalisation":"—","job":"Opératrice","start":"2010-05-17","years":16,"medal":"Bronze","state":"Retenu"},{"name":"Armand Obame","birth":"1990-11-07","nationality":"Gabonaise","naturalisation":"—","job":"Magasinier","start":"2012-02-01","years":14,"medal":"Bronze","state":"Retenu"}],"documents":[{"name":"Ordre de recette","category":"Finances","status":"Validé","date":"2026-09-19"},{"name":"Quittance partielle","category":"Finances","status":"À vérifier","date":"2026-10-08"}],"history":[{"date":"2026-10-08T09:35:00","title":"Paiement partiel enregistré","actor":"Régisseur"}]},{"ref":"MDT-2026-0073","organism":"Air Gabon Services","applicant":"Solange Nziengui","authority":"Régisseur","deposit":"2026-05-21","activity":"2026-09-27","recipients":2,"stage":"Clôturé","status":"Payé","progress":100,"campaign":"2026","amountExpected":300000,"amountPaid":300000,"medals":{"Bronze":1,"Argent":1,"Or":0},"people":[{"name":"Eric Nzambe","birth":"1975-03-12","nationality":"Gabonaise","naturalisation":"—","job":"Pilote technique","start":"1996-01-10","years":30,"medal":"Argent","state":"Retenu"},{"name":"Micheline Obiang","birth":"1985-08-23","nationality":"Gabonaise","naturalisation":"—","job":"Agent d'escale","start":"2009-09-01","years":17,"medal":"Bronze","state":"Retenu"}],"documents":[{"name":"Quittance","category":"Finances","status":"Validé","date":"2026-09-27"}],"history":[{"date":"2026-09-27T13:10:00","title":"Paiement confirmé","actor":"Régisseur"}]},{"ref":"MDT-2026-0061","organism":"Ministère de l'Équipement","applicant":"Direction des ressources humaines","authority":"Archives","deposit":"2026-05-03","activity":"2026-09-10","recipients":1,"stage":"Archives","status":"Archivé","progress":100,"campaign":"2026","amountExpected":150000,"amountPaid":150000,"medals":{"Bronze":0,"Argent":1,"Or":0},"people":[{"name":"Albert Mba","birth":"1970-01-11","nationality":"Gabonaise","naturalisation":"—","job":"Chef d'atelier","start":"1990-02-01","years":36,"medal":"Argent","state":"Retenu"}],"documents":[{"name":"Dossier clôturé","category":"Archive","status":"Validé","date":"2026-09-10"}],"history":[{"date":"2026-09-10T08:00:00","title":"Dossier versé aux archives","actor":"Chef de service"}]},{"ref":"MDT-2025-0198","organism":"Société Générale Gabon","applicant":"Marie Nguema","authority":"Direction régionale de l'Estuaire","deposit":"2025-11-18","activity":"2026-02-06","recipients":2,"stage":"Compléments","status":"Complément demandé","progress":55,"campaign":"2025","amountExpected":300000,"amountPaid":0,"medals":{"Bronze":0,"Argent":2,"Or":0},"people":[{"name":"Léon Mba","birth":"1978-07-07","nationality":"Gabonaise","naturalisation":"—","job":"Responsable paie","start":"2001-10-01","years":25,"medal":"Argent","state":"À examiner"},{"name":"Alice Moussavou","birth":"1982-09-18","nationality":"Gabonaise","naturalisation":"—","job":"Assistante RH","start":"2005-03-01","years":21,"medal":"Argent","state":"À examiner"}],"documents":[{"name":"Justificatif d'ancienneté","category":"DTS","status":"Complément requis","date":"2025-11-18"}],"history":[{"date":"2026-02-06T10:20:00","title":"Justificatif complémentaire demandé","actor":"Direction régionale"}]},{"ref":"MDT-2025-0145","organism":"Université Omar Bongo","applicant":"Dr Lucie Ndong","authority":"Direction générale du travail","deposit":"2025-09-30","activity":"2026-01-21","recipients":4,"stage":"Transmission DGT","status":"Transmis","progress":73,"campaign":"2025","amountExpected":600000,"amountPaid":0,"medals":{"Bronze":1,"Argent":2,"Or":1},"people":[{"name":"François Obame","birth":"1973-10-02","nationality":"Gabonaise","naturalisation":"—","job":"Administrateur","start":"1993-09-01","years":33,"medal":"Or","state":"À examiner"},{"name":"Gisèle Mba","birth":"1979-12-09","nationality":"Gabonaise","naturalisation":"—","job":"Bibliothécaire","start":"2001-01-11","years":25,"medal":"Argent","state":"À examiner"},{"name":"Martial Tchoua","birth":"1984-06-03","nationality":"Gabonaise","naturalisation":"—","job":"Technicien supérieur","start":"2007-02-01","years":19,"medal":"Argent","state":"À examiner"},{"name":"Emmanuelle Nziengui","birth":"1987-04-14","nationality":"Gabonaise","naturalisation":"—","job":"Secrétaire","start":"2010-04-01","years":16,"medal":"Bronze","state":"À examiner"}],"documents":[{"name":"Courrier de demande","category":"Courrier","status":"Validé","date":"2025-09-30"},{"name":"DTS","category":"DTS","status":"Validé","date":"2025-10-02"}],"history":[{"date":"2026-01-21T08:00:00","title":"Transmission à la Direction générale","actor":"Secrétariat"}]}];
+const DEMO_OPERATIONS = [{"date":"2026-10-24T09:30:00","ref":"MDT-2026-0142","actor":"Agent instructeur","operation":"Vérification documentaire","oldStatus":"Reçu","newStatus":"En instruction","recipient":"DGT","result":"En cours","comment":"Contrôle des pièces professionnelles"},{"date":"2026-10-23T14:12:00","ref":"MDT-2026-0138","actor":"Secrétariat","operation":"Demande de complément","oldStatus":"En instruction","newStatus":"Complément demandé","recipient":"Société Générale Gabon","result":"Transmis","comment":"Justificatif d'ancienneté à compléter"},{"date":"2026-10-19T16:10:00","ref":"MDT-2026-0126","actor":"Directeur régional","operation":"Visa et transmission","oldStatus":"En instruction","newStatus":"Transmis","recipient":"DGT","result":"Enregistré localement","comment":"Dossier complet"},{"date":"2026-10-16T10:00:00","ref":"MDT-2026-0119","actor":"Chef de service","operation":"Décision individuelle","oldStatus":"En instruction","newStatus":"Approuvé","recipient":"Ministère du Travail","result":"Décision saisie","comment":"Trois candidatures retenues"},{"date":"2026-10-12T11:20:00","ref":"MDT-2026-0111","actor":"Ministre","operation":"Décision dossier","oldStatus":"En attente de décision","newStatus":"Refusé","recipient":"Société des Eaux du Gabon","result":"Décision saisie","comment":"Motivation consignée au dossier"},{"date":"2026-10-08T09:35:00","ref":"MDT-2026-0088","actor":"Régisseur","operation":"Quittance enregistrée","oldStatus":"En attente de paiement","newStatus":"Paiement partiel","recipient":"Gabon Bois & Forêts","result":"Partiel","comment":"Montant enregistré : 350 000 FCFA"},{"date":"2026-09-27T13:10:00","ref":"MDT-2026-0073","actor":"Régisseur","operation":"Paiement confirmé","oldStatus":"En attente de paiement","newStatus":"Payé","recipient":"Air Gabon Services","result":"Complet","comment":"Quittance rapprochée"},{"date":"2026-09-10T08:00:00","ref":"MDT-2026-0061","actor":"Chef de service","operation":"Archivage","oldStatus":"Clôturé","newStatus":"Archivé","recipient":"Archives","result":"Versé aux archives","comment":"Campagne 2026"}];
+const DEMO_CEREMONIES = [{"id":"CER-2026-11-05","title":"Remise des médailles du Travail — Estuaire","type":"Cérémonie régionale","date":"2026-11-12","start":"09:00","end":"12:30","place":"Palais des Sports de Libreville","address":"Boulevard de l'Indépendance, Libreville","status":"Confirmée","attendees":180,"dossiers":["MDT-2026-0119","MDT-2026-0097"],"note":"Accueil des récipiendaires à partir de 08 h 15. Présentation d'une pièce d'identité requise."},{"id":"CER-2026-12-02","title":"Cérémonie nationale des distinctions","type":"Cérémonie nationale","date":"2026-12-04","start":"10:00","end":"13:00","place":"Cité de la Démocratie","address":"Libreville, Estuaire","status":"Préparation","attendees":240,"dossiers":["MDT-2026-0126","MDT-2026-0119"],"note":"Programme détaillé communiqué aux organismes après validation des préparatifs."},{"id":"CER-2027-01-18","title":"Remise sectorielle — Services publics","type":"Cérémonie sectorielle","date":"2027-01-21","start":"09:30","end":"11:30","place":"Salle polyvalente du Ministère du Travail","address":"Libreville, Estuaire","status":"En attente","attendees":95,"dossiers":["MDT-2026-0134"],"note":"Date de travail en attente de confirmation."}];
+const DEMO_STOCK_MOVES = [{"id":"ST-2026-0041","date":"2026-10-24T08:40:00","category":"Argent","type":"Entrée","quantity":60,"quantityIn":60,"quantityOut":0,"balance":236,"dossier":"—","author":"Georges Obame","reason":"Réception de stock de campagne"},{"id":"ST-2026-0040","date":"2026-10-22T14:10:00","category":"Or","type":"Sortie","quantity":12,"quantityIn":0,"quantityOut":12,"balance":84,"dossier":"MDT-2026-0119","author":"Georges Obame","reason":"Préparation d’une cérémonie"},{"id":"ST-2026-0039","date":"2026-10-20T10:00:00","category":"Bronze","type":"Entrée","quantity":100,"quantityIn":100,"quantityOut":0,"balance":420,"dossier":"—","author":"Georges Obame","reason":"Réapprovisionnement de présentation"}];
+let step=1;let recipients=[];let editIndex=-1;let recipientPage=1;const RECIPIENT_PAGE_SIZE=4;const panels=$$('.wizard-panel');const form=$('#wizard-form');
+const fieldVal=id=>$('#'+id)?.value?.trim()||'—';
+const escapeText=value=>esc(String(value??''));
+function showStep(n){step=Math.max(1,Math.min(4,n));panels.forEach(p=>p.hidden=Number(p.dataset.step)!==step);$$('[data-step-indicator]').forEach(el=>{const i=Number(el.dataset.stepIndicator);el.classList.toggle('active',i===step);el.classList.toggle('done',i<step)});$('#step-back').disabled=step===1;$('#step-next').hidden=step===4;$('#step-label').textContent=`Étape ${step} sur 4`;if(step===4)renderSummary();window.scrollTo({top:0,behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'})}
+function markField(el,ok){const box=el?.closest('.field');if(box)box.classList.toggle('invalid',!ok);return ok}
+function validateStep(n){let ok=true;if(n===1){const ids=['request-type','org-name','org-type','org-sector','org-city','authority','representative','contact-email','contact-phone','campaign'];if($('#request-type').value!=='Nouvelle demande')ids.push('linked-dossier');ids.forEach(id=>{const el=$('#'+id);const valid=!!el.value.trim()&&el.checkValidity();if(!markField(el,valid))ok=false});if(!ok){const bad=$('.field.invalid input,.field.invalid select');bad?.focus();toast('Vérifiez les champs obligatoires signalés.','error')}}if(n===2){if(editIndex>=0){toast('Enregistrez les modifications du récipiendaire avant de continuer.','error');$('#person-last').focus();return false}if(!recipients.length){toast('Ajoutez au moins un récipiendaire à la liste.','error');$('#recipient-list').scrollIntoView({block:'center',behavior:'smooth'});return false}}if(n===3){const hasCourrier=$('#file-courrier').files.length>0,hasList=$('#file-recipients').files.length>0;const valid=hasCourrier&&hasList;$('#file-error').hidden=valid;markField($('#file-courrier'),hasCourrier);markField($('#file-recipients'),hasList);if(!valid){toast('Le courrier de demande et la liste nominative sont requis.','error');return false}}return ok}
+$('#step-next').addEventListener('click',()=>{if(validateStep(step))showStep(step+1)});$('#step-back').addEventListener('click',()=>showStep(step-1));
+const allKnownDossiers=()=>globalDossiers(DEMO_DOSSIERS);
+function fillLinkedDossiers(){const select=$('#linked-dossier');const keep=select.value;const list=allKnownDossiers();select.innerHTML='<option value="">Sélectionnez un dossier existant…</option>'+list.map(d=>`<option value="${escapeText(d.ref)}">${escapeText(d.ref)} — ${escapeText(d.organism||'Organisme')} · ${escapeText(d.status||d.stage||'')}</option>`).join('');if(list.some(d=>d.ref===keep))select.value=keep}
+function updateRequestType(){const isLinked=$('#request-type').value!=='Nouvelle demande';$('#linked-dossier-field').hidden=!isLinked;$('#linked-dossier').required=isLinked;if(isLinked)fillLinkedDossiers()}
+$('#request-type').addEventListener('change',updateRequestType);updateRequestType();
+function dateYears(start){if(!start)return 0;const d=new Date(start+'T12:00:00'),now=new Date();if(Number.isNaN(d.getTime())||d>now)return 0;let y=now.getFullYear()-d.getFullYear();if(now.getMonth()<d.getMonth()||(now.getMonth()===d.getMonth()&&now.getDate()<d.getDate()))y--;return Math.max(0,y)}
+function estimate(){const start=$('#person-start').value;const out=$('#person-seniority');const hint=$('#coherence-hint')?.querySelector('span');if(!start){out.value='';if(hint)hint.textContent='Le contrôle de cohérence de l’ancienneté est une indication de lecture uniquement ; il ne constitue pas une décision d’éligibilité.';return}const d=new Date(start+'T12:00:00');if(Number.isNaN(d.getTime())||d>new Date()){out.value='';if(hint)hint.textContent='La date d’entrée doit être une date passée ou aujourd’hui.';return}const years=dateYears(start);out.value=`${years} an${years>1?'s':''}`;const medal=$('#person-medal').value;let msg='Indication de lecture uniquement — aucune décision d’éligibilité.';if(medal==='Or'&&years<30)msg='À vérifier : l’ancienneté semble inférieure à un repère indicatif pour le niveau Or.';else if(medal==='Argent'&&years<20)msg='À vérifier : l’ancienneté semble inférieure à un repère indicatif pour le niveau Argent.';else if(medal==='Bronze'&&years<10)msg='À vérifier : l’ancienneté semble inférieure à un repère indicatif pour le niveau Bronze.';if(hint)hint.textContent=msg}
+const todayISO=new Date().toISOString().slice(0,10);$('#person-start').max=todayISO;$('#person-start').addEventListener('change',estimate);$('#person-medal').addEventListener('change',estimate);
+const personFieldIds=['person-last','person-first','person-gender','person-job','person-start','person-medal','person-nationality','person-status'];
+function readPerson(){return{last:$('#person-last').value.trim(),first:$('#person-first').value.trim(),gender:$('#person-gender').value,job:$('#person-job').value.trim(),start:$('#person-start').value,years:dateYears($('#person-start').value),nationality:$('#person-nationality').value.trim(),status:$('#person-status').value,medal:$('#person-medal').value,birth:$('#person-birth').value,naturalisation:$('#naturalisation').value,justif:$('#person-justif').value.trim(),special:$('#person-special').value.trim()}}
+function resetPerson(){personFieldIds.forEach(id=>{const el=$('#'+id);el.value=id==='person-nationality'?'Gabonaise':id==='person-status'?'Vivant':'';markField(el,true)});$('#person-birth').value='';$('#naturalisation').selectedIndex=0;$('#person-justif').value='';$('#person-special').value='';$('#person-seniority').value='';$('.recipient-extra').open=false;$('#add-recipient').innerHTML='<svg class="icon" aria-hidden="true"><use href="#i-plus"></use></svg>Ajouter un récipiendaire';$('#recipient-editor-title').textContent='Nouveau récipiendaire';$('#recipient-edit-badge').textContent=String(recipients.length+1);editIndex=-1;estimate()}
+function renderRecipients(){const box=$('#recipient-list'),pages=$('#recipient-pages'),totalPages=Math.max(1,Math.ceil(recipients.length/RECIPIENT_PAGE_SIZE));recipientPage=Math.max(1,Math.min(recipientPage,totalPages));$('#recipient-count').value=String(recipients.length);$('#recipient-count-label').textContent=recipients.length?`${recipients.length} récipiendaire${recipients.length>1?'s':''} sur ce dossier`:'Aucun récipiendaire ajouté';pages.hidden=!recipients.length;$('#recipient-page-label').textContent=`Page ${recipientPage} / ${totalPages}`;$('#recipient-prev').disabled=recipientPage<=1;$('#recipient-next').disabled=recipientPage>=totalPages;if(!recipients.length){box.innerHTML='<div class="empty-state"><h3>Aucun récipiendaire ajouté</h3><p>Complétez les champs ci-dessus puis ajoutez une personne.</p></div>';return}const start=(recipientPage-1)*RECIPIENT_PAGE_SIZE;box.innerHTML=recipients.slice(start,start+RECIPIENT_PAGE_SIZE).map((p,offset)=>{const i=start+offset;const initials=`${(p.first||'')[0]||''}${(p.last||'')[0]||''}`.toUpperCase();const details=[p.gender,p.job,`${p.years??dateYears(p.start)} an${(p.years??dateYears(p.start))>1?'s':''} d’ancienneté`,p.medal,p.status].filter(Boolean).map(escapeText).join(' · ');return`<div class="recipient-row"><span class="avatar">${escapeText(initials)}</span><div class="list-main"><div class="list-title">${escapeText(p.first)} ${escapeText(p.last)}</div><div class="list-sub">${details}</div><div class="list-sub">Entrée : ${escapeText(dateFr(p.start))} · ${escapeText(p.nationality||'—')}</div></div><button class="btn btn-outline btn-sm" type="button" data-edit-person="${i}">Modifier</button><button class="btn btn-danger btn-sm" type="button" data-remove-person="${i}" aria-label="Retirer ${escapeText(p.first)} ${escapeText(p.last)}">Retirer</button></div>`}).join('')}
+$('#add-recipient').addEventListener('click',()=>{let ok=true;personFieldIds.forEach(id=>{const el=$('#'+id);let valid=!!el.value.trim()&&el.checkValidity();if(id==='person-start'&&el.value>todayISO)valid=false;if(!markField(el,valid))ok=false});if(!ok){toast('Complétez les champs obligatoires du récipiendaire.','error');return}const person=readPerson();const wasEditing=editIndex>=0;if(wasEditing)recipients[editIndex]=person;else recipients.push(person);recipientPage=Math.ceil(recipients.length/RECIPIENT_PAGE_SIZE);resetPerson();renderRecipients();toast(wasEditing?'Récipiendaire mis à jour.':'Récipiendaire ajouté à la liste.','success')});
+$('#recipient-list').addEventListener('click',e=>{const edit=e.target.closest('[data-edit-person]'),remove=e.target.closest('[data-remove-person]');if(remove){recipients.splice(Number(remove.dataset.removePerson),1);recipientPage=Math.max(1,Math.min(recipientPage,Math.ceil(recipients.length/RECIPIENT_PAGE_SIZE)||1));renderRecipients();toast('Récipiendaire retiré de la liste.','info')}if(edit){editIndex=Number(edit.dataset.editPerson);const p=recipients[editIndex];const values={'person-last':p.last,'person-first':p.first,'person-gender':p.gender||'Non renseigné','person-job':p.job,'person-start':p.start,'person-medal':p.medal,'person-nationality':p.nationality,'person-status':p.status||'Vivant','person-birth':p.birth,'naturalisation':p.naturalisation||'Sans objet','person-justif':p.justif,'person-special':p.special};Object.entries(values).forEach(([id,v])=>{if($('#'+id))$('#'+id).value=v||''});$('#person-seniority').value=`${p.years??dateYears(p.start)} an${(p.years??dateYears(p.start))>1?'s':''}`;$('.recipient-extra').open=!!(p.birth||p.justif||p.special||(p.naturalisation&&p.naturalisation!=='Sans objet'));$('#recipient-edit-badge').textContent=String(editIndex+1);$('#recipient-editor-title').textContent=`Modifier le récipiendaire ${editIndex+1}`;$('#add-recipient').innerHTML='<svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>Enregistrer les modifications';estimate();window.scrollTo({top:$('[data-step="2"]').offsetTop-80,behavior:'smooth'})}});
+$('#recipient-prev').addEventListener('click',()=>{recipientPage=Math.max(1,recipientPage-1);renderRecipients()});$('#recipient-next').addEventListener('click',()=>{recipientPage=Math.min(Math.ceil(recipients.length/RECIPIENT_PAGE_SIZE),recipientPage+1);renderRecipients()});
+function mapLegacyPerson(p){const full=String(p.name||'').trim().split(/\s+/);const last=full.length>1?full.pop():full[0]||'';const first=full.join(' ')||'';return{last,first,gender:p.gender||p.sex||'Non renseigné',job:p.job||'',start:p.start||'',years:Number(p.years)||dateYears(p.start),nationality:p.nationality||'Gabonaise',status:p.situation||(['Vivant','Décédé'].includes(p.status)?p.status:'Vivant'),medal:p.medal||'',birth:p.birth||'',naturalisation:p.naturalisation||'Sans objet',justif:p.justif||'',special:p.special||''}}
+$('#linked-dossier').addEventListener('change',()=>{if(recipients.length)return;const d=allKnownDossiers().find(x=>x.ref===$('#linked-dossier').value);if(d?.people?.length){recipients=d.people.map(mapLegacyPerson);recipientPage=1;renderRecipients();toast(`${recipients.length} récipiendaire(s) repris du dossier ${d.ref}. Vérifiez les informations à l’étape 2.`,'info')}});
+function parseCSV(text){const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const c=text[i];if(quoted){if(c==='"'&&text[i+1]==='"'){cell+='"';i++}else if(c==='"')quoted=false;else cell+=c}else if(c==='"')quoted=true;else if(c===','){row.push(cell);cell=''}else if(c==='\n'){row.push(cell.replace(/\r$/,''));if(row.some(x=>x.trim()))rows.push(row);row=[];cell=''}else cell+=c}row.push(cell.replace(/\r$/,''));if(row.some(x=>x.trim()))rows.push(row);return rows}
+function normalizedHeader(value){return String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]/g,'')}
+function parseDate(value){const v=String(value||'').trim();if(/^\d{4}-\d{2}-\d{2}$/.test(v))return v;const m=v.match(/^(\d{1,2})[/.\-](\d{1,2})[/.\-](\d{4})$/);return m?`${m[3]}-${String(m[2]).padStart(2,'0')}-${String(m[1]).padStart(2,'0')}`:''}
+function downloadBlob(filename,blob){const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
+$('#download-template').addEventListener('click',()=>{const csv='Nom,Prénom,Sexe,Fonction,Date entrée (AAAA-MM-JJ),Médaille proposée,Pays / Nationalité,Situation\n';downloadBlob('modele-recipiendaires-meditra.csv',new Blob(['\ufeff',csv],{type:'text/csv;charset=utf-8'}));toast('Modèle CSV téléchargé.','success')});
+$('#import-csv').addEventListener('click',()=>$('#import-csv-file').click());$('#import-csv-file').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{const rows=parseCSV((await file.text()).replace(/^\uFEFF/,''));if(rows.length<2){toast('Le CSV ne contient aucune ligne de récipiendaire.','error');return}const headers=rows[0].map(normalizedHeader);const findHeader=patterns=>headers.findIndex(h=>patterns.some(p=>h.includes(p)));let ix={last:findHeader(['nom']),first:findHeader(['prenom']),gender:findHeader(['sexe']),job:findHeader(['fonction']),start:findHeader(['dateentree','datedentree','debutactivite']),medal:findHeader(['medaille']),nationality:findHeader(['nationalite','pays']),status:findHeader(['situation','statut'])};if(ix.last<0||ix.first<0){ix={last:0,first:1,gender:2,job:3,start:4,medal:5,nationality:6,status:7}}let added=0,invalid=0;for(const row of rows.slice(1)){const get=k=>ix[k]>=0?(row[ix[k]]||'').trim():'';const p={last:get('last'),first:get('first'),gender:get('gender')||'Non renseigné',job:get('job'),start:parseDate(get('start')),years:dateYears(parseDate(get('start'))),medal:get('medal'),nationality:get('nationality')||'Gabonaise',status:get('status')||'Vivant',birth:'',naturalisation:'Sans objet',justif:'',special:''};if(!p.last||!p.first||!p.job||!p.start||!p.medal){invalid++;continue}if(!['Masculin','Féminin','Autre','Non renseigné'].includes(p.gender))p.gender='Non renseigné';if(!['Bronze','Argent','Or'].includes(p.medal)){invalid++;continue}if(!['Vivant','Décédé'].includes(p.status))p.status='Vivant';recipients.push(p);added++}recipientPage=Math.max(1,Math.ceil(recipients.length/RECIPIENT_PAGE_SIZE));renderRecipients();if(added)toast(`${added} récipiendaire(s) importé(s)${invalid?` ; ${invalid} ligne(s) ignorée(s) (champs requis ou médaille invalide)`:''}.`,'success');else toast('Aucune ligne valide n’a été importée. Vérifiez les colonnes obligatoires du modèle.','error')}catch(err){console.error(err);toast('Impossible de lire ce fichier CSV.','error')}finally{e.target.value=''}});
+function getFiles(id){const input=$('#'+id);return input?.files?[...input.files]:[]}
+const fileDefinitions=[['file-courrier','Courrier de demande','Courrier'],['file-recipients','Liste nominative des récipiendaires','Liste nominative'],['file-dts','DTS (déclaration de travail et de salaire)','DTS'],['file-annexes','Autres pièces','Annexe'],['file-work','Autorisation de travail','Autorisation'],['file-particular','Justificatifs particuliers','Justificatif']];
+fileDefinitions.forEach(([id,label])=>$('#'+id).addEventListener('change',e=>{const files=[...e.target.files];const out=$(`[data-file-name="${id}"]`);if(out)out.textContent=files.length?files.map(f=>`${f.name} (${Math.ceil(f.size/1024)} Ko)`).join(' · '):'Aucun fichier choisi';markField(e.target,files.length>0||!e.target.required);if(id==='file-courrier'||id==='file-recipients')$('#file-error').hidden=!!($('#file-courrier').files.length&&$('#file-recipients').files.length)}));
+form.addEventListener('input',e=>{const el=e.target;if(el.matches('input,select,textarea')&&el.required&&el.type!=='file')markField(el,!!el.value.trim()&&el.checkValidity())});
+function fileRecords(){const date=new Date().toISOString().slice(0,10);const out=[];fileDefinitions.forEach(([id,label,category])=>getFiles(id).forEach(file=>out.push({name:label,category,status:'Reçu',date,file:file.name,fileName:file.name,mimeType:file.type||'application/octet-stream',size:file.size,inputId:id,localExample:true})));return out}async function fileRecordsWithContent(){const records=fileRecords();const total=records.reduce((sum,d)=>sum+(Number(d.size)||0),0);if(total>1200000)throw new Error('LOCAL_FILE_LIMIT');for(const doc of records){const file=getFiles(doc.inputId).find(f=>f.name===doc.fileName);if(file)doc.dataUrl=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(reader.result);reader.onerror=()=>reject(reader.error||new Error('Lecture impossible'));reader.readAsDataURL(file)});delete doc.inputId}return records}
+function summaryGroup(title,stepNo,content){return`<section class="summary-group"><header><span>${title}</span><button class="summary-edit" type="button" data-goto-step="${stepNo}">✎ Modifier</button></header>${content}</section>`}
+function renderSummary(){const type=fieldVal('request-type'),linked=$('#linked-dossier').value;const applicant=`<div class="summary-grid"><div class="summary-item"><div class="info-label">Type de demande</div><div class="info-value">${escapeText(type)}</div></div><div class="summary-item"><div class="info-label">Organisme</div><div class="info-value">${escapeText(fieldVal('org-name'))}</div></div><div class="summary-item"><div class="info-label">Autorité destinataire</div><div class="info-value">${escapeText(fieldVal('authority'))}</div></div><div class="summary-item"><div class="info-label">Voie de dépôt</div><div class="info-value">Dépôt du demandeur · ${escapeText(fieldVal('campaign'))}</div></div>${type!=='Nouvelle demande'?`<div class="summary-item"><div class="info-label">Dossier concerné</div><div class="info-value">${escapeText(linked||'—')}</div></div>`:''}<div class="summary-item"><div class="info-label">Ville / secteur</div><div class="info-value">${escapeText(fieldVal('org-city'))} · ${escapeText(fieldVal('org-sector'))}</div></div><div class="summary-item"><div class="info-label">Interlocuteur</div><div class="info-value">${escapeText(fieldVal('representative'))} · ${escapeText(fieldVal('representative-function'))}</div></div><div class="summary-item"><div class="info-label">Contact</div><div class="info-value">${escapeText(fieldVal('contact-email'))} · ${escapeText(fieldVal('contact-phone'))}</div></div></div>`;
+const people=recipients.map(p=>{const years=p.years??dateYears(p.start);return`<tr><td>${escapeText(p.last)} ${escapeText(p.first)}</td><td>${escapeText(p.gender||'—')}</td><td>${escapeText(p.job||'—')}</td><td>${years} an${years>1?'s':''}</td><td>${escapeText(p.medal||'—')}</td><td>${escapeText(p.status||'Vivant')}</td></tr>`}).join('');const peopleTable=`<div class="summary-table-wrap"><table class="summary-table"><thead><tr><th>Nom</th><th>Sexe</th><th>Fonction</th><th>Ancienneté</th><th>Médaille</th><th>Situation</th></tr></thead><tbody>${people||'<tr><td colspan="6">Aucun récipiendaire</td></tr>'}</tbody></table></div>`;
+const docs=fileRecords();const docHtml=docs.map(d=>`<div class="summary-doc-row"><span>${escapeText(d.name)}</span><small>${escapeText(d.file)}</small></div>`).join('')||'<div class="summary-doc-row"><span>Aucune pièce sélectionnée</span><small>À compléter à l’étape 3</small></div>';
+$('#summary-content').innerHTML=summaryGroup('Demande',1,applicant)+summaryGroup(`Récipiendaires (${recipients.length})`,2,peopleTable)+summaryGroup('Pièces jointes',3,docHtml)}
+$('#summary-content').addEventListener('click',e=>{const b=e.target.closest('[data-goto-step]');if(b)showStep(Number(b.dataset.gotoStep))});
+function generatedDocHtml(kind){const title=kind==='courrier'?'Courrier de demande — aperçu':'Liste nominative des récipiendaires — aperçu';const personRows=recipients.map((p,i)=>`<tr><td>${i+1}</td><td>${escapeText(p.last)} ${escapeText(p.first)}</td><td>${escapeText(p.gender||'—')}</td><td>${escapeText(p.job||'—')}</td><td>${escapeText(p.medal||'—')}</td><td>${escapeText(p.status||'Vivant')}</td></tr>`).join('');const body=kind==='courrier'?`<p><strong>Organisme demandeur :</strong> ${escapeText(fieldVal('org-name'))}</p><p><strong>Interlocuteur :</strong> ${escapeText(fieldVal('representative'))} — ${escapeText(fieldVal('representative-function'))}</p><p><strong>Autorité destinataire :</strong> ${escapeText(fieldVal('authority'))}</p><p><strong>Campagne :</strong> ${escapeText(fieldVal('campaign'))}</p><p><strong>Type :</strong> ${escapeText(fieldVal('request-type'))}</p><p><strong>Objet :</strong> ${escapeText(fieldVal('subject'))}</p><h2>Personnes proposées</h2><p>${recipients.length} récipiendaire(s) listé(s).</p>`:`<table><thead><tr><th>#</th><th>Nom</th><th>Sexe</th><th>Fonction</th><th>Médaille</th><th>Situation</th></tr></thead><tbody>${personRows||'<tr><td colspan="6">Aucun récipiendaire ajouté</td></tr>'}</tbody></table>`;return`<!doctype html><html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>body{font:15px/1.55 Arial,sans-serif;max-width:900px;margin:36px auto;padding:24px;color:#1d2e26;background:#fff}h1{color:#174d39;font-size:25px}h2{font-size:18px;color:#174d39}header{border-bottom:3px solid #c99b45;padding-bottom:14px;margin-bottom:22px}.notice{padding:12px;background:#fff6e6;border:1px solid #edd7a2;border-radius:8px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #d6dfd8;padding:9px;text-align:left;font-size:13px}th{background:#f3f7f4}@media print{body{margin:12mm}}
+#file-error:not([hidden]){display:block}.file-upload-row.invalid{border-color:var(--danger);background:#fff8f7}.file-upload-row.invalid .file-upload-icon{background:#fff0ef;color:var(--danger)}
+</style><body><header><strong>MÉDITRA · Ministère du Travail</strong><h1>${title}</h1></header><div class="notice">Aperçu généré par le prototype frontend. Ce document n’est ni une pièce administrative officielle ni une signature réelle.</div>${body}<p style="margin-top:26px;color:#66756d;font-size:12px">Généré localement le ${new Date().toLocaleDateString('fr-FR')} · Aucun envoi serveur effectué.</p></body></html>`}
+function openGenerated(kind){const html=generatedDocHtml(kind),blob=new Blob([html],{type:'text/html;charset=utf-8'}),url=URL.createObjectURL(blob),tab=window.open(url,'_blank');if(tab)tab.opener=null;else toast('Le navigateur a bloqué la nouvelle fenêtre. Autorisez les fenêtres surgissantes pour consulter l’aperçu.','error');setTimeout(()=>URL.revokeObjectURL(url),60000)}
+$$('[data-generated]').forEach(b=>b.addEventListener('click',()=>openGenerated(b.dataset.generated)));$$('[data-generated-download]').forEach(b=>b.addEventListener('click',()=>downloadBlob(`apercu-${b.dataset.generated}-meditra.html`,new Blob([generatedDocHtml(b.dataset.generated)],{type:'text/html;charset=utf-8'}))));
+function personForDossier(p){return{name:`${p.first} ${p.last}`.trim(),first:p.first,last:p.last,sex:p.gender,gender:p.gender,birth:p.birth||'',nationality:p.nationality,naturalisation:p.naturalisation,job:p.job,start:p.start,years:p.years??dateYears(p.start),medal:p.medal,situation:p.status,status:p.status,state:'À examiner',justif:p.justif||'',special:p.special||''}}
+$('#confirm-submit').addEventListener('click',async()=>{for(const n of [1,2,3]){if(!validateStep(n)){showStep(n);return}}if(!$('#certify-data').checked){markField($('#certify-data'),false);$('.certify-field').classList.add('invalid');$('#certify-data').focus();toast('Confirmez l’exactitude des informations avant de soumettre.','error');return}if($('#confirm-submit').dataset.submitted==='true')return;const type=fieldVal('request-type'),linked=$('#linked-dossier').value;const ok=window.confirm(`Soumettre le dossier ${type.toLowerCase()} de ${fieldVal('org-name')} au secrétariat ?\n\nCette action ne réalise qu’un enregistrement local de démonstration.`);if(!ok)return;$('#confirm-submit').disabled=true;const all=allKnownDossiers();const campaign=fieldVal('campaign');let suffix=String(Date.now()).slice(-6),ref=`MDT-${campaign}-${suffix}`;while(all.some(d=>d.ref===ref)){suffix=String(Number(suffix)+1).slice(-6);ref=`MDT-${campaign}-${suffix}`}const people=recipients.map(personForDossier);let documents;try{documents=await fileRecordsWithContent()}catch(err){$('#confirm-submit').disabled=false;toast(err.message==='LOCAL_FILE_LIMIT'?'La taille totale des fichiers dépasse la limite locale de 1,2 Mo. Réduisez la taille des pièces et réessayez.':'Un fichier n’a pas pu être lu dans ce navigateur.','error');return}const applicant=fieldVal('representative');const item={ref,requestType:type,linkedRef:linked||'',organism:fieldVal('org-name'),organizationType:fieldVal('org-type'),sector:fieldVal('org-sector'),city:fieldVal('org-city'),applicant,applicantFunction:fieldVal('representative-function'),contactEmail:fieldVal('contact-email'),contactPhone:fieldVal('contact-phone'),nif:fieldVal('nif'),rccm:fieldVal('rccm'),address:fieldVal('org-address'),authority:fieldVal('authority'),deposit:new Date().toISOString().slice(0,10),activity:new Date().toISOString().slice(0,10),recipients:people.length,stage:'Dossier reçu au secrétariat',status:'À traiter',progress:10,campaign,subject:fieldVal('subject'),distinction:fieldVal('distinction')==='—'?(people[0]?.medal||'À préciser'):fieldVal('distinction'),amountExpected:people.length*150000,amountPaid:0,medals:{Bronze:people.filter(p=>p.medal==='Bronze').length,Argent:people.filter(p=>p.medal==='Argent').length,Or:people.filter(p=>p.medal==='Or').length},people,documents,history:[{date:new Date().toISOString(),title:'Dossier soumis au secrétariat — simulation locale',actor:APP.fullName,comment:'Informations certifiées par le demandeur ; aucune transmission réelle.'}],notes:fieldVal('general-notes'),workflow:{secretariat:{status:'À vérifier',transferredAt:null},dr:{status:'En attente',visa:false},service:{status:'En attente'}}};try{saveGlobalDossiers(all);Med.addOperation({ref,actor:APP.fullName,operation:'Dossier soumis au secrétariat (simulation)',oldStatus:'—',newStatus:'À traiter',recipient:item.organism,result:'Enregistré localement'});$('#confirm-submit').dataset.submitted='true';panels.forEach(p=>p.hidden=true);$('.wizard-actions').hidden=true;$('#stepper').hidden=true;$('#wizard-success').hidden=false;$('.page-head')?.scrollIntoView({block:'start',behavior:'smooth'});$('#success-ref').textContent=`Référence locale : ${ref} · dossier remis au secrétariat pour vérification. Aucun envoi administratif n’a été effectué.`;$('#success-link').href=`demandeur-detail-dossier.html?id=${encodeURIComponent(ref)}`;toast('Dossier enregistré localement et placé en attente de vérification par le secrétariat.','success')}catch(err){console.error(err);$('#confirm-submit').disabled=false;toast('Le dossier n’a pas pu être enregistré dans ce navigateur. Libérez de l’espace de stockage puis réessayez.','error')}});
+showStep(1);</script><script>
+// Interface commune MÉDITRA (menu latéral, barre du haut, animations).
+(() => {
+  const q = (s, r = document) => r.querySelector(s);
+  const qa = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // La navigation horizontale est gérée plus haut dans le script de page.
+
+  // Apparition progressive des blocs principaux
+  const container = q('.container, .catalog');
+  if (container && !reduceMotion) {
+    let i = 0;
+    qa(':scope > *', container).forEach(block => {
+      if (block.matches('script, dialog, .site-footer')) return;
+      const targets = block.matches('.stat-grid, .grid-2, .grid-3, .catalog-grid') ? qa(':scope > *', block)
+        : block.matches('.grid-wide') ? qa(':scope > .stack > *, :scope > .card', block)
+        : [block];
+      targets.forEach(t => { t.style.setProperty('--i', Math.min(i++, 10)); t.classList.add('reveal'); });
+    });
+    // Retire la classe après l'animation pour ne pas gêner les rendus ultérieurs
+    setTimeout(() => qa('.reveal').forEach(el => el.classList.remove('reveal')), 1600);
+  }
+
+  // Chiffres des indicateurs : comptage animé (uniquement les nombres entiers simples)
+  if (!reduceMotion) {
+    qa('.stat-value').forEach(el => {
+      const raw = el.textContent.trim();
+      if (!/^\d{1,6}$/.test(raw)) return;
+      const target = Number(raw);
+      if (target < 2) return;
+      const start = performance.now(), dur = 1000;
+      let last = '0';
+      el.textContent = last;
+      const step = now => {
+        if (el.textContent !== last) return; // une mise à jour de la page a pris le relais
+        const t = Math.min((now - start) / dur, 1);
+        last = String(Math.round(target * (1 - Math.pow(1 - t, 3))));
+        el.textContent = last;
+        if (t < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    });
+  }
+
+  // Effet d'onde sur les boutons
+  document.addEventListener('pointerdown', e => {
+    const btn = e.target.closest('.btn');
+    if (!btn || btn.disabled || reduceMotion) return;
+    const r = btn.getBoundingClientRect(), size = Math.max(r.width, r.height) * 2;
+    const s = document.createElement('span');
+    s.className = 'ripple';
+    s.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
+    btn.appendChild(s);
+    setTimeout(() => s.remove(), 650);
+  });
+})();
+</script></body></html>

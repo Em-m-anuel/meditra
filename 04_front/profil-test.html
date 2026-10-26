@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MÉDITRA — Mon profil (page modèle).">
+  <meta name="theme-color" content="#0a3327">
+  <title>MÉDITRA — Mon profil</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* =====================================================================
+       MÉDITRA — CHARTE GRAPHIQUE (page modèle « profil »)
+       ---------------------------------------------------------------------
+       Couleurs   : vert institutionnel (--green*), or (--gold*), neutres.
+       Typo       : DM Serif Display (titres), Manrope (texte / interface).
+       Rayons     : 8px (champs, boutons), 12px (cartes), 999px (pastilles).
+       Espacement : multiples de 4px (4 · 8 · 12 · 16 · 20 · 24 · 32 · 40).
+       Icônes     : Lucide 0.468, trait 2, 16–18px.
+       Composants : .card, .btn, .badge, .form-control, .tabs, .stat,
+                    .info-grid, .list-row, .timeline, .switch, .drawer, .toast
+       Pour créer un autre profil : dupliquer ce fichier, changer
+       le bloc ROLE (badge + menu) et le contenu de <main>.
+       ===================================================================== */
+    :root{
+      --green:#0f4c3a;
+      --green-2:#1a6b52;
+      --green-dark:#0a3327;
+      --green-soft:#e8f3ee;
+      --gold:#c99b45;
+      --gold-soft:#f1cf91;
+      --gold-bg:#fbf5e9;
+      --success:#10b981;
+      --success-bg:#ecfdf5;
+      --warning:#d97706;
+      --warning-bg:#fffbeb;
+      --danger:#ef4444;
+      --danger-bg:#fef2f2;
+      --info:#2563eb;
+      --info-bg:#eff6ff;
+      --ink:#1f2937;
+      --muted:#6b7280;
+      --faint:#9ca3af;
+      --bg:#f8f9fa;
+      --paper:#ffffff;
+      --line:#e5e7eb;
+      --line-soft:#f1f2f4;
+      --serif:"DM Serif Display",Georgia,serif;
+      --sans:"Manrope",Arial,sans-serif;
+      --ease:cubic-bezier(.2,.8,.2,1);
+      --radius:12px;
+      --shadow-sm:0 1px 2px rgba(16,24,40,.04);
+      --shadow:0 1px 2px rgba(16,24,40,.04),0 4px 16px rgba(16,24,40,.04);
+      --shadow-lg:0 20px 50px rgba(10,51,39,.18);
+      --sidebar:264px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%}
+    body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+    button,input,select,textarea{font:inherit;color:inherit}
+    button{cursor:pointer;border:none;background:none;padding:0}
+    a{color:inherit;text-decoration:none}
+    h1,h2,h3,h4,p{margin:0}
+    [hidden]{display:none!important}
+    .lucide{width:18px;height:18px;stroke-width:2;flex:none}
+    :focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+    .form-control:focus-visible{outline:none}
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+    /* ===== Structure ===== */
+    .app{display:flex;min-height:100vh}
+
+    /* ===== Menu latéral ===== */
+    .sidebar{position:fixed;inset:0 auto 0 0;width:var(--sidebar);z-index:40;display:flex;flex-direction:column;color:#fff;background:linear-gradient(160deg,var(--green-dark) 0%,var(--green) 100%);overflow:hidden;transition:transform .4s var(--ease)}
+    .sidebar::before{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(255,255,255,.05) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(180deg,#000,transparent 70%);mask-image:linear-gradient(180deg,#000,transparent 70%)}
+    .sidebar::after{content:"";position:absolute;width:420px;height:420px;left:-140px;bottom:-200px;border-radius:50%;background:radial-gradient(circle,rgba(201,155,69,.16),transparent 70%);pointer-events:none}
+    .sb-brand{position:relative;z-index:1;display:flex;align-items:center;gap:12px;padding:22px 22px 20px;border-bottom:1px solid rgba(255,255,255,.08)}
+    .brand-mark{width:30px;height:auto;color:#fff;flex:none}
+    .brand-name{display:block;font-size:17px;line-height:1;font-weight:800;letter-spacing:.1em}
+    .brand-sub{display:block;margin-top:5px;font-size:9px;color:rgba(255,255,255,.55);letter-spacing:.06em;text-transform:uppercase}
+    .sb-close{display:none;margin-left:auto;width:32px;height:32px;border-radius:8px;place-items:center;color:rgba(255,255,255,.7)}
+    .sb-close:hover{background:rgba(255,255,255,.08);color:#fff}
+
+    .sb-nav{position:relative;z-index:1;flex:1;overflow-y:auto;padding:18px 14px;scrollbar-width:none}
+    .sb-nav::-webkit-scrollbar{display:none}
+    .sb-section{font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.4);padding:14px 10px 8px}
+    .sb-section:first-child{padding-top:0}
+    .sb-link{position:relative;display:flex;align-items:center;gap:12px;height:40px;padding:0 12px;border-radius:8px;font-size:13px;font-weight:600;color:rgba(255,255,255,.72);transition:background-color .2s,color .2s}
+    .sb-link .lucide{width:17px;height:17px;transition:transform .25s var(--ease)}
+    .sb-link:hover{background:rgba(255,255,255,.06);color:#fff}
+    .sb-link:hover .lucide{transform:translateX(2px)}
+    .sb-link.active{background:rgba(255,255,255,.1);color:#fff}
+    .sb-link.active::before{content:"";position:absolute;left:-14px;top:9px;bottom:9px;width:3px;border-radius:0 3px 3px 0;background:var(--gold)}
+    .sb-link.active .lucide{color:var(--gold-soft)}
+    .sb-count{margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:var(--gold);color:var(--green-dark);font-size:10px;font-weight:800;display:grid;place-items:center}
+
+    .sb-user{position:relative;z-index:1;margin:12px 14px 16px;padding:12px;border-radius:10px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+    .sb-user .avatar{width:36px;height:36px;font-size:12px}
+    .sb-user-name{font-size:12px;font-weight:700;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .sb-user-role{font-size:10.5px;color:rgba(255,255,255,.55)}
+    .sb-user > div{min-width:0;flex:1}
+    .sb-logout{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;color:rgba(255,255,255,.6);transition:background-color .2s,color .2s}
+    .sb-logout:hover{background:rgba(255,255,255,.1);color:#fff}
+    .sb-logout .lucide{width:16px;height:16px}
+
+    .overlay{position:fixed;inset:0;background:rgba(10,51,39,.45);backdrop-filter:blur(2px);z-index:35;opacity:0;pointer-events:none;transition:opacity .3s}
+
+    /* ===== Zone principale ===== */
+    .main{flex:1;min-width:0;margin-left:var(--sidebar);display:flex;flex-direction:column}
+
+    .topbar{position:sticky;top:0;z-index:20;height:68px;display:flex;align-items:center;gap:16px;padding:0 32px;background:rgba(248,249,250,.85);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid transparent;transition:border-color .2s,background-color .2s}
+    .topbar.scrolled{border-bottom-color:var(--line);background:rgba(255,255,255,.9)}
+    .menu-btn{display:none}
+    .crumbs{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);min-width:0}
+    .crumbs .lucide{width:14px;height:14px;color:var(--faint)}
+    .crumbs strong{color:var(--ink);font-weight:700;white-space:nowrap}
+    .crumbs a:hover{color:var(--green)}
+    .top-actions{margin-left:auto;display:flex;align-items:center;gap:8px}
+    .search{position:relative;width:260px}
+    .search .lucide{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--faint);pointer-events:none}
+    .search input{width:100%;height:38px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:0 44px 0 36px;font-size:12.5px;transition:border-color .2s,box-shadow .2s}
+    .search input:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,76,58,.1)}
+    .search kbd{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--sans);font-size:10px;font-weight:700;color:var(--faint);border:1px solid var(--line);border-radius:5px;padding:1px 6px;background:var(--bg)}
+    .icon-btn{position:relative;width:38px;height:38px;border-radius:8px;display:grid;place-items:center;color:var(--muted);transition:background-color .2s,color .2s}
+    .icon-btn:hover{background:#fff;color:var(--ink);box-shadow:var(--shadow-sm)}
+    .icon-btn .dot{position:absolute;top:9px;right:10px;width:7px;height:7px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 2px var(--bg)}
+    .icon-btn .dot::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--gold);animation:ping 2s ease-out infinite}
+    @keyframes ping{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.6);opacity:0}}
+    .top-user{display:flex;align-items:center;gap:10px;padding:4px 6px 4px 4px;border-radius:10px;margin-left:4px;transition:background-color .2s}
+    .top-user:hover{background:#fff;box-shadow:var(--shadow-sm)}
+    .top-user .avatar{width:32px;height:32px;font-size:11px}
+    .top-user span{font-size:12px;font-weight:700}
+
+    .content{flex:1;width:100%;max-width:1240px;margin:0 auto;padding:8px 32px 48px}
+
+    /* ===== Composants de base ===== */
+    .avatar{flex:none;border-radius:50%;display:grid;place-items:center;font-weight:800;letter-spacing:.02em;color:var(--green-dark);background:linear-gradient(135deg,var(--gold-soft),var(--gold))}
+
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+    .card-head{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line-soft)}
+    .card-head h3{font-size:14px;font-weight:800;letter-spacing:-.005em}
+    .card-head p{font-size:11.5px;color:var(--muted);margin-top:2px}
+    .card-icon{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;background:var(--green-soft);color:var(--green);flex:none}
+    .card-icon .lucide{width:16px;height:16px}
+    .card-head .btn{margin-left:auto}
+    .card-body{padding:20px 22px}
+
+    .btn{height:40px;padding:0 16px;border-radius:8px;font-size:12.5px;font-weight:700;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;position:relative;overflow:hidden;transition:background-color .2s,border-color .2s,color .2s,transform .2s var(--ease),box-shadow .2s}
+    .btn .lucide{width:15px;height:15px}
+    .btn-primary{background:var(--green);color:#fff}
+    .btn-primary:hover{background:var(--green-dark);transform:translateY(-1px);box-shadow:0 6px 16px rgba(15,76,58,.22)}
+    .btn-outline{background:#fff;border:1px solid var(--line);color:var(--ink)}
+    .btn-outline:hover{border-color:#d1d5db;background:#f9fafb}
+    .btn-ghost{color:var(--green);padding:0 10px;height:32px}
+    .btn-ghost:hover{background:var(--green-soft)}
+    .btn-light{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.18)}
+    .btn-light:hover{background:rgba(255,255,255,.2)}
+    .btn-gold{background:var(--gold);color:var(--green-dark)}
+    .btn-gold:hover{background:var(--gold-soft);transform:translateY(-1px);box-shadow:0 6px 16px rgba(201,155,69,.3)}
+    .btn-danger{background:#fff;border:1px solid #fecaca;color:var(--danger)}
+    .btn-danger:hover{background:var(--danger-bg)}
+    .btn-sm{height:32px;padding:0 12px;font-size:11.5px}
+    .btn:disabled{opacity:.7;cursor:progress;transform:none;box-shadow:none}
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:ripple .6s ease-out forwards;pointer-events:none}
+    .btn-outline .ripple,.btn-ghost .ripple,.btn-danger .ripple{background:rgba(15,76,58,.1)}
+    @keyframes ripple{to{transform:scale(1);opacity:0}}
+    .spin{animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .badge{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 10px;border-radius:999px;font-size:10.5px;font-weight:800;letter-spacing:.02em;white-space:nowrap}
+    .badge .lucide{width:12px;height:12px}
+    .badge::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;display:none}
+    .badge.dot::before{display:block}
+    .badge-success{background:var(--success-bg);color:#047857}
+    .badge-warning{background:var(--warning-bg);color:#b45309}
+    .badge-danger{background:var(--danger-bg);color:#b91c1c}
+    .badge-info{background:var(--info-bg);color:#1d4ed8}
+    .badge-gold{background:var(--gold-bg);color:#8a6420}
+    .badge-neutral{background:var(--line-soft);color:var(--muted)}
+    .badge-on-dark{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.16)}
+
+    /* ===== En-tête de profil ===== */
+    .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin:16px 0 20px}
+    .page-head h1{font-family:var(--serif);font-weight:400;font-size:30px;line-height:1.1;color:var(--green)}
+    .page-head p{color:var(--muted);margin-top:6px}
+
+    .profile-hero{position:relative;border-radius:16px;overflow:hidden;color:#fff;background:linear-gradient(135deg,var(--green-dark) 0%,var(--green) 60%,var(--green-2) 100%);box-shadow:var(--shadow-lg)}
+    .profile-hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);background-size:22px 22px;-webkit-mask-image:linear-gradient(90deg,transparent 30%,#000);mask-image:linear-gradient(90deg,transparent 30%,#000)}
+    .hero-glow{position:absolute;right:-80px;top:50%;width:460px;height:460px;transform:translateY(-50%);border-radius:50%;background:radial-gradient(circle,rgba(201,155,69,.22),transparent 68%);animation:glow 6s ease-in-out infinite alternate;pointer-events:none}
+    @keyframes glow{to{transform:translateY(-50%) scale(1.15);opacity:.75}}
+    .hero-orbit{position:absolute;right:56px;top:50%;width:230px;height:230px;transform:translateY(-50%);border-radius:50%;border:1px solid rgba(201,155,69,.32);pointer-events:none}
+    .hero-orbit::after{content:"";position:absolute;inset:-26px;border-radius:50%;border:1px dashed rgba(255,255,255,.12);animation:spin 40s linear infinite}
+    .hero-mark{position:absolute;right:118px;top:50%;width:106px;transform:translateY(-50%) rotate(-6deg);color:rgba(255,255,255,.22);pointer-events:none;animation:float 7s ease-in-out infinite}
+    @keyframes float{50%{transform:translateY(calc(-50% - 7px)) rotate(-4deg)}}
+    .hero-inner{position:relative;z-index:1;display:flex;align-items:center;gap:24px;padding:32px 36px}
+    .hero-avatar{position:relative;flex:none}
+    .hero-avatar .avatar{width:92px;height:92px;font-size:28px;box-shadow:0 0 0 4px rgba(255,255,255,.12),0 12px 28px rgba(0,0,0,.25)}
+    .hero-avatar .ring{position:absolute;inset:-8px;border-radius:50%;border:1.5px solid var(--gold);border-right-color:transparent;border-bottom-color:transparent;animation:spin 6s linear infinite}
+    .hero-avatar button{position:absolute;right:-2px;bottom:-2px;width:30px;height:30px;border-radius:50%;background:#fff;color:var(--green);display:grid;place-items:center;box-shadow:0 4px 10px rgba(0,0,0,.2);transition:transform .2s var(--ease)}
+    .hero-avatar button:hover{transform:scale(1.1)}
+    .hero-avatar button .lucide{width:14px;height:14px}
+    .hero-text{min-width:0;flex:1}
+    .hero-kicker{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-soft);margin-bottom:6px}
+    .hero-text h2{font-family:var(--serif);font-weight:400;font-size:32px;line-height:1.1;margin-bottom:10px}
+    .hero-tags{display:flex;flex-wrap:wrap;gap:8px}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:14px;font-size:12px;color:rgba(255,255,255,.72)}
+    .hero-meta span{display:inline-flex;align-items:center;gap:6px}
+    .hero-meta .lucide{width:14px;height:14px;color:var(--gold-soft)}
+    .hero-actions{display:flex;gap:8px;align-self:flex-start;margin-right:220px}
+
+    /* ===== Indicateurs ===== */
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:20px 0 24px}
+    .stat{position:relative;padding:18px 20px;overflow:hidden;transition:transform .25s var(--ease),box-shadow .25s}
+    .stat:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(16,24,40,.07)}
+    .stat-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .stat-label{font-size:11px;font-weight:700;color:var(--muted)}
+    .stat-icon{width:32px;height:32px;border-radius:9px;display:grid;place-items:center}
+    .stat-icon .lucide{width:16px;height:16px}
+    .stat-value{font-family:var(--serif);font-size:32px;line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+    .stat-foot{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:11px;color:var(--muted)}
+    .trend{display:inline-flex;align-items:center;gap:2px;font-weight:800}
+    .trend .lucide{width:12px;height:12px}
+    .trend.up{color:#047857}
+    .trend.down{color:#b91c1c}
+    .tone-green{background:var(--green-soft);color:var(--green)}
+    .tone-gold{background:var(--gold-bg);color:#8a6420}
+    .tone-info{background:var(--info-bg);color:var(--info)}
+    .tone-warning{background:var(--warning-bg);color:var(--warning)}
+
+    /* ===== Onglets ===== */
+    .tabs{position:relative;display:flex;gap:4px;border-bottom:1px solid var(--line);margin-bottom:20px;overflow-x:auto;scrollbar-width:none}
+    .tabs::-webkit-scrollbar{display:none}
+    .tab{position:relative;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 14px;font-size:12.5px;font-weight:700;color:var(--muted);white-space:nowrap;transition:color .2s}
+    .tab .lucide{width:15px;height:15px}
+    .tab:hover{color:var(--ink)}
+    .tab[aria-selected="true"]{color:var(--green)}
+    .tab .badge{height:18px;padding:0 7px;font-size:10px}
+    .tab-ink{position:absolute;bottom:-1px;left:0;height:2px;border-radius:2px;background:var(--gold);transition:transform .4s var(--ease),width .4s var(--ease)}
+    .panel{animation:panelIn .45s var(--ease) both}
+    @keyframes panelIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+    /* ===== Grille de contenu ===== */
+    .grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:20px;align-items:start}
+    .stack{display:flex;flex-direction:column;gap:20px;min-width:0}
+
+    .info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 28px}
+    .info-grid .full{grid-column:1/-1}
+    .info-label{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);margin-bottom:5px}
+    .info-value{font-size:13.5px;font-weight:600;color:var(--ink);word-break:break-word}
+    .info-value.empty{color:var(--faint);font-weight:500;font-style:italic}
+    .info-value .copy{margin-left:6px;vertical-align:-3px;color:var(--faint);transition:color .2s}
+    .info-value .copy:hover{color:var(--green)}
+    .info-value .copy .lucide{width:14px;height:14px}
+
+    /* Liste à lignes */
+    .list-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+    .list-row:last-child{border-bottom:none;padding-bottom:0}
+    .list-row:first-child{padding-top:0}
+    .list-icon{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;flex:none}
+    .list-icon .lucide{width:16px;height:16px}
+    .list-main{flex:1;min-width:0}
+    .list-title{font-size:12.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .list-sub{font-size:11px;color:var(--muted)}
+
+    /* Complétude */
+    .completion{display:flex;align-items:center;gap:18px}
+    .ring-chart{position:relative;width:88px;height:88px;flex:none}
+    .ring-chart svg{width:100%;height:100%;transform:rotate(-90deg)}
+    .ring-chart circle{fill:none;stroke-width:8}
+    .ring-chart .track{stroke:var(--line-soft)}
+    .ring-chart .bar{stroke:var(--gold);stroke-linecap:round;transition:stroke-dashoffset 1.4s var(--ease)}
+    .ring-chart strong{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:22px;font-weight:400;color:var(--ink)}
+    .checklist{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:8px}
+    .checklist li{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+    .checklist .lucide{width:15px;height:15px;color:#d1d5db}
+    .checklist li.done{color:var(--ink)}
+    .checklist li.done .lucide{color:var(--success)}
+
+    /* Encadré */
+    .callout{display:flex;gap:12px;padding:14px 16px;border-radius:10px;background:var(--gold-bg);border:1px solid #f1e3c4;font-size:12px;color:#7a5a1d;line-height:1.55}
+    .callout .lucide{width:17px;height:17px;color:var(--gold);margin-top:1px}
+    .callout strong{color:#5f4513}
+
+    /* Chronologie */
+    .timeline{position:relative;list-style:none;margin:0;padding:0}
+    .timeline::before{content:"";position:absolute;left:15px;top:6px;bottom:6px;width:1px;background:var(--line)}
+    .timeline li{position:relative;display:flex;gap:14px;padding-bottom:20px}
+    .timeline li:last-child{padding-bottom:0}
+    .tl-dot{position:relative;z-index:1;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:#fff;border:1px solid var(--line);flex:none}
+    .tl-dot .lucide{width:14px;height:14px}
+    .tl-title{font-size:12.5px;font-weight:700;padding-top:5px}
+    .tl-text{font-size:12px;color:var(--muted);margin-top:2px}
+    .tl-time{font-size:10.5px;color:var(--faint);margin-top:4px;font-weight:600}
+
+    /* Formulaires */
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px}
+    .form-grid .full{grid-column:1/-1}
+    .form-group{margin-bottom:16px;min-width:0}
+    .form-group label{display:block;font-size:11.5px;font-weight:700;margin-bottom:7px}
+    .form-group label span{color:var(--muted);font-weight:500}
+    .input-wrap{position:relative;display:flex;align-items:center}
+    .input-wrap > .lucide{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--faint);pointer-events:none;transition:color .2s}
+    .input-wrap:focus-within > .lucide{color:var(--green)}
+    .form-control{width:100%;height:44px;border:1px solid var(--line);border-radius:8px;padding:0 14px 0 40px;font-size:13px;background:#fff;transition:border-color .2s,box-shadow .2s}
+    .form-control.no-icon{padding-left:14px}
+    .form-control:hover{border-color:#d1d5db}
+    .form-control:focus{outline:none;border-color:var(--green);box-shadow:0 0 0 3px rgba(15,76,58,.1)}
+    .form-control::placeholder{color:var(--faint)}
+    .form-control[readonly]{background:var(--bg);color:var(--muted)}
+    .form-help{display:block;margin-top:6px;font-size:10.5px;color:var(--muted)}
+    .form-group.has-error .form-control{border-color:var(--danger);box-shadow:0 0 0 3px rgba(239,68,68,.1)}
+    .shake{animation:shake .42s ease both}
+    @keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+    .form-actions{display:flex;justify-content:flex-end;gap:10px;padding-top:4px}
+
+    /* Interrupteur */
+    .switch{position:relative;width:40px;height:22px;flex:none}
+    .switch input{position:absolute;inset:0;opacity:0;cursor:pointer;margin:0;z-index:1}
+    .switch span{position:absolute;inset:0;border-radius:999px;background:#d1d5db;transition:background-color .25s}
+    .switch span::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .3s var(--ease)}
+    .switch input:checked + span{background:var(--green)}
+    .switch input:checked + span::after{transform:translateX(18px)}
+    .switch input:focus-visible + span{outline:2px solid var(--gold);outline-offset:2px}
+
+    /* Tableau */
+    .table-wrap{overflow-x:auto}
+    table{width:100%;border-collapse:collapse;font-size:12.5px}
+    th{text-align:left;font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);padding:0 12px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+    td{padding:13px 12px;border-bottom:1px solid var(--line-soft);white-space:nowrap}
+    tbody tr{transition:background-color .2s}
+    tbody tr:hover{background:#fafbfb}
+    tbody tr:last-child td{border-bottom:none}
+    th:first-child,td:first-child{padding-left:0}
+    th:last-child,td:last-child{padding-right:0;text-align:right}
+    .mono{font-variant-numeric:tabular-nums;font-weight:700}
+
+    /* ===== Tiroir de modification ===== */
+    .drawer{position:fixed;top:0;right:0;bottom:0;width:min(520px,100%);z-index:60;background:#fff;display:flex;flex-direction:column;box-shadow:-20px 0 60px rgba(10,51,39,.18);transform:translateX(100%);transition:transform .45s var(--ease);visibility:hidden}
+    .drawer.open{transform:none;visibility:visible}
+    .drawer-head{display:flex;align-items:flex-start;gap:12px;padding:22px 24px;border-bottom:1px solid var(--line)}
+    .drawer-head h3{font-family:var(--serif);font-weight:400;font-size:24px;color:var(--green);line-height:1.15}
+    .drawer-head p{font-size:12px;color:var(--muted);margin-top:4px}
+    .drawer-head .icon-btn{margin-left:auto;flex:none}
+    .drawer-body{flex:1;overflow-y:auto;padding:22px 24px}
+    .drawer-section{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin:4px 0 14px;display:flex;align-items:center;gap:10px}
+    .drawer-section::after{content:"";flex:1;height:1px;background:var(--line-soft)}
+    .drawer-foot{display:flex;gap:10px;justify-content:flex-end;padding:16px 24px;border-top:1px solid var(--line);background:var(--bg)}
+    .drawer-backdrop{position:fixed;inset:0;z-index:55;background:rgba(10,51,39,.4);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .35s}
+    .drawer-backdrop.open{opacity:1;pointer-events:auto}
+
+    /* ===== Toasts ===== */
+    .toast-container{position:fixed;top:20px;right:20px;z-index:90;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+    .toast{pointer-events:auto;position:relative;overflow:hidden;display:flex;gap:10px;align-items:flex-start;max-width:340px;padding:12px 16px 14px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--success);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.08);font-size:12px;font-weight:600;line-height:1.45;animation:toastIn .35s var(--ease) both}
+    .toast .lucide{width:16px;height:16px;color:var(--success);margin-top:1px}
+    .toast::after{content:"";position:absolute;left:0;bottom:0;height:2px;width:100%;background:var(--success);opacity:.35;transform-origin:left;animation:toastBar 3.5s linear forwards}
+    .toast.info{border-left-color:var(--gold)}
+    .toast.info .lucide{color:var(--gold)}
+    .toast.info::after{background:var(--gold)}
+    .toast.error{border-left-color:var(--danger)}
+    .toast.error .lucide{color:var(--danger)}
+    .toast.error::after{background:var(--danger)}
+    .toast.hiding{animation:toastOut .3s ease-in forwards}
+    @keyframes toastIn{from{opacity:0;transform:translateX(110%)}to{opacity:1;transform:none}}
+    @keyframes toastOut{to{opacity:0;transform:translateX(110%)}}
+    @keyframes toastBar{to{transform:scaleX(0)}}
+
+    /* ===== Animations d'entrée ===== */
+    .reveal{opacity:0;transform:translateY(14px)}
+    .reveal.in{animation:reveal .6s var(--ease) both;animation-delay:calc(var(--i,0) * 60ms)}
+    @keyframes reveal{to{opacity:1;transform:none}}
+    .highlight{animation:highlight 1.6s var(--ease)}
+    @keyframes highlight{0%{background:var(--gold-bg)}100%{background:transparent}}
+
+    /* ===== Adaptatif ===== */
+    @media (max-width:1180px){
+      .grid{grid-template-columns:1fr}
+      .side-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+      .hero-actions{margin-right:0}
+      .hero-orbit,.hero-mark{display:none}
+    }
+    @media (max-width:1024px){
+      .sidebar{transform:translateX(-100%);box-shadow:none}
+      body.nav-open .sidebar{transform:none;box-shadow:20px 0 60px rgba(0,0,0,.25)}
+      body.nav-open .overlay{opacity:1;pointer-events:auto}
+      .sb-close{display:grid}
+      .main{margin-left:0}
+      .menu-btn{display:grid}
+      .stats{grid-template-columns:repeat(2,1fr)}
+      .search{width:200px}
+    }
+    @media (max-width:720px){
+      .topbar{padding:0 16px;gap:8px}
+      .content{padding:4px 16px 40px}
+      .search,.top-user span{display:none}
+      .crumbs > :not(strong):not(:last-child){display:none}
+      .page-head{flex-direction:column;align-items:flex-start}
+      .hero-inner{flex-direction:column;align-items:flex-start;padding:24px 22px;gap:18px}
+      .hero-text h2{font-size:26px}
+      .hero-actions{width:100%}
+      .hero-actions .btn{flex:1}
+      .stats{gap:12px}
+      .stat{padding:16px}
+      .stat-value{font-size:26px}
+      .info-grid,.form-grid{grid-template-columns:1fr}
+      .side-col{grid-template-columns:1fr}
+      .card-head,.card-body{padding-left:18px;padding-right:18px}
+    }
+    @media (max-width:420px){
+      .stats{grid-template-columns:1fr 1fr}
+      .stat-label{font-size:10.5px}
+    }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+      .reveal{opacity:1;transform:none}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+
+    <!-- ===================== MENU LATÉRAL ===================== -->
+    <aside class="sidebar" id="sidebar" aria-label="Navigation principale">
+      <div class="sb-brand">
+        <svg class="brand-mark" viewBox="0 0 42 52" fill="none" aria-hidden="true">
+          <path d="M13 2H29L27 16L21 22L15 16Z" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M21 20L24 24L29 23L30 28L35 30L32 35L33 40L28 41L25 46L21 43L17 46L14 41L9 40L10 35L7 30L12 28L13 23L18 24Z" stroke="currentColor" stroke-width="1.5"/>
+          <circle cx="21" cy="33" r="8" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M21 27L22.5 31L27 31L23.5 34L25 38L21 35.5L17 38L18.5 34L15 31L19.5 31Z" fill="var(--gold)"/>
+        </svg>
+        <span>
+          <span class="brand-name">MÉDITRA</span>
+          <span class="brand-sub">Ministère du Travail</span>
+        </span>
+        <button class="sb-close" type="button" data-nav-close aria-label="Fermer le menu"><i data-lucide="x"></i></button>
+      </div>
+
+      <!-- ROLE : adapter ce menu à chaque profil (demandeur, agent, administrateur…) -->
+      <nav class="sb-nav">
+        <div class="sb-section">Espace entreprise</div>
+        <a href="#" class="sb-link"><i data-lucide="layout-dashboard"></i> Tableau de bord</a>
+        <a href="#" class="sb-link"><i data-lucide="folder-open"></i> Mes dossiers <span class="sb-count">3</span></a>
+        <a href="#" class="sb-link"><i data-lucide="users"></i> Salariés</a>
+        <a href="#" class="sb-link"><i data-lucide="award"></i> Distinctions</a>
+        <a href="#" class="sb-link"><i data-lucide="files"></i> Documents</a>
+
+        <div class="sb-section">Compte</div>
+        <a href="#" class="sb-link active" aria-current="page"><i data-lucide="user-round"></i> Mon profil</a>
+        <a href="#" class="sb-link"><i data-lucide="bell"></i> Notifications</a>
+        <a href="#" class="sb-link"><i data-lucide="life-buoy"></i> Assistance</a>
+      </nav>
+
+      <div class="sb-user">
+        <span class="avatar" data-initials>SG</span>
+        <div>
+          <div class="sb-user-name">Société Générale Gabon</div>
+          <div class="sb-user-role">Demandeur · Entreprise</div>
+        </div>
+        <a href="meditra-connexion.html" class="sb-logout" aria-label="Se déconnecter" title="Se déconnecter"><i data-lucide="log-out"></i></a>
+      </div>
+    </aside>
+    <div class="overlay" data-nav-close></div>
+
+    <!-- ===================== ZONE PRINCIPALE ===================== -->
+    <div class="main">
+      <header class="topbar" id="topbar">
+        <button class="icon-btn menu-btn" type="button" id="menu-btn" aria-label="Ouvrir le menu" aria-controls="sidebar"><i data-lucide="menu"></i></button>
+        <nav class="crumbs" aria-label="Fil d'Ariane">
+          <a href="#">Accueil</a>
+          <i data-lucide="chevron-right"></i>
+          <a href="#">Compte</a>
+          <i data-lucide="chevron-right"></i>
+          <strong>Mon profil</strong>
+        </nav>
+        <div class="top-actions">
+          <label class="search">
+            <span class="sr-only">Rechercher</span>
+            <i data-lucide="search"></i>
+            <input type="search" id="search" placeholder="Rechercher un dossier, un salarié…">
+            <kbd>/</kbd>
+          </label>
+          <button class="icon-btn" type="button" aria-label="Notifications (2 nouvelles)" data-toast="Vous avez 2 nouvelles notifications.|info"><i data-lucide="bell"></i><span class="dot"></span></button>
+          <a href="#" class="top-user"><span class="avatar" data-initials>SG</span><span>Société Générale</span></a>
+        </div>
+      </header>
+
+      <main class="content">
+        <div class="page-head reveal">
+          <div>
+            <h1>Mon profil</h1>
+            <p>Consultez et mettez à jour les informations de votre organisation.</p>
+          </div>
+        </div>
+
+        <!-- En-tête de profil -->
+        <section class="profile-hero reveal" aria-label="Résumé du profil">
+          <div class="hero-glow"></div>
+          <div class="hero-orbit"></div>
+          <svg class="hero-mark" viewBox="0 0 42 52" fill="none" aria-hidden="true">
+            <path d="M13 2H29L27 16L21 22L15 16Z" stroke="currentColor" stroke-width="1"/>
+            <path d="M21 20L24 24L29 23L30 28L35 30L32 35L33 40L28 41L25 46L21 43L17 46L14 41L9 40L10 35L7 30L12 28L13 23L18 24Z" stroke="currentColor" stroke-width="1"/>
+            <circle cx="21" cy="33" r="8" stroke="currentColor" stroke-width="1"/>
+            <path d="M21 27L22.5 31L27 31L23.5 34L25 38L21 35.5L17 38L18.5 34L15 31L19.5 31Z" fill="var(--gold)" opacity=".8"/>
+          </svg>
+
+          <div class="hero-inner">
+            <div class="hero-avatar">
+              <span class="ring" aria-hidden="true"></span>
+              <span class="avatar" id="hero-initials" data-initials>SG</span>
+              <button type="button" aria-label="Changer le logo" data-toast="Import du logo : fonctionnalité simulée.|info"><i data-lucide="camera"></i></button>
+            </div>
+            <div class="hero-text">
+              <div class="hero-kicker">Espace demandeur</div>
+              <h2 id="hero-name">Société Générale Gabon</h2>
+              <div class="hero-tags">
+                <span class="badge badge-on-dark"><i data-lucide="building-2"></i> Entreprise privée</span>
+                <span class="badge badge-success dot">Compte vérifié</span>
+                <span class="badge badge-gold"><i data-lucide="award"></i> 12 médailles obtenues</span>
+              </div>
+              <div class="hero-meta">
+                <span><i data-lucide="map-pin"></i> <span id="hero-city">Libreville, Estuaire</span></span>
+                <span><i data-lucide="calendar"></i> Inscrite depuis mars 2024</span>
+                <span><i data-lucide="hash"></i> NIF 0123456 A</span>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="btn btn-light" type="button" data-toast="Export de la fiche en PDF : fonctionnalité simulée.|info"><i data-lucide="download"></i> Exporter</button>
+              <button class="btn btn-gold" type="button" data-open-drawer><i data-lucide="pencil"></i> Modifier</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Indicateurs -->
+        <section class="stats" aria-label="Indicateurs">
+          <article class="card stat reveal">
+            <div class="stat-top"><span class="stat-label">Dossiers déposés</span><span class="stat-icon tone-green"><i data-lucide="folder-open"></i></span></div>
+            <div class="stat-value" data-count="18">0</div>
+            <div class="stat-foot"><span class="trend up"><i data-lucide="trending-up"></i>+4</span> cette année</div>
+          </article>
+          <article class="card stat reveal">
+            <div class="stat-top"><span class="stat-label">En instruction</span><span class="stat-icon tone-warning"><i data-lucide="hourglass"></i></span></div>
+            <div class="stat-value" data-count="3">0</div>
+            <div class="stat-foot">Délai moyen : 45 jours</div>
+          </article>
+          <article class="card stat reveal">
+            <div class="stat-top"><span class="stat-label">Médailles décernées</span><span class="stat-icon tone-gold"><i data-lucide="award"></i></span></div>
+            <div class="stat-value" data-count="12">0</div>
+            <div class="stat-foot"><span class="trend up"><i data-lucide="trending-up"></i>+2</span> depuis 2025</div>
+          </article>
+          <article class="card stat reveal">
+            <div class="stat-top"><span class="stat-label">Salariés éligibles</span><span class="stat-icon tone-info"><i data-lucide="users"></i></span></div>
+            <div class="stat-value" data-count="27">0</div>
+            <div class="stat-foot">sur 214 salariés déclarés</div>
+          </article>
+        </section>
+
+        <!-- Onglets -->
+        <div class="tabs reveal" role="tablist" aria-label="Sections du profil">
+          <button class="tab" role="tab" id="tab-infos" aria-controls="panel-infos" aria-selected="true"><i data-lucide="building-2"></i> Informations</button>
+          <button class="tab" role="tab" id="tab-dossiers" aria-controls="panel-dossiers" aria-selected="false" tabindex="-1"><i data-lucide="folder-open"></i> Dossiers <span class="badge badge-neutral">4</span></button>
+          <button class="tab" role="tab" id="tab-securite" aria-controls="panel-securite" aria-selected="false" tabindex="-1"><i data-lucide="shield-check"></i> Sécurité</button>
+          <button class="tab" role="tab" id="tab-activite" aria-controls="panel-activite" aria-selected="false" tabindex="-1"><i data-lucide="activity"></i> Activité</button>
+          <span class="tab-ink" aria-hidden="true"></span>
+        </div>
+
+        <!-- ===== Onglet : Informations ===== -->
+        <section class="panel" role="tabpanel" id="panel-infos" aria-labelledby="tab-infos">
+          <div class="grid">
+            <div class="stack">
+              <article class="card reveal">
+                <header class="card-head">
+                  <span class="card-icon"><i data-lucide="building-2"></i></span>
+                  <div><h3>Identité de l'organisation</h3><p>Informations générales déclarées à l'inscription.</p></div>
+                  <button class="btn btn-ghost btn-sm" type="button" data-open-drawer><i data-lucide="pencil"></i> Modifier</button>
+                </header>
+                <div class="card-body info-grid" id="identity-block">
+                  <div><div class="info-label">Raison sociale</div><div class="info-value" data-field="nom">Société Générale Gabon</div></div>
+                  <div><div class="info-label">Sigle</div><div class="info-value" data-field="sigle">SGG</div></div>
+                  <div><div class="info-label">Secteur d'activité</div><div class="info-value" data-field="secteur">Banque et assurance</div></div>
+                  <div><div class="info-label">Forme juridique</div><div class="info-value" data-field="forme">Société anonyme (SA)</div></div>
+                  <div class="full"><div class="info-label">Type de structure</div><div class="info-value" data-field="type">Privée</div></div>
+                </div>
+              </article>
+
+              <article class="card reveal">
+                <header class="card-head">
+                  <span class="card-icon"><i data-lucide="file-badge"></i></span>
+                  <div><h3>Références administratives</h3><p>Identifiants légaux et localisation.</p></div>
+                </header>
+                <div class="card-body info-grid">
+                  <div><div class="info-label">NIF</div><div class="info-value">0123456 A <button class="copy" type="button" data-copy="0123456 A" aria-label="Copier le NIF"><i data-lucide="copy"></i></button></div></div>
+                  <div><div class="info-label">RCCM</div><div class="info-value">GA-LBV-01-2024-B12-00345</div></div>
+                  <div><div class="info-label">Numéro CNSS</div><div class="info-value empty">Non renseigné</div></div>
+                  <div><div class="info-label">Province</div><div class="info-value">Estuaire</div></div>
+                  <div><div class="info-label">Département</div><div class="info-value">Libreville</div></div>
+                  <div><div class="info-label">Ville d'implantation</div><div class="info-value" data-field="ville">Libreville</div></div>
+                </div>
+              </article>
+
+              <article class="card reveal">
+                <header class="card-head">
+                  <span class="card-icon"><i data-lucide="contact"></i></span>
+                  <div><h3>Coordonnées</h3><p>Utilisées pour toute correspondance du Ministère.</p></div>
+                  <button class="btn btn-ghost btn-sm" type="button" data-open-drawer><i data-lucide="pencil"></i> Modifier</button>
+                </header>
+                <div class="card-body info-grid">
+                  <div class="full"><div class="info-label">Adresse</div><div class="info-value" data-field="adresse">Boulevard de l'Indépendance, Centre-ville</div></div>
+                  <div><div class="info-label">Téléphone</div><div class="info-value" data-field="tel">+241 01 76 00 00</div></div>
+                  <div><div class="info-label">Adresse e-mail</div><div class="info-value" data-field="email">contact@sgg.ga</div></div>
+                </div>
+              </article>
+            </div>
+
+            <div class="stack side-col">
+              <article class="card reveal">
+                <header class="card-head">
+                  <span class="card-icon"><i data-lucide="gauge"></i></span>
+                  <div><h3>Complétude du profil</h3><p>Un profil complet accélère l'instruction.</p></div>
+                </header>
+                <div class="card-body">
+                  <div class="completion">
+                    <div class="ring-chart" data-percent="80">
+                      <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="track" cx="50" cy="50" r="42"/><circle class="bar" cx="50" cy="50" r="42"/></svg>
+                      <strong><span data-count="80">0</span>%</strong>
+                    </div>
+                    <p style="font-size:12px;color:var(--muted)">Il reste <strong style="color:var(--ink)">1 élément</strong> à compléter pour finaliser votre profil.</p>
+                  </div>
+                  <ul class="checklist">
+                    <li class="done"><i data-lucide="check-circle-2"></i> Identité de l'organisation</li>
+                    <li class="done"><i data-lucide="check-circle-2"></i> Références administratives</li>
+                    <li class="done"><i data-lucide="check-circle-2"></i> Adresse e-mail vérifiée</li>
+                    <li class="done"><i data-lucide="check-circle-2"></i> Représentant désigné</li>
+                    <li><i data-lucide="circle"></i> Numéro CNSS</li>
+                  </ul>
+                </div>
+              </article>
+
+              <article class="card reveal">
+                <header class="card-head">
+                  <span class="card-icon"><i data-lucide="user-round-check"></i></span>
+                  <div><h3>Représentant</h3><p>Interlocuteur auprès du Ministère.</p></div>
+                </header>
+                <div class="card-body">
+                  <div class="list-row">
+                    <span class="avatar" style="width:40px;height:40px;font-size:13px">MN</span>
+                    <div class="list-main">
+                      <div class="list-title">Marie Nguema</div>
+                      <div class="list-sub">Directrice des ressources humaines</div>
+                    </div>
+                    <span class="badge badge-success">Actif</span>
+                  </div>
+                  <div class="list-row">
+                    <span class="list-icon tone-green"><i data-lucide="mail"></i></span>
+                    <div class="list-main"><div class="list-title">m.nguema@sgg.ga</div><div class="list-sub">E-mail professionnel</div></div>
+                  </div>
+                  <div class="list-row">
+                    <span class="list-icon tone-green"><i data-lucide="phone"></i></span>
+                    <div class="list-main"><div class="list-title">+241 07 12 34 56</div><div class="list-sub">Ligne directe</div></div>
+                  </div>
+                </div>
+              </article>
+
+              <article class="card reveal">
+                <header class="card-head">
+                  <span class="card-icon"><i data-lucide="files"></i></span>
+                  <div><h3>Pièces justificatives</h3><p>Documents rattachés au compte.</p></div>
+                </header>
+                <div class="card-body">
+                  <div class="list-row">
+                    <span class="list-icon tone-info"><i data-lucide="file-text"></i></span>
+                    <div class="list-main"><div class="list-title">Extrait RCCM.pdf</div><div class="list-sub">1,2 Mo · 12/03/2024</div></div>
+                    <span class="badge badge-success">Validé</span>
+                  </div>
+                  <div class="list-row">
+                    <span class="list-icon tone-info"><i data-lucide="file-text"></i></span>
+                    <div class="list-main"><div class="list-title">Attestation NIF.pdf</div><div class="list-sub">640 Ko · 12/03/2024</div></div>
+                    <span class="badge badge-success">Validé</span>
+                  </div>
+                  <div class="list-row">
+                    <span class="list-icon tone-warning"><i data-lucide="file-clock"></i></span>
+                    <div class="list-main"><div class="list-title">Attestation CNSS</div><div class="list-sub">À fournir</div></div>
+                    <button class="btn btn-outline btn-sm" type="button" data-toast="Dépôt de document : fonctionnalité simulée.|info"><i data-lucide="upload"></i> Ajouter</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== Onglet : Dossiers ===== -->
+        <section class="panel" role="tabpanel" id="panel-dossiers" aria-labelledby="tab-dossiers" hidden>
+          <article class="card">
+            <header class="card-head">
+              <span class="card-icon"><i data-lucide="folder-open"></i></span>
+              <div><h3>Derniers dossiers</h3><p>Demandes de distinction déposées par votre organisation.</p></div>
+              <button class="btn btn-primary btn-sm" type="button" data-toast="Nouveau dossier : fonctionnalité simulée.|info"><i data-lucide="plus"></i> Nouveau dossier</button>
+            </header>
+            <div class="card-body table-wrap">
+              <table>
+                <thead><tr><th>Référence</th><th>Bénéficiaire</th><th>Distinction</th><th>Déposé le</th><th>Statut</th></tr></thead>
+                <tbody>
+                  <tr><td class="mono">MDT-2026-0142</td><td>Jean-Pierre Obame</td><td>Médaille d'or</td><td>02/10/2026</td><td><span class="badge badge-warning dot">En instruction</span></td></tr>
+                  <tr><td class="mono">MDT-2026-0138</td><td>Aline Mba</td><td>Médaille d'argent</td><td>28/09/2026</td><td><span class="badge badge-info dot">Pièces demandées</span></td></tr>
+                  <tr><td class="mono">MDT-2026-0097</td><td>Paul Ondo</td><td>Médaille de vermeil</td><td>14/07/2026</td><td><span class="badge badge-success dot">Décernée</span></td></tr>
+                  <tr><td class="mono">MDT-2026-0061</td><td>Claire Moussavou</td><td>Médaille d'argent</td><td>03/05/2026</td><td><span class="badge badge-danger dot">Rejetée</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+
+        <!-- ===== Onglet : Sécurité ===== -->
+        <section class="panel" role="tabpanel" id="panel-securite" aria-labelledby="tab-securite" hidden>
+          <div class="grid">
+            <div class="stack">
+              <article class="card">
+                <header class="card-head">
+                  <span class="card-icon"><i data-lucide="key-round"></i></span>
+                  <div><h3>Mot de passe</h3><p>Dernière modification il y a 3 mois.</p></div>
+                </header>
+                <form class="card-body" id="pwd-form" novalidate>
+                  <div class="form-grid">
+                    <div class="form-group full">
+                      <label for="pwd-current">Mot de passe actuel</label>
+                      <div class="input-wrap"><i data-lucide="lock"></i><input type="password" id="pwd-current" class="form-control" autocomplete="current-password" required></div>
+                    </div>
+                    <div class="form-group">
+                      <label for="pwd-new">Nouveau mot de passe</label>
+                      <div class="input-wrap"><i data-lucide="lock"></i><input type="password" id="pwd-new" class="form-control" minlength="6" autocomplete="new-password" required></div>
+                      <span class="form-help">Six caractères minimum.</span>
+                    </div>
+                    <div class="form-group">
+                      <label for="pwd-confirm">Confirmation</label>
+                      <div class="input-wrap"><i data-lucide="lock"></i><input type="password" id="pwd-confirm" class="form-control" autocomplete="new-password" required></div>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <button class="btn btn-outline" type="reset">Annuler</button>
+                    <button class="btn btn-primary" type="submit"><i data-lucide="save"></i> Mettre à jour</button>
+                  </div>
+                </form>
+              </article>
+
+              <article class="card">
+                <header class="card-head">
+                  <span class="card-icon"><i data-lucide="monitor-smartphone"></i></span>
+                  <div><h3>Sessions actives</h3><p>Appareils actuellement connectés à votre compte.</p></div>
+                </header>
+                <div class="card-body">
+                  <div class="list-row">
+                    <span class="list-icon tone-green"><i data-lucide="monitor"></i></span>
+                    <div class="list-main"><div class="list-title">Chrome · Windows</div><div class="list-sub">Libreville · Session actuelle</div></div>
+                    <span class="badge badge-success dot">En ligne</span>
+                  </div>
+                  <div class="list-row" data-session>
+                    <span class="list-icon tone-info"><i data-lucide="smartphone"></i></span>
+                    <div class="list-main"><div class="list-title">Safari · iPhone</div><div class="list-sub">Libreville · il y a 2 jours</div></div>
+                    <button class="btn btn-danger btn-sm" type="button" data-revoke>Déconnecter</button>
+                  </div>
+                </div>
+              </article>
+            </div>
+
+            <div class="stack side-col">
+              <article class="card">
+                <header class="card-head">
+                  <span class="card-icon"><i data-lucide="shield-check"></i></span>
+                  <div><h3>Préférences de sécurité</h3><p>Renforcez la protection du compte.</p></div>
+                </header>
+                <div class="card-body">
+                  <div class="list-row">
+                    <div class="list-main"><div class="list-title">Double authentification</div><div class="list-sub">Code envoyé par e-mail à chaque connexion</div></div>
+                    <label class="switch"><input type="checkbox" data-pref="Double authentification"><span></span><b class="sr-only">Double authentification</b></label>
+                  </div>
+                  <div class="list-row">
+                    <div class="list-main"><div class="list-title">Alertes de connexion</div><div class="list-sub">Prévenir en cas de nouvel appareil</div></div>
+                    <label class="switch"><input type="checkbox" checked data-pref="Alertes de connexion"><span></span><b class="sr-only">Alertes de connexion</b></label>
+                  </div>
+                  <div class="list-row">
+                    <div class="list-main"><div class="list-title">Suivi des dossiers</div><div class="list-sub">E-mail à chaque changement de statut</div></div>
+                    <label class="switch"><input type="checkbox" checked data-pref="Suivi des dossiers"><span></span><b class="sr-only">Suivi des dossiers</b></label>
+                  </div>
+                </div>
+              </article>
+
+              <div class="callout">
+                <i data-lucide="info"></i>
+                <span><strong>Conseil :</strong> ne partagez jamais vos identifiants. Les agents du Ministère ne vous demanderont jamais votre mot de passe.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== Onglet : Activité ===== -->
+        <section class="panel" role="tabpanel" id="panel-activite" aria-labelledby="tab-activite" hidden>
+          <article class="card">
+            <header class="card-head">
+              <span class="card-icon"><i data-lucide="activity"></i></span>
+              <div><h3>Historique récent</h3><p>Dernières actions réalisées sur le compte.</p></div>
+            </header>
+            <div class="card-body">
+              <ol class="timeline">
+                <li><span class="tl-dot tone-green"><i data-lucide="log-in"></i></span><div><div class="tl-title">Connexion au compte</div><div class="tl-text">Chrome · Windows, Libreville</div><div class="tl-time">Aujourd'hui, 09:42</div></div></li>
+                <li><span class="tl-dot tone-warning"><i data-lucide="send"></i></span><div><div class="tl-title">Dossier MDT-2026-0142 transmis</div><div class="tl-text">Demande de médaille d'or pour Jean-Pierre Obame.</div><div class="tl-time">02/10/2026, 15:10</div></div></li>
+                <li><span class="tl-dot tone-info"><i data-lucide="file-up"></i></span><div><div class="tl-title">Pièce ajoutée</div><div class="tl-text">Extrait RCCM mis à jour.</div><div class="tl-time">28/09/2026, 11:05</div></div></li>
+                <li><span class="tl-dot tone-gold"><i data-lucide="award"></i></span><div><div class="tl-title">Distinction décernée</div><div class="tl-text">Médaille de vermeil attribuée à Paul Ondo.</div><div class="tl-time">14/07/2026, 10:00</div></div></li>
+              </ol>
+            </div>
+          </article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===================== TIROIR : MODIFIER LE PROFIL ===================== -->
+  <div class="drawer-backdrop" data-close-drawer></div>
+  <aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <div class="drawer-head">
+      <div>
+        <h3 id="drawer-title">Modifier le profil</h3>
+        <p>Les modifications sensibles peuvent être soumises à validation.</p>
+      </div>
+      <button class="icon-btn" type="button" data-close-drawer aria-label="Fermer"><i data-lucide="x"></i></button>
+    </div>
+    <form class="drawer-body" id="edit-form" novalidate>
+      <div class="drawer-section">Identité</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="f-nom">Raison sociale *</label>
+          <div class="input-wrap"><i data-lucide="building-2"></i><input class="form-control" id="f-nom" name="nom" required></div>
+        </div>
+        <div class="form-group">
+          <label for="f-sigle">Sigle <span>(facultatif)</span></label>
+          <div class="input-wrap"><i data-lucide="type"></i><input class="form-control" id="f-sigle" name="sigle"></div>
+        </div>
+        <div class="form-group">
+          <label for="f-secteur">Secteur d'activité *</label>
+          <div class="input-wrap"><i data-lucide="briefcase"></i><input class="form-control" id="f-secteur" name="secteur" required></div>
+        </div>
+        <div class="form-group">
+          <label for="f-forme">Forme juridique *</label>
+          <div class="input-wrap"><i data-lucide="file-text"></i><input class="form-control" id="f-forme" name="forme" required></div>
+        </div>
+        <div class="form-group">
+          <label for="f-type">Type de structure *</label>
+          <div class="input-wrap"><i data-lucide="layers"></i><input class="form-control" id="f-type" name="type" required></div>
+        </div>
+      </div>
+
+      <div class="drawer-section">Coordonnées</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <label for="f-adresse">Adresse *</label>
+          <div class="input-wrap"><i data-lucide="map-pin"></i><input class="form-control" id="f-adresse" name="adresse" required></div>
+        </div>
+        <div class="form-group">
+          <label for="f-ville">Ville *</label>
+          <div class="input-wrap"><i data-lucide="navigation"></i><input class="form-control" id="f-ville" name="ville" required></div>
+        </div>
+        <div class="form-group">
+          <label for="f-tel">Téléphone *</label>
+          <div class="input-wrap"><i data-lucide="phone"></i><input class="form-control" id="f-tel" name="tel" type="tel" required></div>
+        </div>
+        <div class="form-group full">
+          <label for="f-email">Adresse e-mail *</label>
+          <div class="input-wrap"><i data-lucide="mail"></i><input class="form-control" id="f-email" name="email" type="email" required></div>
+          <span class="form-help">Un changement d'adresse nécessitera une nouvelle vérification.</span>
+        </div>
+      </div>
+    </form>
+    <div class="drawer-foot">
+      <button class="btn btn-outline" type="button" data-close-drawer>Annuler</button>
+      <button class="btn btn-primary" type="submit" form="edit-form" id="save-btn"><i data-lucide="check"></i> Enregistrer</button>
+    </div>
+  </aside>
+
+  <div class="toast-container" id="toasts" aria-live="polite"></div>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script>
+    (() => {
+      const $ = (s, r = document) => r.querySelector(s);
+      const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const refreshIcons = () => { if (window.lucide) window.lucide.createIcons({ attrs: { "aria-hidden": "true" } }); };
+      refreshIcons();
+
+      // ---------- Toasts ----------
+      function toast(message, type = "success") {
+        const el = document.createElement("div");
+        el.className = `toast ${type}`;
+        el.setAttribute("role", type === "error" ? "alert" : "status");
+        const icon = type === "error" ? "alert-circle" : type === "info" ? "info" : "check-circle-2";
+        el.innerHTML = `<i data-lucide="${icon}"></i><span></span>`;
+        el.querySelector("span").textContent = message;
+        $("#toasts").appendChild(el);
+        refreshIcons();
+        setTimeout(() => { el.classList.add("hiding"); setTimeout(() => el.remove(), 300); }, 3500);
+      }
+      document.addEventListener("click", e => {
+        const t = e.target.closest("[data-toast]");
+        if (!t) return;
+        const [msg, type] = t.dataset.toast.split("|");
+        toast(msg, type || "success");
+      });
+
+      // ---------- Animations d'entrée ----------
+      const io = "IntersectionObserver" in window ? new IntersectionObserver(entries => {
+        entries.forEach(en => {
+          if (!en.isIntersecting) return;
+          en.target.classList.add("in");
+          io.unobserve(en.target);
+        });
+      }, { threshold: .08 }) : null;
+
+      function reveal(scope) {
+        $$(".reveal:not(.in)", scope).forEach((el, i) => {
+          el.style.setProperty("--i", Math.min(i, 8));
+          if (io && !reduceMotion) io.observe(el); else el.classList.add("in");
+        });
+      }
+
+      // Compteurs
+      function countUp(el) {
+        const target = Number(el.dataset.count);
+        if (reduceMotion) { el.textContent = target; return; }
+        const dur = 1100, start = performance.now();
+        const step = now => {
+          const t = Math.min((now - start) / dur, 1);
+          el.textContent = Math.round(target * (1 - Math.pow(1 - t, 3)));
+          if (t < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+
+      // Anneau de complétude
+      function fillRing(ring) {
+        const bar = ring.querySelector(".bar");
+        const c = 2 * Math.PI * 42;
+        bar.style.strokeDasharray = c;
+        bar.style.strokeDashoffset = c;
+        requestAnimationFrame(() => requestAnimationFrame(() => {
+          bar.style.strokeDashoffset = c * (1 - Number(ring.dataset.percent) / 100);
+        }));
+      }
+
+      setTimeout(() => {
+        reveal(document);
+        $$("[data-count]").forEach(countUp);
+        $$(".ring-chart").forEach(fillRing);
+      }, 80);
+
+      // ---------- Barre du haut ----------
+      const topbar = $("#topbar");
+      const onScroll = () => topbar.classList.toggle("scrolled", window.scrollY > 4);
+      window.addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+
+      // Raccourci « / » pour la recherche
+      document.addEventListener("keydown", e => {
+        if (e.key === "/" && !/input|textarea|select/i.test(document.activeElement.tagName)) {
+          e.preventDefault();
+          const s = $("#search");
+          if (s.offsetParent) s.focus();
+        }
+      });
+
+      // ---------- Menu mobile ----------
+      const openNav = () => { document.body.classList.add("nav-open"); $("#menu-btn").setAttribute("aria-expanded", "true"); };
+      const closeNav = () => { document.body.classList.remove("nav-open"); $("#menu-btn").setAttribute("aria-expanded", "false"); };
+      $("#menu-btn").addEventListener("click", openNav);
+      $$("[data-nav-close]").forEach(b => b.addEventListener("click", closeNav));
+
+      // ---------- Onglets ----------
+      const tabs = $$('[role="tab"]');
+      const ink = $(".tab-ink");
+      function moveInk(tab) {
+        ink.style.width = tab.offsetWidth + "px";
+        ink.style.transform = `translateX(${tab.offsetLeft}px)`;
+      }
+      function selectTab(tab, focus) {
+        tabs.forEach(t => {
+          const on = t === tab;
+          t.setAttribute("aria-selected", on);
+          t.tabIndex = on ? 0 : -1;
+          const panel = document.getElementById(t.getAttribute("aria-controls"));
+          panel.hidden = !on;
+          if (on) {
+            panel.style.animation = "none"; void panel.offsetWidth; panel.style.animation = "";
+            reveal(panel);
+          }
+        });
+        moveInk(tab);
+        if (focus) tab.focus();
+        try { history.replaceState(null, "", "#" + tab.id.replace("tab-", "")); } catch (e) {}
+      }
+      tabs.forEach((tab, i) => {
+        tab.addEventListener("click", () => selectTab(tab));
+        tab.addEventListener("keydown", e => {
+          let n = null;
+          if (e.key === "ArrowRight") n = tabs[(i + 1) % tabs.length];
+          if (e.key === "ArrowLeft") n = tabs[(i - 1 + tabs.length) % tabs.length];
+          if (e.key === "Home") n = tabs[0];
+          if (e.key === "End") n = tabs[tabs.length - 1];
+          if (n) { e.preventDefault(); selectTab(n, true); }
+        });
+      });
+      const initial = tabs.find(t => "#" + t.id.replace("tab-", "") === location.hash) || tabs[0];
+      selectTab(initial);
+      window.addEventListener("resize", () => moveInk($('[role="tab"][aria-selected="true"]')));
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => moveInk($('[role="tab"][aria-selected="true"]')));
+
+      // ---------- Validation ----------
+      function shake(el) { el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); }
+      function validate(form) {
+        let first = null;
+        $$("input[required]", form).forEach(input => {
+          const ok = input.value.trim() !== "" && input.checkValidity();
+          const g = input.closest(".form-group");
+          g.classList.toggle("has-error", !ok);
+          if (!ok) { shake(g); first = first || input; }
+        });
+        if (first) { first.focus(); toast("Veuillez vérifier les champs signalés.", "error"); return false; }
+        return true;
+      }
+      document.addEventListener("input", e => {
+        const g = e.target.closest && e.target.closest(".form-group.has-error");
+        if (g && e.target.value.trim()) g.classList.remove("has-error");
+      });
+
+      function setLoading(btn, on, label) {
+        if (on) { btn.dataset.html = btn.innerHTML; btn.disabled = true; btn.innerHTML = `<i data-lucide="loader-circle" class="spin"></i> ${label}`; }
+        else { btn.disabled = false; btn.innerHTML = btn.dataset.html; }
+        refreshIcons();
+      }
+
+      // ---------- Tiroir de modification ----------
+      const drawer = $("#drawer"), backdrop = $(".drawer-backdrop"), form = $("#edit-form");
+      let lastFocus = null;
+      function openDrawer() {
+        lastFocus = document.activeElement;
+        $$("[data-field]").forEach(el => {
+          const input = form.elements[el.dataset.field];
+          if (input) input.value = el.textContent.trim();
+        });
+        $$(".form-group", form).forEach(g => g.classList.remove("has-error"));
+        drawer.classList.add("open"); backdrop.classList.add("open");
+        document.body.style.overflow = "hidden";
+        setTimeout(() => $("#f-nom").focus(), 300);
+      }
+      function closeDrawer() {
+        drawer.classList.remove("open"); backdrop.classList.remove("open");
+        document.body.style.overflow = "";
+        if (lastFocus) lastFocus.focus();
+      }
+      $$("[data-open-drawer]").forEach(b => b.addEventListener("click", openDrawer));
+      $$("[data-close-drawer]").forEach(b => b.addEventListener("click", closeDrawer));
+      document.addEventListener("keydown", e => {
+        if (e.key === "Escape") { if (drawer.classList.contains("open")) closeDrawer(); else closeNav(); }
+        if (e.key === "Tab" && drawer.classList.contains("open")) {
+          const f = $$("button, input, [href]", drawer).filter(el => !el.disabled && el.offsetParent);
+          if (!f.length) return;
+          if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+          else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+        }
+      });
+
+      form.addEventListener("submit", e => {
+        e.preventDefault();
+        if (!validate(form)) return;
+        const btn = $("#save-btn");
+        setLoading(btn, true, "Enregistrement…");
+        setTimeout(() => {
+          setLoading(btn, false);
+          $$("[data-field]").forEach(el => {
+            const input = form.elements[el.dataset.field];
+            if (!input) return;
+            const v = input.value.trim();
+            if (el.textContent.trim() !== v) {
+              el.textContent = v;
+              el.classList.toggle("empty", !v);
+              const block = el.parentElement;
+              block.classList.remove("highlight"); void block.offsetWidth; block.classList.add("highlight");
+            }
+          });
+          const name = form.elements.nom.value.trim();
+          $("#hero-name").textContent = name;
+          const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+          $$("[data-initials]").forEach(a => { a.textContent = initials || "?"; });
+          $(".sb-user-name").textContent = name;
+          $("#hero-city").textContent = form.elements.ville.value.trim() + ", Estuaire";
+          closeDrawer();
+          toast("Profil mis à jour avec succès.");
+        }, 800);
+      });
+
+      // ---------- Sécurité ----------
+      $("#pwd-form").addEventListener("submit", e => {
+        e.preventDefault();
+        const f = e.target;
+        if (!validate(f)) return;
+        if ($("#pwd-new").value !== $("#pwd-confirm").value) {
+          const g = $("#pwd-confirm").closest(".form-group");
+          g.classList.add("has-error"); shake(g);
+          toast("Les mots de passe ne correspondent pas.", "error");
+          return;
+        }
+        const btn = f.querySelector('[type="submit"]');
+        setLoading(btn, true, "Mise à jour…");
+        setTimeout(() => { setLoading(btn, false); f.reset(); toast("Mot de passe mis à jour (simulation)."); }, 800);
+      });
+
+      $$("[data-pref]").forEach(sw => sw.addEventListener("change", () => {
+        toast(`${sw.dataset.pref} ${sw.checked ? "activée" : "désactivée"}.`, sw.checked ? "success" : "info");
+      }));
+
+      document.addEventListener("click", e => {
+        const b = e.target.closest("[data-revoke]");
+        if (!b) return;
+        const row = b.closest("[data-session]");
+        row.style.transition = "opacity .3s, transform .3s";
+        row.style.opacity = "0"; row.style.transform = "translateX(12px)";
+        setTimeout(() => row.remove(), 300);
+        toast("Session déconnectée.");
+      });
+
+      // Copier
+      document.addEventListener("click", e => {
+        const b = e.target.closest("[data-copy]");
+        if (!b) return;
+        const done = () => toast("Copié dans le presse-papiers.");
+        if (navigator.clipboard) navigator.clipboard.writeText(b.dataset.copy).then(done, () => toast("Copie impossible.", "error"));
+        else toast("Copie impossible.", "error");
+      });
+
+      // ---------- Effet d'onde sur les boutons ----------
+      document.addEventListener("pointerdown", e => {
+        const btn = e.target.closest(".btn");
+        if (!btn || btn.disabled || reduceMotion) return;
+        const r = btn.getBoundingClientRect(), size = Math.max(r.width, r.height) * 2;
+        const s = document.createElement("span");
+        s.className = "ripple";
+        s.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX - r.left - size / 2}px;top:${e.clientY - r.top - size / 2}px`;
+        btn.appendChild(s);
+        setTimeout(() => s.remove(), 650);
+      });
+    })();
+  </script>
+</body>
+</html>
